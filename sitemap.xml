@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://alexmitelman.github.io/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project-657edfafe942418fa22d1639423d20ed/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/posts/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/tags/python/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/tags/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/tags/vs-code/</loc>
+    <lastmod>2020-10-18T14:35:48+03:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://alexmitelman.github.io/categories/</loc>
+  </url>
+  
+</urlset>

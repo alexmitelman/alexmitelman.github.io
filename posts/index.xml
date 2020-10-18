@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Alex Mitelman: personal website</title>
+    <link>http://alexmitelman.github.io/posts/</link>
+    <description>Recent content in Posts on Alex Mitelman: personal website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Oct 2020 14:35:48 +0300</lastBuildDate><atom:link href="http://alexmitelman.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Automating Python Best Practices for a New Project in 2020</title>
+      <link>http://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project-657edfafe942418fa22d1639423d20ed/</link>
+      <pubDate>Sun, 18 Oct 2020 14:35:48 +0300</pubDate>
+      
+      <guid>http://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project-657edfafe942418fa22d1639423d20ed/</guid>
+      <description>Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
+They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&amp;rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&amp;rsquo;s slightly more than just syntax.</description>
+    </item>
+    
+  </channel>
+</rss>
