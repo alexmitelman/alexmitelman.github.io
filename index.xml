@@ -9,10 +9,10 @@
     <lastBuildDate>Sun, 18 Oct 2020 14:35:48 +0300</lastBuildDate><atom:link href="https://alexmitelman.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automating Python Best Practices for a New Project in 2020</title>
-      <link>https://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project-657edfafe942418fa22d1639423d20ed/</link>
+      <link>https://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project/</link>
       <pubDate>Sun, 18 Oct 2020 14:35:48 +0300</pubDate>
       
-      <guid>https://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project-657edfafe942418fa22d1639423d20ed/</guid>
+      <guid>https://alexmitelman.github.io/posts/python-best-practice/automating-python-best-practices-for-a-new-project/</guid>
       <description>Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
 They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&amp;rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&amp;rsquo;s slightly more than just syntax.</description>
     </item>
