@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<meta name="generator" content="Hugo 0.76.5" />
+<meta name="generator" content="Hugo 0.80.0" />
 
 
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/amzrk2/cdn-stcapi@1/favicons/favicon.ico" />
@@ -185,8 +185,6 @@ Installed Python-3.8.5 to /Users/alex/.pyenv/versions/3.8.5
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">source $HOME/.poetry/env
 </code></pre></div><p>You may add this to the auto-run shell script like <code>.bashrc</code> or <code>.zshrc</code> if <code>Poetry</code> doesn&rsquo;t appear in a new shell session:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/.poetry/bin:</span>$PATH<span style="color:#e6db74">&#34;</span>
-</code></pre></div><p>Going forward, use this command to get the latest stable version:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry self update
 </code></pre></div><p>You can also enable tab completions for your shell. The process is described <a href="https://python-poetry.org/docs/#enable-tab-completion-for-bash-fish-or-zsh" target="_blank">here</a>.</p>
 <h3 id="create-new-project">Create new project</h3>
 <p>Poetry creates a folder structure for you, so make sure to change your current directory to one that is supposed to be a parent directory for the new project and then run:</p>
@@ -260,13 +258,13 @@ rm get-poetry.py
 </code></pre></div><h3 id="how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv</h3>
 <p>Time has passed and the new Python version was released. There are new features and bugfixes, so we want to bump Python version in our project. This is a pretty straightforward task for <code>pyenv</code> and Poetry.</p>
 <p>First, we download, compile and set up new the Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9 beta which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.0
-pyenv local 3.9.0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.0b5
+pyenv local 3.9.0b5
 pyenv versions
 </code></pre></div><pre><code>my-project pyenv versions
   system
   3.8.5
-* 3.9.0 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
+* 3.9.0b5 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
 </code></pre><p>Next, we make Poetry use this interpreter for virtual environments.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry env use python
 </code></pre></div><pre><code>Creating virtualenv my-project-PSaGJAu6-py3.9 in /Users/alex.mitelman/Library/Caches/pypoetry/virtualenvs
