@@ -248,16 +248,25 @@ Using virtualenv: /Users/alex/Library/Caches/pypoetry/virtualenvs/my-project-PSa
 </p>
 <p>Notice that there are two options for 3.8.5, we should select the one that sits under virtual environment (see file path, it should contain <code>virtualenv</code>).</p>
 <p>In general, you can like this Github issue to add support for Poetry to VS Code: <a href="https://github.com/microsoft/vscode-python/issues/8372" target="_blank">https://github.com/microsoft/vscode-python/issues/8372</a> to keep track of the progress. As Brett Cannon <a href="https://github.com/microsoft/vscode-python/issues/8372#issuecomment-668807397" target="_blank">said</a>, VS Code team is reworking environment discovery code, so eventually Poetry will be fully supported by VS Code.</p>
-<h3 id="how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv</h3>
+<h3 id="how-to-upgrade-poetry">How to upgrade Poetry</h3>
+<p>Simply running <code>poetry self update</code> will bump to the most recent version of Poetry.</p>
+<p>If you run into error</p>
+<pre><code>ImportError: No module named cleo
+</code></pre><p>you&rsquo;d need to reinstall Poetry by removing it first:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py &gt; get-poetry.py
+python get-poetry.py --uninstall
+python get-poetry.py
+rm get-poetry.py
+</code></pre></div><h3 id="how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv</h3>
 <p>Time has passed and the new Python version was released. There are new features and bugfixes, so we want to bump Python version in our project. This is a pretty straightforward task for <code>pyenv</code> and Poetry.</p>
 <p>First, we download, compile and set up new the Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9 beta which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.0b5
-pyenv local 3.9.0b5
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.0
+pyenv local 3.9.0
 pyenv versions
 </code></pre></div><pre><code>my-project pyenv versions
   system
   3.8.5
-* 3.9.0b5 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
+* 3.9.0 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
 </code></pre><p>Next, we make Poetry use this interpreter for virtual environments.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry env use python
 </code></pre></div><pre><code>Creating virtualenv my-project-PSaGJAu6-py3.9 in /Users/alex.mitelman/Library/Caches/pypoetry/virtualenvs
@@ -891,6 +900,7 @@ pre-commit run --all-files
             <li><a href="#set-python-version-per-project">Set Python version per project</a></li>
             <li><a href="#how-to-use-1">How to use</a></li>
             <li><a href="#how-to-use-poetry-with-vs-code">How to use Poetry with VS Code</a></li>
+            <li><a href="#how-to-upgrade-poetry">How to upgrade Poetry</a></li>
             <li><a href="#how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv</a></li>
           </ul>
         </li>
@@ -1003,7 +1013,7 @@ pre-commit run --all-files
     <div class="container-lg clearfix">
         <div class="col-12 footer">
             
-            <span>&copy; 2020
+            <span>&copy; 2021
                 <a href="https://alexmitelman.github.io/"></a>
                 
                 | Powered by <a href="https://github.com/amzrk2/hugo-theme-fuji/"
