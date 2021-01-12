@@ -516,7 +516,7 @@ tests/test_my_project.py:7:1: E302 expected 2 blank lines, found 1
 </p>
 <p>Optionally, you can install it manually with:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry add --dev black --allow-prereleases
-</code></pre></div><p><code>--allow-prereleases</code> option is here because Black is actually still in Beta in 2020. Initially, 2019 releases were planned to be the last ones in this status but it is what it is. Many production and open source projects already use it by default to format the code, so it&rsquo;s pretty safe to assume that Black is relatively stable.</p>
+</code></pre></div><p><code>--allow-prereleases</code> option is here because Black is actually still in Beta in 2021. Initially, 2019 releases were planned to be the last ones in this status but it is what it is. Many production and open source projects already use it by default to format the code, so it&rsquo;s pretty safe to assume that Black is relatively stable.</p>
 <p>To configure Black, let&rsquo;s open <code>pyproject.toml</code> and add following section:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">tool</span>.<span style="color:#a6e22e">black</span>]
 <span style="color:#a6e22e">line</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">length</span> = <span style="color:#ae81ff">79</span>
