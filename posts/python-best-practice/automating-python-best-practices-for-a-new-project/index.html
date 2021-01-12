@@ -354,9 +354,11 @@ TOTAL                        5      0   100%
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.coverage&#39;</span> &gt; .gitignore
 </code></pre></div><h2 id="run-checks-before-committing-changes-with-pre-commit">Run checks before committing changes with pre-commit</h2>
 <h3 id="use-git">Use Git</h3>
-<p>We didn&rsquo;t talk about version control yet, and we should. Obviously, we are using Git in 2020.</p>
-<p>If there is no repository for the project yet, we should create it with:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init
+<p>We didn&rsquo;t talk about version control yet, and we should. Obviously, we are using Git in 2021.
+Install or update to the latest version. For macOS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew install git
+</code></pre></div><p>If there is no repository for the project yet, we should create it. Github creates new repositories with <code>main</code> default branch now, so let&rsquo;s create it this way too:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init -b main
 </code></pre></div><p>First thing first, we should have <code>.gitignore</code> file, so we don&rsquo;t commit some temporary or binary files to the repo. We can manually copy-paste it from here <a href="https://github.com/github/gitignore/blob/master/Python.gitignore" target="_blank">https://github.com/github/gitignore/blob/master/Python.gitignore</a> or simply run following command which will create <code>.gitignore</code> and download content of the above link into it. You must be in your project root directory.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -s https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore &gt;&gt; .gitignore
 </code></pre></div><p>Now let&rsquo;s add everything we have so far to version control:</p>
@@ -829,7 +831,7 @@ code .
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">isort</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.coverage&#39;</span> &gt; .gitignore
 curl -s https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore &gt;&gt; .gitignore
-git init
+git init -b main
 git add .
 git commit -m <span style="color:#e6db74">&#39;Initial commit&#39;</span>
 pre-commit install
