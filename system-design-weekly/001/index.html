@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
+
+
+
+<title>System Design Weekly 001: March 2021 - Alex Mitelman: personal website</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design" />
+
+
+<meta property="og:title" content="System Design Weekly 001: March 2021" />
+<meta name="twitter:title" content="System Design Weekly 001: March 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/001/" /><meta property="og:description" content="Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation." />
+<meta name="twitter:description" content="Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-03-08T00:00:00+00:00" /><meta property="article:modified_time" content="2021-03-08T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-180800968-1');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180800968-1"></script>
+
+
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman: personal website</a>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-03-08</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="reddit-scaling-reportinghttpsredditblogcom20210226scaling-reporting-at-reddit"><a href="https://redditblog.com/2021/02/26/scaling-reporting-at-reddit/" target="_blank">Reddit: Scaling Reporting</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/001/0010.png" alt="/images/system-design-weekly/001/0010.png" />
+</p>
+<p>Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation. Then aggregates were calculated on the application layer. Reddit team had to over-provision servers for such aggregates as they grew.</p>
+<p>As a solution, it was decided to store events in Apache Druid with a column for every dimension to query. Druid is a columnar SQL database. Application can now run sub-second queries to the database instead of making aggregates heavy-lifting itself. Reddit also collaborated with Imply to build analytics dashboards.</p>
+<h3 id="netflix-orchestrated-functions-as-a-microservice-the-netflix-cosmos-platformhttpsnetflixtechblogcomthe-netflix-cosmos-platform-35c14d9351ad"><a href="https://netflixtechblog.com/the-netflix-cosmos-platform-35c14d9351ad" target="_blank">Netflix: Orchestrated Functions as a Microservice (The Netflix Cosmos Platform)</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/001/0011.png" alt="/images/system-design-weekly/001/0011.png" />
+</p>
+<p>Netflix receives videos that should be converted to various formats and resolutions to be played on different devices. The infrastructure evolved over time into an API that feels like a microservice but orchestrates different serverless functions under the hood.</p>
+<p>There is an application and infrastructure parts of the system that are independent one from another. All subsystems communicate via high-scale low-latency priority queue called Timestone.</p>
+<p>The system is modular, so each part of it can be developed and tested independently. For example, encoding in different resolution, different video codecs, audio codecs, subtitles generation, etc. The entire process can be monitored in a visual way with Nirvana portal.</p>
+<p>The platform is built on top of Apache Karaf. The entire system is low latency and ready for spike in demand for computational resources. In this case, low latency means also allocation resources to perform operations.</p>
+<p>SLO are measured in tasks per day and cost per task rather than tasks per second. Overall the system can be described as “microservices that trigger workflows that orchestrate serverless functions”.</p>
+<h3 id="dropbox-our-journey-from-a-python-monolith-to-a-managed-platformhttpsdropboxtechinfrastructureatlas--our-journey-from-a-python-monolith-to-a-managed-platform"><a href="https://dropbox.tech/infrastructure/atlas--our-journey-from-a-python-monolith-to-a-managed-platform" target="_blank">Dropbox: Our journey from a Python monolith to a managed platform</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/001/0012.png" alt="/images/system-design-weekly/001/0012.png" />
+</p>
+<p>Dropbox have been struggling with the Python monolith for a long time. This core legacy system (called Metaserver) also uses an outdated framework. It&rsquo;s hard to break it down to smaller microservices.</p>
+<p>Hybrid approach was chosen. It was decided to leave monolith with business logic be. Everything that can be extracted from monolith, like authentication, for example, should be separated from monolith.</p>
+<p>This set of microservices evolved into a sort of serverless platform like Amazon Fargate. It&rsquo;s called Atlas. Dropbox switches to gRPC technology where possible. They rely on Envoy proxy for HTTP to gRPC transcoding.</p>
+<p>Atlas currently serves 25% of monolith traffic. Metaserver can be deprecated in the near future.</p>
+<h3 id="levven-how-levven-keeps-your-smart-home-appliances-on-when-the-internet-goes-outhttpswwwcockroachlabscomblogresilient-smart-appliances"><a href="https://www.cockroachlabs.com/blog/resilient-smart-appliances/" target="_blank">Levven: How Levven Keeps Your Smart Home Appliances On When The Internet Goes Out</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/001/0013.png" alt="/images/system-design-weekly/001/0013.png" />
+</p>
+<p>IoT is slowly taking over the world. There were cases when some AWS region failure caused unexpected denial of some smart home devices, for example Roomba vacuums.</p>
+<p>In this case study by Levven, smart home provider, described how they leveraged CockroachDB for smart home devices operating even if some regions in the cloud go down.</p>
+<h3 id="ebay-how-ebays-distributed-architecture-surfaces-more-item-listings-for-buyershttpstechebayinccomengineeringhow-ebays-distributed-architecture-surfaces-more-item-listings-for-buyers"><a href="https://tech.ebayinc.com/engineering/how-ebays-distributed-architecture-surfaces-more-item-listings-for-buyers/" target="_blank">eBay: How eBay’s Distributed Architecture Surfaces More Item Listings for Buyers</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/001/0014.png" alt="/images/system-design-weekly/001/0014.png" />
+</p>
+<p>eBay built a sophisticated system to understand user queries like “Apple Macbook Pro 2019”, in which brand, model, and year are recognized. This data is then combined with user filters like &ldquo;Electronics → Computers, Tablets &amp; More → Laptops &amp; Netbooks → Apple Laptops → Release Year&rdquo;. Such data can provide insights on popular searches.</p>
+<p>Furthermore, eBay can automatically suggest fields to fill for a seller to improve chances of the item to be searchable.</p>
+<h3 id="stack-overflow-best-practices-can-slow-your-application-downhttpsstackoverflowblog20210303best-practices-can-slow-your-application-down"><a href="https://stackoverflow.blog/2021/03/03/best-practices-can-slow-your-application-down/" target="_blank">Stack Overflow: Best practices can slow your application down</a></h3>
+<p>Stack Overflow is famous for running their service on a minimum number of servers. Historically, their tech stack is .NET and MSSQL. This means that horizontal scaling should be avoided as each new server needs an additional license. The other option Stack Overflow had was to scale up.</p>
+<p>This led to a various performance optimizations, memoization, caching, etc. As a side effect, the software became hard to mock or use dependency injection for unit tests. Consequently, there is not much of unit tests in their code base. And it&rsquo;s not the end of the world.</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://engineering.zalando.com/posts/2021/03/building-an-end-to-end-load-test-automation-system-on-top-of-kubernetes.html" target="_blank">Building an End to End load test automation system on top of Kubernetes</a></p>
+<p><a href="https://medium.com/expedia-group-tech/mongo-change-streams-in-production-97a07c7c0420" target="_blank">Mongo Change Streams in Production</a></p>
+<p><a href="https://aws.amazon.com/blogs/architecture/how-ergo-implemented-an-event-driven-security-remediation-architecture-on-aws/" target="_blank">How ERGO implemented an event-driven security remediation architecture on AWS</a></p>
+<p><a href="https://engineering.tumblr.com/post/644763186513444864/how-post-content-is-stored-on-tumblr" target="_blank">How Post Content is Stored on Tumblr</a></p>
+<h2 id="software-architecture">Software Architecture</h2>
+<p><a href="https://medium.com/bbc-design-engineering/modernising-a-legacy-android-app-architecture-part-one-the-single-activity-2bc9f47aa42d" target="_blank">Modernising A Legacy Android App Architecture, Part One: The Single Activity</a></p>
+<p><a href="https://medium.com/bbc-design-engineering/modernising-a-legacy-android-app-architecture-part-two-mvvm-ish-1b0372678005" target="_blank">Modernising A Legacy Android App Architecture, Part Two: MVVM-ish</a></p>
+<p><a href="https://medium.com/bbc-design-engineering/modernising-a-legacy-android-app-architecture-part-three-applying-the-refactor-d9d826088427" target="_blank">Modernising A Legacy Android App Architecture, Part Three: Applying The Refactor</a></p>
+<p><a href="https://doordash.engineering/2021/03/02/multiple-ios-apps-single-codebase/" target="_blank">Building Multiple Distinctly Branded iOS Apps from a Single Codebase</a></p>
+<p><a href="https://medium.com/pinterest-engineering/how-pinterest-fights-misinformation-hate-speech-and-self-harm-content-with-machine-learning-1806b73b40ef" target="_blank">How Pinterest fights misinformation, hate speech, and self-harm content with machine learning</a></p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://codeascraft.com/2021/02/25/how-etsy-prepared-for-historic-volumes-of-holiday-traffic-in-2020/" target="_blank">How Etsy Prepared for Historic Volumes of Holiday Traffic in 2020</a></p>
+<p><a href="https://about.gitlab.com/blog/2021/03/02/agile-for-remote-work/" target="_blank">How async and all-remote make Agile simpler</a></p>
+<p><a href="https://m.signalvnoise.com/how-we-acquired-hey-com/" target="_blank">How we acquired HEY.com</a></p>
+<p><a href="https://medium.com/walmartglobaltech/embedding-security-into-software-development-life-cycle-9084169ebbc7" target="_blank">Embedding Security into Software Development Life Cycle</a></p>
+<h2 id="products">Products</h2>
+<p><a href="https://blog.cloudflare.com/flow-based-monitoring-for-magic-transit/" target="_blank">Cloudflare: Flow-based monitoring for Magic Transit</a> - Mitigating DDoS attacks on-demand or always.</p>
+<p><a href="https://developers.redhat.com/blog/2021/03/02/packaging-apis-for-consumers-with-red-hat-3scale-api-management/" target="_blank">Red Hat: Packaging APIs for consumers with Red Hat 3scale API Management</a> - rate limits, pricing features management for developers, customer while accessing API.</p>
+<p><a href="https://thenewstack.io/redis-redisearch-secondary-index-responds-faster-streamlines-indexing/" target="_blank">Redis Labs: RediSearch Secondary Index Responds Faster, Streamlines Indexing</a> - version 2.0 of in-memory index which is about 2.4-times faster comparing to the previous versions.</p>
+<p><a href="https://auth0.com/blog/okta-auth0-announcement/" target="_blank">Okta Signs Definitive Agreement to Acquire Auth0</a></p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-pages">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#reddit-scaling-reportinghttpsredditblogcom20210226scaling-reporting-at-reddit"><a href="https://redditblog.com/2021/02/26/scaling-reporting-at-reddit/">Reddit: Scaling Reporting</a></a></li>
+            <li><a href="#netflix-orchestrated-functions-as-a-microservice-the-netflix-cosmos-platformhttpsnetflixtechblogcomthe-netflix-cosmos-platform-35c14d9351ad"><a href="https://netflixtechblog.com/the-netflix-cosmos-platform-35c14d9351ad">Netflix: Orchestrated Functions as a Microservice (The Netflix Cosmos Platform)</a></a></li>
+            <li><a href="#dropbox-our-journey-from-a-python-monolith-to-a-managed-platformhttpsdropboxtechinfrastructureatlas--our-journey-from-a-python-monolith-to-a-managed-platform"><a href="https://dropbox.tech/infrastructure/atlas--our-journey-from-a-python-monolith-to-a-managed-platform">Dropbox: Our journey from a Python monolith to a managed platform</a></a></li>
+            <li><a href="#levven-how-levven-keeps-your-smart-home-appliances-on-when-the-internet-goes-outhttpswwwcockroachlabscomblogresilient-smart-appliances"><a href="https://www.cockroachlabs.com/blog/resilient-smart-appliances/">Levven: How Levven Keeps Your Smart Home Appliances On When The Internet Goes Out</a></a></li>
+            <li><a href="#ebay-how-ebays-distributed-architecture-surfaces-more-item-listings-for-buyershttpstechebayinccomengineeringhow-ebays-distributed-architecture-surfaces-more-item-listings-for-buyers"><a href="https://tech.ebayinc.com/engineering/how-ebays-distributed-architecture-surfaces-more-item-listings-for-buyers/">eBay: How eBay’s Distributed Architecture Surfaces More Item Listings for Buyers</a></a></li>
+            <li><a href="#stack-overflow-best-practices-can-slow-your-application-downhttpsstackoverflowblog20210303best-practices-can-slow-your-application-down"><a href="https://stackoverflow.blog/2021/03/03/best-practices-can-slow-your-application-down/">Stack Overflow: Best practices can slow your application down</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#software-architecture">Software Architecture</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#products">Products</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2021
+                <a href="https://mitelman.engineering/"></a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

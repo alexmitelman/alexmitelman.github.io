@@ -8,17 +8,17 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/posts/</loc>
-    <lastmod>2021-03-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/tags/system-design/</loc>
     <lastmod>2021-03-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/posts/system-design-weekly/001/</loc>
+    <loc>https://mitelman.engineering/system-design-weekly/001/</loc>
+    <lastmod>2021-03-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/</loc>
     <lastmod>2021-03-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -28,12 +28,17 @@
   </url>
   
   <url>
+    <loc>https://mitelman.engineering/blog/</loc>
+    <lastmod>2021-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mitelman.engineering/tags/python/</loc>
     <lastmod>2021-03-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/posts/python-best-practice/automating-python-best-practices-for-a-new-project/</loc>
+    <loc>https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/</loc>
     <lastmod>2021-03-01T00:00:00+00:00</lastmod>
   </url>
   
