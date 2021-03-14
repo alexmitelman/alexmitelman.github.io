@@ -93,7 +93,7 @@ They say that you should stick to algorithms and data structures, that you can l
         <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
     </h2>
     <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-10-18</span><span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6232 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;</span>
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-10-18</span><span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6249 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;</span>
 
     </div>
     
@@ -101,7 +101,7 @@ They say that you should stick to algorithms and data structures, that you can l
         <h2 id="intro">Intro</h2>
 <p>The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.</p>
 <p>They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax. There is an entire infrastructure of tools and best practices around it. For someone coming from a different background, it can be overwhelming to keep up with all this stuff, especially taking into consideration that sometimes information should be found in different places.</p>
-<p>This is my very opinionated attempt to compile some of the best practices on setting up a new Python environment for local development. There are also advice of integration these tools with Visual Studio Code, however, it&rsquo;s not necessary to use this particular editor. I&rsquo;m going to update this page as there are some changes with the underlying tools. I also plan to use it myself as a boilerplate for starting a new Python project. The tutorial is long because I explain in detail purpose and usage of the tools, however, the end result is quick set up of the new project environment that can be achieved in just a couple of minutes. See Fast Track section.</p>
+<p>This is my very opinionated attempt to compile some of the best practices on setting up a new Python environment for local development. There are also advices for integration these tools with Visual Studio Code, however, it&rsquo;s not necessary to use this particular editor. I&rsquo;m going to update this page as there are some changes with the underlying tools. I also plan to use it myself as a boilerplate for starting a new Python project. The tutorial is long because I explain in detail purpose and usage of the tools, however, the end result is quick set up of the new project environment that can be achieved in just a couple of minutes. See <a href="#fast-track">Fast Track</a> section.</p>
 <h2 id="how-to-manage-python-versions-with-pyenv">How to manage Python versions with pyenv?</h2>
 <h3 id="why-use-pyenv">Why use pyenv?</h3>
 <p>Many tutorials start with the same thing: go to <a href="http://python.org" target="_blank">python.org</a> and download the latest version of the language for you platform. Don&rsquo;t listen to them. There is a better way. And here is why.</p>
@@ -114,7 +114,7 @@ They say that you should stick to algorithms and data structures, that you can l
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">brew update
 brew install pyenv
 </code></pre></div><p>For Linux you&rsquo;d probably better off with <code>pyenv installer</code> - <a href="https://github.com/pyenv/pyenv-installer" target="_blank">https://github.com/pyenv/pyenv-installer</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl <span style="color:#f92672">[</span>https://pyenv.run<span style="color:#f92672">](</span>https://pyenv.run/<span style="color:#f92672">)</span> | bash
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl https://pyenv.run | bash
 </code></pre></div><p>For Windows, there is <code>pyenv for Windows</code> - <a href="https://github.com/pyenv-win/pyenv-win" target="_blank">https://github.com/pyenv-win/pyenv-win</a>.</p>
 <p>But you&rsquo;d probably better off with Windows Subsystem for Linux (WSL), then installing it the Linux way.</p>
 <h3 id="how-to-use-pyenv">How to use pyenv?</h3>
@@ -184,7 +184,7 @@ Installed Python-3.8.5 to /Users/alex/.pyenv/versions/3.8.5
 * 3.8.5 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
 </code></pre><p>We can double check it with <code>python -V</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Python 3.8.5
-</code></pre></div><p>Now we make Poetry to pick up current Python version:</p>
+</code></pre></div><p>Now we make Poetry pick up current Python version:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry env use python
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Creating virtualenv my-project-PSaGJAu6-py3.8 in /Users/alex/Library/Caches/pypoetry/virtualenvs
 Using virtualenv: /Users/alex/Library/Caches/pypoetry/virtualenvs/my-project-PSaGJAu6-py3.8
@@ -241,14 +241,14 @@ python get-poetry.py
 rm get-poetry.py
 </code></pre></div><h3 id="how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv?</h3>
 <p>Time has passed and the new Python version was released. There are new features and bugfixes, so we want to bump Python version in our project. This is a pretty straightforward task for <code>pyenv</code> and Poetry.</p>
-<p>First, we download, compile and set up new the Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9 beta which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.0b5
-pyenv local 3.9.0b5
+<p>First, we download, compile and set up new the Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9.2 which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.2
+pyenv local 3.9.2
 pyenv versions
 </code></pre></div><pre><code>my-project pyenv versions
   system
   3.8.5
-* 3.9.0b5 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
+* 3.9.2 (set by /Users/alex/iCloud/dev/projects/my-project/.python-version)
 </code></pre><p>Next, we make Poetry use this interpreter for virtual environments.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry env use python
 </code></pre></div><pre><code>Creating virtualenv my-project-PSaGJAu6-py3.9 in /Users/alex.mitelman/Library/Caches/pypoetry/virtualenvs
@@ -265,6 +265,9 @@ code .
 </p>
 <p><img class="img-zoomable" src="/images/blog/python-best-practice/Untitled%203.png" alt="/images/blog/python-best-practice/Untitled%203.png" />
 </p>
+<blockquote>
+<p>The above images show version 3.9.0 that was used for the previous version of the article</p>
+</blockquote>
 <p>Don&rsquo;t forget to update <code>[tool.poetry.dependencies]</code> section in  <code>pyproject.toml</code> file to reflect the Python version support.</p>
 <p>VS Code will prompt you to choose linter, code formatter, etc. Please ignore those prompts for now. We will set them up later on in this tutorial.</p>
 <p>Alternative: <code>venv</code> - built in with Python.</p>
@@ -301,7 +304,7 @@ code .
 <p>As we run tests with VS Code, it obviously marks them red as we didn&rsquo;t implement the function yet.</p>
 <p><img class="img-zoomable" src="/images/blog/python-best-practice/Untitled%209.png" alt="/images/blog/python-best-practice/Untitled%209.png" />
 </p>
-<p>So let&rsquo;s create <code>[math.py](http://math.py)</code> file in <code>my_project</code> directory and then implement our simple function:</p>
+<p>So let&rsquo;s create <code>math.py</code> file in <code>my_project</code> directory and then implement our simple function:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">multiply_two_numbers</span>(a, b):
     <span style="color:#66d9ef">return</span> a <span style="color:#f92672">*</span> b
 </code></pre></div><p>As we run tests again, they are marked green now</p>
@@ -318,14 +321,14 @@ code .
 </code></pre></div><p>Now running tests with an additional parameter will generate a coverage report:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pytest --cov<span style="color:#f92672">=</span>my_project tests/
 </code></pre></div><pre><code>================================================= test session starts =============
-platform darwin -- Python 3.9.0b5, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
+platform darwin -- Python 3.9.2, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
 rootdir: /Users/alex/iCloud/dev/projects/my-project
 plugins: cov-2.10.1
 collected 2 items                                                                                                     
 
 tests/test_my_project.py ..                                                  [100%]
 
------------ coverage: platform darwin, python 3.9.0-beta-5 -----------
+----------- coverage: platform darwin, python 3.9.2 -----------
 Name                     Stmts   Miss  Cover
 --------------------------------------------
 my_project/__init__.py       1      0   100%
@@ -349,7 +352,7 @@ Install or update to the latest version. For macOS:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git add .
 </code></pre></div><h3 id="why-run-checks-before-commit">Why run checks before commit?</h3>
 <p>As you can see (and will see further down in the tutorial), the boilerplate for the project is big. It&rsquo;s easy to miss out on something or forget to apply some checks before committing your code to the remote repo. As a consequence, the code will not pass CI automation, your colleagues or maintainers may ask you to make some changes to the code during the code review. All this because of a small nitpick like absence of a newline character at the end of a file. Having newline there is a <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_206" target="_blank">POSIX standard</a>. Even if you are well aware of that, it&rsquo;s very easy to forget or miss out on this. All this back and forth is just a waste of time which could be easily avoided if there was some automation before we commit a piece of code. And there is.</p>
-<p>Please welcome <code>[pre-commit](https://pre-commit.com/)</code>. It&rsquo;s a tool to run automatic checks on every git commit. It&rsquo;s easy to use and it doesn&rsquo;t require root access. By the way, <code>pre-commit</code> is written in Python but can be used for projects in various programming languages.</p>
+<p>Please welcome <a href="https://pre-commit.com/" target="_blank"><code>pre-commit</code></a>. It&rsquo;s a tool to run automatic checks on every git commit. It&rsquo;s easy to use and it doesn&rsquo;t require root access. By the way, <code>pre-commit</code> is written in Python but can be used for projects in various programming languages.</p>
 <h3 id="how-to-install-and-use-pre-commit">How to install and use pre-commit?</h3>
 <p><code>pre-commit</code> can be installed on a system level but we don&rsquo;t want to do that exactly for the reasons we started using <code>pyenv</code> - we are going to use different Python versions and our dependencies should be in order. That&rsquo;s why we install <code>pre-commit</code> as a development dependency:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry add pre-commit --dev
@@ -480,10 +483,10 @@ tests/test_my_project.py:7:1: E302 expected 2 blank lines, found 1
 <h3 id="why-to-format-code-with-black">Why to format code with Black?</h3>
 <p>Every person writes code in their own style. Even on Python which forces you pretty much to indent blocks of code, it is very much possible to write the same thing in different ways.</p>
 <p>Sometimes, just by looking at some part of code, you could say what person wrote it. What if different people touched the same code and wrote different parts of it in their own style? It can look a bit ugly.</p>
-<p>How can we prevent it? We can argue on code review of course. This can significantly slow down merging such pull request. Also, arguing about style is pretty much a matter of taste. At the end of the day, people will argue about the looks instead of paying attention to what the code actually does.</p>
+<p>How can we prevent it? We can argue during the code review of course. This can significantly slow down merging such pull request. Also, arguing about style is pretty much a matter of taste. At the end of the day, people will argue about the looks instead of paying attention to what the code actually does.</p>
 <p>In addition, wouldn&rsquo;t it be nice if code looked the same across an entire project, just like it was written by one person?</p>
 <p>There is a solution for it, and it&rsquo;s called <a href="https://black.readthedocs.io" target="_blank">Black</a>.</p>
-<p>Black formats the code in its own style, so it looks consistent. There is very little that you can customize in Black, so even here there is no room for the argument. Just take it and use it as it is. After all, things like PEP8 and Black were created to agree on one style and just stop arguing about it.</p>
+<p>Black formats the code in its own style, so it looks consistent. There is very little that you can customize in Black, so even this case there is no room for an argument. Just take it and use it as it is. After all, things like PEP8 and Black were created to agree on one style and just stop arguing about it.</p>
 <p>Ironically, Black violates PEP8&rsquo;s line length rule. Here is a thing, PEP8 told us that the maximum line length should be no more than 79 characters. It goes deep into history of IBM punch cards and UNIX terminals. PEP8 was written in 2001, things changed since then. People started questioning this rule. &ldquo;I don&rsquo;t read the code from a UNIX terminal&rdquo;, - they say. &ldquo;I have 27&rdquo; monitor for a reason&quot;, - they say. There is a problem with that though. Some people work with code from 13&quot; laptops. And viewing diff of two files of 79 char per line max becomes very convenient. Otherwise, you have to scroll horizontally, which is not very nice for working with code. That&rsquo;s why I still think that 79 chars rule should be there.</p>
 <p>And yes, while PEP8 was created in 2001, it&rsquo;s received some <a href="https://github.com/python/peps/blame/master/pep-0008.txt" target="_blank">updates</a> since then but 79 char per line rule was never changed.</p>
 <p>Thankfully, this is an option that Black allows us to adjust.</p>
@@ -530,14 +533,14 @@ tests/test_my_project.py:7:1: E302 expected 2 blank lines, found 1
 <p>We also have to suppress some error at Flake8 to make it work with Black. For this, we have to create <code>setup.cfg</code> file, which is a config file for Flake8, and put following in there:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">flake8</span>]
 <span style="color:#a6e22e">extend</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">ignore</span> = <span style="color:#a6e22e">E203</span>
-</code></pre></div><h3 id="use-to-use-black">Use to use Black?</h3>
+</code></pre></div><h3 id="how-to-use-black">How to use Black?</h3>
 <p>Black usage is fairly simple. Just run it, and it formats the code:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">black .
 </code></pre></div><pre><code>reformatted /projects/my-project/my_project/__init__.py
 reformatted /projects/my-project/tests/test_my_project.py
 All done! ✨ 🍰 ✨
 2 files reformatted, 2 files left unchanged.
-</code></pre><p>Remember Flake8 was complaining about some absent new lines? If we run out Git hook now, everything is OK.</p>
+</code></pre><p>Remember Flake8 was complaining about some absent new lines? If we run our Git hook now, everything is OK.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pre-commit run --all-files
 </code></pre></div><pre><code>Trim Trailing Whitespace.................................................Passed
 Fix End of Files.........................................................Passed
@@ -573,7 +576,7 @@ black....................................................................Passed
 <h2 id="static-typing-with-mypy">Static typing with Mypy</h2>
 <h3 id="why-use-static-type-checker-with-python">Why use static type checker with Python?</h3>
 <p>Type wars started in 70s. IBM with Smalltalk against Sun with Java. As we all know, strongly typed Java won, although Smalltalk being dynamically typed language was considered as a competitive advantage by some companies due to rapid development. Of course, type reduces amount of bugs and runtime errors which can be also solved by having 100% test coverage (as <a href="https://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html" target="_blank">Uncle Bob claims</a>, that&rsquo;s one of the reasons of Python&rsquo;s success). However, let&rsquo;s not forget that not all projects have 100% coverage.</p>
-<p>But can we have best of two worlds? Can we have type safety with rapid software development? I think, with Mypy we can. Mypy is a static code analysis tool that makes sure that the code is type safe. The project became so valuable that Python creator Guido van Rossum added type annotations to Python and joined Mypy development. Using type annotations also helps IDE providing a better code completion. As a bonus, type annotations make code more readable for humans too.</p>
+<p>But can we have best of two worlds? Can we have type safety with rapid software development? I think, with Mypy we can. Mypy is a static code analysis tool that makes sure that the code is type safe. The project became so valuable that Python creator Guido van Rossum added type annotations to Python and joined Mypy development. Using type annotations also helps IDE to provide a better code completion. As a bonus, type annotations make code more readable for humans too.</p>
 <h3 id="how-to-install-mypy">How to install mypy</h3>
 <p>In VS Code, you can edit <code>settings.json</code> file in <code>.vscode</code> directory. Set <code>&quot;python.linting.mypyEnabled&quot;: true</code>. After that, open any Python file in the project, for example <code>math.py</code>. VS Code will detect that Mypy is not installed yet.</p>
 <p><img class="img-zoomable" src="/images/blog/python-best-practice/Untitled%2017.png" alt="/images/blog/python-best-practice/Untitled%2017.png" />
@@ -650,7 +653,7 @@ Found 3 errors in 2 files (checked 4 source files)
 </code></pre></div><p>Commit changes:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git commit -m <span style="color:#e6db74">&#39;Add Mypy&#39;</span>
 </code></pre></div><h3 id="how-to-add-mypy-to-git-hooks">How to add mypy to git hooks?</h3>
-<p>Obviously, we want make sure that Mypy runs before committing the code. Add following to <code>.pre-commit-config.yaml</code>:</p>
+<p>Obviously, we want to make sure that Mypy runs before committing the code. Add following to <code>.pre-commit-config.yaml</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">-   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/pre-commit/mirrors-mypy</span>
     <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">v0.782</span>
     <span style="color:#f92672">hooks</span>:
@@ -702,10 +705,10 @@ mypy.....................................................................Passed
 <span style="color:#f92672">from</span> my_lib <span style="color:#f92672">import</span> Object, Object2, Object3
 </code></pre></div><p>Way better, isn&rsquo;t it?</p>
 <h2 id="how-to-install-use-and-add-isort-to-git-hooks">How to install, use, and add isort to git hooks?</h2>
-<p>VS Code (with Python extension) uses <code>isort</code> internally, so there is no additional configuration required. If you don&rsquo;t plan to use it from the command line, there is even no need to install it separately because <code>pre-commit</code> installs all dependencies to a its own separate environment.</p>
+<p>VS Code (with Python extension) uses <code>isort</code> internally, so there is no additional configuration required. If you don&rsquo;t plan to use it from the command line, there is even no need to install it separately because <code>pre-commit</code> installs all dependencies to its own separate environment.</p>
 <p>But if you plan to use <code>isort</code> apart from VS Code and <code>pre-commit</code>, here is how to install it:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry add --dev isort
-</code></pre></div><p>To make it work with Black correctly, we should add following to <code>pyproject.toml</code>:</p>
+</code></pre></div><p>To make it works with Black correctly, we should add following to <code>pyproject.toml</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">tool</span>.<span style="color:#a6e22e">isort</span>]
 <span style="color:#a6e22e">multi_line_output</span> = <span style="color:#ae81ff">3</span>
 <span style="color:#a6e22e">include_trailing_comma</span> = <span style="color:#66d9ef">true</span>
@@ -736,7 +739,7 @@ isort....................................................................Passed
 </code></pre><h2 id="fast-track">Fast track</h2>
 <p>Here is how you can create a fully configured new project in a just a couple of minutes (assuming you have <code>pyenv</code> and <code>poetry</code> installed already).</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">poetry new my-project; cd my-project; ls
-pyenv local 3.8.5
+pyenv local 3.9.2
 poetry env use python
 poetry add --dev pytest-cov pre-commit flake8 mypy isort
 poetry add --dev --allow-prereleases black
@@ -797,7 +800,7 @@ code .
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">check-yaml</span>
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">check-added-large-files</span>
 -   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://gitlab.com/pycqa/flake8</span>
-    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">3.8.3</span>
+    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">3.8.4</span>
     <span style="color:#f92672">hooks</span>:
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">flake8</span>
 -   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/psf/black</span>
@@ -805,12 +808,12 @@ code .
     <span style="color:#f92672">hooks</span>:
       - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">black</span>
 -   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/pre-commit/mirrors-mypy</span>
-    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">v0.782</span>
+    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">v0.812</span>
     <span style="color:#f92672">hooks</span>:
         - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">mypy</span>
           <span style="color:#f92672">additional_dependencies</span>: [<span style="color:#ae81ff">pydantic] </span> <span style="color:#75715e"># add if use pydantic</span>
 -   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/PyCQA/isort</span>
-    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">5.5.4</span>
+    <span style="color:#f92672">rev</span>: <span style="color:#ae81ff">5.7.0</span>
     <span style="color:#f92672">hooks</span>:
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">isort</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.coverage&#39;</span> &gt; .gitignore
@@ -979,7 +982,7 @@ pre-commit run --all-files
           <ul>
             <li><a href="#why-to-format-code-with-black">Why to format code with Black?</a></li>
             <li><a href="#how-to-install-black">How to install Black?</a></li>
-            <li><a href="#use-to-use-black">Use to use Black?</a></li>
+            <li><a href="#how-to-use-black">How to use Black?</a></li>
             <li><a href="#how-to-add-black-to-git-hooks">How to add Black to git hooks?</a></li>
             <li><a href="#bonus">Bonus</a></li>
           </ul>
