@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flake8 on Alex Mitelman</title>
+    <link>https://mitelman.engineering/tags/flake8/</link>
+    <description>Recent content in flake8 on Alex Mitelman</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/flake8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python Best Practices for a New Project in 2021</title>
+      <link>https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/</guid>
+      <description>Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
+They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&amp;rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&amp;rsquo;s slightly more than just syntax.</description>
+    </item>
+    
+  </channel>
+</rss>
