@@ -8,6 +8,33 @@
     <language>en-us</language>
     <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>apache druid</title>
+      <link>https://mitelman.engineering/tags/apache-druid/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/apache-druid/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>apache karaf</title>
+      <link>https://mitelman.engineering/tags/apache-karaf/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/apache-karaf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cockroachdb</title>
+      <link>https://mitelman.engineering/tags/cockroachdb/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/cockroachdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>system design</title>
       <link>https://mitelman.engineering/tags/system-design/</link>
       <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
@@ -17,7 +44,7 @@
     </item>
     
     <item>
-      <title>Black</title>
+      <title>black</title>
       <link>https://mitelman.engineering/tags/black/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
@@ -44,7 +71,7 @@
     </item>
     
     <item>
-      <title>Mypy</title>
+      <title>mypy</title>
       <link>https://mitelman.engineering/tags/mypy/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
@@ -53,7 +80,7 @@
     </item>
     
     <item>
-      <title>Poetry</title>
+      <title>poetry</title>
       <link>https://mitelman.engineering/tags/poetry/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
