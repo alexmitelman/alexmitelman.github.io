@@ -16,12 +16,14 @@
 
 
 
-<title>Blogs - Alex Mitelman: personal website</title>
+<title>Blogs - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
 
 
 
-
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/blog/index.xml" title="Alex Mitelman: personal website" />
+<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/blog/index.xml" title="Alex Mitelman" />
 
 <meta property="og:title" content="Blogs" />
 <meta name="twitter:title" content="Blogs" />
@@ -49,18 +51,6 @@
 
 
 
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'UA-180800968-1');
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-180800968-1"></script>
-
-
 </head>
 
 <body data-theme="auto">
@@ -80,7 +70,9 @@
     <header>
     <div class="container-lg clearfix">
         <div class="col-12 header">
-            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman: personal website</a>
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
             
         </div>
     </div>
@@ -96,10 +88,23 @@
 
 <div class="post">
     <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021-03-08</span><span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;</span>
+
+    </div>
+    <div class="post-item post-summary markdown-body">
+        Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
+    </div>
+</div>
+
+<div class="post">
+    <h2 class="post-item post-title">
         <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
     </h2>
     <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-10-18</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;</span>
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020-10-18</span><span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6232 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;</span>
 
     </div>
     <div class="post-item post-summary markdown-body">
@@ -158,12 +163,32 @@ They say that you should stick to algorithms and data structures, that you can l
         <h3>Pages</h3>
         <ul>
             
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/tags/system-design/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
         </ul>
     </div>
     
     <div class="sidebar-item sidebar-links">
         <h3>Links</h3>
         <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
             
         </ul>
     </div>
@@ -209,12 +234,32 @@ They say that you should stick to algorithms and data structures, that you can l
         <h3>Pages</h3>
         <ul>
             
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/tags/system-design/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
         </ul>
     </div>
     
     <div class="sidebar-item sidebar-links">
         <h3>Links</h3>
         <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
             
         </ul>
     </div>
@@ -250,7 +295,7 @@ They say that you should stick to algorithms and data structures, that you can l
         <div class="col-12 footer">
             
             <span>&copy; 2021
-                <a href="https://mitelman.engineering/"></a>
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
                 
                 | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
                    target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
