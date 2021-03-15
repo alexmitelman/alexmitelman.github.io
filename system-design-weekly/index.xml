@@ -6,7 +6,17 @@
     <description>Recent content in System-design-weeklies on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 002: March 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/002/</link>
+      <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/002/</guid>
+      <description>Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
+There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 001: March 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/001/</link>

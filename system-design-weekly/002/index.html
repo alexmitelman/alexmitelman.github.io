@@ -16,19 +16,23 @@
 
 
 
-<title>Alex Mitelman - Personal website</title>
+<title>System Design Weekly 002: March 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design, unbound, aws dynamodb, kafka" />
 
-<meta property="og:title" content="Alex Mitelman" />
-<meta name="twitter:title" content="Alex Mitelman" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-03-15T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 002: March 2021" />
+<meta name="twitter:title" content="System Design Weekly 002: March 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/002/" /><meta property="og:description" content="Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
+There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked." />
+<meta name="twitter:description" content="Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
+There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-03-15T00:00:00+00:00" /><meta property="article:modified_time" content="2021-03-15T00:00:00+00:00" />
 
 
 <style>
@@ -83,10 +87,8 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-
-
-<div class="post">
+<article>
+    
     <h2 class="post-item post-title">
         <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
     </h2>
@@ -96,42 +98,55 @@
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/aws-dynamodb">aws dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
-There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
-    </div>
-</div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="cloudflare-the-benefits-of-serving-stale-dns-entries-when-using-consulhttpsblogcloudflarecomthe-benefits-of-serving-stale-dns-entries-when-using-consul"><a href="https://blog.cloudflare.com/the-benefits-of-serving-stale-dns-entries-when-using-consul/" target="_blank">Cloudflare: The benefits of serving stale DNS entries when using Consul</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/002/Untitled.png" alt="/images/system-design-weekly/002/Untitled.png" />
+</p>
+<p>Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.</p>
+<p>There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked. If it&rsquo;s less than 10%, then a background task prefetches this record for the next request. This approach doesn&rsquo;t work well for short TTLs or rare requests.</p>
+<p>Another option is stale cache. In this case, an expired record is returned to the client while a background job tries to get the updated result for the future request. This improves latency results significantly.</p>
+<p>Cloudflare tried stale cache option back in 2017 but Unbound support for this feature was limited at the time. New versions of Unbound provide more options to configure, so Cloudflare team explores different parameters in this article to make sure this time it satisfies their need. This time all tests cases worked perfectly, so Cloudflare rolled this out to production. Resulting graphs with dramatic changes are provided in the article.</p>
+<h2 id="capital-one-moving-to-dynamodb-to-increase-application-resiliencyhttpsmediumcomcapital-one-techmoving-to-dynamodb-to-increase-application-resiliency-106d753d38b1"><a href="https://medium.com/capital-one-tech/moving-to-dynamodb-to-increase-application-resiliency-106d753d38b1" target="_blank">Capital One: Moving to DynamoDB to Increase Application Resiliency</a></h2>
+<p>Capital One faced a resilience issue between their east and west AWS regions PostgreSQL databases. Failover took several minutes. Their team leveraged managed AWS solutions, so their primary options were Aurora Global Database, Aurora Multi Master, DynamoDB.</p>
+<p>Aurora Global Database was almost perfect solution with one minute failover but at the time it only supported MySQL (since their decision was made, it also supports PostgreSQL). Aurora Multi Master supports multiple primary database but only within a single region. DynamoDB is multi-region active-active, requires no failover but it&rsquo;s a NoSQL which means a lot of changes in the application.</p>
+<p>The decision was made in favor of DynamoDB as it&rsquo;s a single active-active multi-region solution. The replication time in most cases is around 1 second. Migrating application turned out not as hard as expected with a few interesting findings, like absence of NULL or blank values, and no datatype for date and time. They converted datetime values into ISO UTC. For NULL values they created a NULL structure.</p>
+<p>As a first step of migration, application read/write were directed to both PostgreSQL and DynamoDB but results were only returned from PostgreSQL. After several weeks with no errors in production they turned off PostgreSQL.</p>
+<h2 id="varo-event-driven-architecture-and-the-outbox-patternhttpsmediumcomengineering-varoevent-driven-architecture-and-the-outbox-pattern-569e6fba7216"><a href="https://medium.com/engineering-varo/event-driven-architecture-and-the-outbox-pattern-569e6fba7216" target="_blank">Varo: Event-Driven Architecture and the Outbox Pattern</a></h2>
+<p><img class="img-zoomable" src="/images/system-design-weekly/002/Untitled%201.png" alt="/images/system-design-weekly/002/Untitled%201.png" />
+</p>
+<p>Let&rsquo;s imagine an event based architecture where database write and Kafka event should happen as one transaction. In case of DB write fail, Kafka message will be sent anyway. In case of Kafka fail, data was persisted in the DB but further pipeline with Kafka would not work.We should make both components interdependent. If we write to Kafka first, we lose “read your own write” ability.</p>
+<p>Here comes an Outbox pattern. We write our data to DB, and we also write an event-like record to a special outbox table in the DB in one transaction. A separate process is responsible of getting updates from the outbox table and delivering them to Kafka.</p>
+<h2 id="frontend-at-lyft-an-overviewhttpsenglyftcomfrontend-at-lyft-an-overview-f934c1524370"><a href="https://eng.lyft.com/frontend-at-lyft-an-overview-f934c1524370" target="_blank">Frontend at Lyft: An Overview</a></h2>
+<p>Besides the actual app, Lyft frontend team is also responsible for other internal and external frontend related parts, for example web portal, affilliate sites, Hertz integration, etc. Historically, one monolith Angular application worked with numerous backend microservices. Paradigm then shifted to one frontend application for one backend service, although ratio is not always 1:1. Lyft migrated from Angular to <strong>React</strong>, from Express to Next. They also heavily rely on Typescript.</p>
+<p>Frontend engineers are vertically oriented, meaning that there is no Frontend department. Each team that develops a certain service has one or several frontend engineers. Consequently, such engineers request a code review from their colleagues at other teams.</p>
+<h2 id="ibm-compare-deep-learning-frameworkshttpsdeveloperibmcomarticlescompare-deep-learning-frameworks"><a href="https://developer.ibm.com/articles/compare-deep-learning-frameworks/" target="_blank">IBM: Compare deep learning frameworks</a></h2>
+<p>This article is an introduction into deep learning. It explains strengths and use cases for different frameworks while also telling a story of their development. Main focus is on TensorFlow, Keras, and PyTorch. It also explains that Keras isn&rsquo;t really a framework, rather a library API for other backend frameworks that do the heavylifting, mostly shifting its support to TensorFlow now.</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://grafana.com/blog/2021/03/08/how-i-built-a-monitoring-system-for-my-avocado-plant-with-arduino-and-grafana-cloud/" target="_blank">How I built a monitoring system for my avocado plant with Arduino and Grafana Cloud</a></p>
+<p><a href="https://aws.amazon.com/blogs/architecture/field-notes-how-olx-europe-fights-millions-of-bots-with-aws/" target="_blank">How OLX Europe Fights Millions of Bots with AWS</a></p>
+<p><a href="https://medium.com/groupon-eng/groupon-push-marketing-how-we-send-almost-half-a-billion-notifications-a-day-4d77a160694a" target="_blank">Groupon Push Marketing — How we send almost half a billion notifications a day</a></p>
+<p><a href="https://blog.cloudflare.com/lessons-learned-from-scaling-up-cloudflare-anomaly-detection-platform/" target="_blank">Lessons Learned from Scaling Up Cloudflare’s Anomaly Detection Platform</a></p>
+<p><a href="https://shopifyengineering.myshopify.com/blogs/engineering/capturing-every-change-shopify-sharded-monolith" target="_blank">Capturing Every Change From Shopify’s Sharded Monolith</a></p>
+<p><a href="https://medium.com/pinterest-engineering/pinterest-flink-deployment-framework-512c6cd4a1b7" target="_blank">Pinterest Flink Deployment Framework</a></p>
+<h2 id="software-architecture">Software Architecture</h2>
+<p><a href="https://engineering.zalando.com/posts/2021/03/micro-frontends-part1.html" target="_blank">Micro Frontends: from Fragments to Renderers (Part 1)</a></p>
+<p><a href="https://clickhouse.tech/blog/en/2021/fuzzing-clickhouse/" target="_blank">Fuzzing ClickHouse</a></p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://developers.soundcloud.com/blog/building-a-healthy-on-call-culture" target="_blank">Building a Healthy On-Call Culture</a></p>
+<h2 id="products">Products</h2>
+<p><a href="https://netflixtechblog.com/consoleme-a-central-control-plane-for-aws-permissions-and-access-fd09afdd60a8" target="_blank">ConsoleMe: A Central Control Plane for AWS Permissions and Access</a></p>
+<p><a href="https://blog.golang.org/survey2020-results" target="_blank">Go Developer Survey 2020 Results</a></p>
+<p><a href="https://redislabs.com/blog/redis-6-2-the-community-edition-is-now-available/" target="_blank">Redis 6.2—the “Community Edition”—Is Now Available</a></p>
+<p><a href="https://blog.cloudflare.com/arms-race-ampere-altra-takes-on-aws-graviton2/" target="_blank">ARMs Race: Ampere Altra takes on the AWS Graviton2</a></p>
+<p><a href="https://grafana.com/blog/2021/03/11/grafana-loki-2.2-released-multi-line-logs-crash-resiliency-and-performance-improvements/" target="_blank">Grafana Loki 2.2 released: Multi-line logs, crash resiliency, and performance improvements</a></p>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 08</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/apache-druid">apache druid</a>&nbsp;<a href="/tags/apache-karaf">apache karaf</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
-    </div>
-</div>
+</article>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
-<span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6340 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
 
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
-They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax.
-    </div>
-</div>
+
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
@@ -287,9 +302,28 @@ They say that you should stick to algorithms and data structures, that you can l
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#cloudflare-the-benefits-of-serving-stale-dns-entries-when-using-consulhttpsblogcloudflarecomthe-benefits-of-serving-stale-dns-entries-when-using-consul"><a href="https://blog.cloudflare.com/the-benefits-of-serving-stale-dns-entries-when-using-consul/">Cloudflare: The benefits of serving stale DNS entries when using Consul</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#capital-one-moving-to-dynamodb-to-increase-application-resiliencyhttpsmediumcomcapital-one-techmoving-to-dynamodb-to-increase-application-resiliency-106d753d38b1"><a href="https://medium.com/capital-one-tech/moving-to-dynamodb-to-increase-application-resiliency-106d753d38b1">Capital One: Moving to DynamoDB to Increase Application Resiliency</a></a></li>
+        <li><a href="#varo-event-driven-architecture-and-the-outbox-patternhttpsmediumcomengineering-varoevent-driven-architecture-and-the-outbox-pattern-569e6fba7216"><a href="https://medium.com/engineering-varo/event-driven-architecture-and-the-outbox-pattern-569e6fba7216">Varo: Event-Driven Architecture and the Outbox Pattern</a></a></li>
+        <li><a href="#frontend-at-lyft-an-overviewhttpsenglyftcomfrontend-at-lyft-an-overview-f934c1524370"><a href="https://eng.lyft.com/frontend-at-lyft-an-overview-f934c1524370">Frontend at Lyft: An Overview</a></a></li>
+        <li><a href="#ibm-compare-deep-learning-frameworkshttpsdeveloperibmcomarticlescompare-deep-learning-frameworks"><a href="https://developer.ibm.com/articles/compare-deep-learning-frameworks/">IBM: Compare deep learning frameworks</a></a></li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#software-architecture">Software Architecture</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#products">Products</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -457,6 +491,8 @@ They say that you should stick to algorithms and data structures, that you can l
     
     
     </div>
+    
+    
     
     
   </div>
