@@ -95,7 +95,7 @@ They say that you should stick to algorithms and data structures, that you can l
     <div class="post-item post-meta">
         <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
 <span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6340 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6328 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
 
     </div>
     
@@ -243,7 +243,7 @@ python get-poetry.py
 rm get-poetry.py
 </code></pre></div><h3 id="how-to-upgrade-python-version-with-poetry-and-pyenv">How to upgrade Python version with Poetry and pyenv?</h3>
 <p>Time has passed and the new Python version was released. There are new features and bugfixes, so we want to bump Python version in our project. This is a pretty straightforward task for <code>pyenv</code> and Poetry.</p>
-<p>First, we download, compile and set up new the Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9.2 which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
+<p>First, we download, compile and set up the new Python interpreter. Make sure to run this command not from virtual environment but from the project root folder. In my case, I&rsquo;m going to upgrade to CPython 3.9.2 which is available at the time of writing this text but it can be any other version of CPython interpreter.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pyenv install 3.9.2
 pyenv local 3.9.2
 pyenv versions
@@ -350,7 +350,10 @@ Install or update to the latest version. For macOS:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init -b main
 </code></pre></div><p>First thing first, we should have <code>.gitignore</code> file, so we don&rsquo;t commit some temporary or binary files to the repo. We can manually copy-paste it from here <a href="https://github.com/github/gitignore/blob/master/Python.gitignore" target="_blank">https://github.com/github/gitignore/blob/master/Python.gitignore</a> or simply run following command which will create <code>.gitignore</code> and download content of the above link into it. You must be in your project root directory.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -s https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore &gt;&gt; .gitignore
-</code></pre></div><p>Now let&rsquo;s add everything we have so far to version control:</p>
+</code></pre></div><p>You may also exclude VS Code settings folder from version control. We may also exclude PyCharm settings if someone uses that code editor.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.vscode/\n.idea/&#39;</span> &gt;&gt; .gitignore
+</code></pre></div><p>Same way</p>
+<p>Now let&rsquo;s add everything we have so far to version control:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git add .
 </code></pre></div><h3 id="why-run-checks-before-commit">Why run checks before commit?</h3>
 <p>As you can see (and will see further down in the tutorial), the boilerplate for the project is big. It&rsquo;s easy to miss out on something or forget to apply some checks before committing your code to the remote repo. As a consequence, the code will not pass CI automation, your colleagues or maintainers may ask you to make some changes to the code during the code review. All this because of a small nitpick like absence of a newline character at the end of a file. Having newline there is a <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_206" target="_blank">POSIX standard</a>. Even if you are well aware of that, it&rsquo;s very easy to forget or miss out on this. All this back and forth is just a waste of time which could be easily avoided if there was some automation before we commit a piece of code. And there is.</p>
@@ -605,7 +608,10 @@ black....................................................................Passed
 <span style="color:#a6e22e">ignore_missing_imports</span> = <span style="color:#a6e22e">True</span>
 
 </code></pre></div><p>The most important line here is <code>disallow_untyped_defs = True</code>. It forces you to define functions with types. For existing legacy projects, you&rsquo;d probably disable it but as we create a new project, it&rsquo;s would be beneficial to make sure we never forget to add type annotations.</p>
-<p>For better compatibility, there are various plugins for Mypy. For example, if you plan to use <code>pydantic</code> for data validation and serialization, config file will look like this:</p>
+<p>You may want to disable Mypy for tests. Just add following config:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">mypy</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">tests</span>.<span style="color:#960050;background-color:#1e0010">*</span>]
+<span style="color:#a6e22e">ignore_errors</span> = <span style="color:#a6e22e">True</span>
+</code></pre></div><p>For better compatibility, there are various plugins for Mypy. For example, if you plan to use <code>pydantic</code> for data validation and serialization, config file will look like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">mypy</span>]
 <span style="color:#a6e22e">plugins</span> = <span style="color:#a6e22e">pydantic</span>.<span style="color:#a6e22e">mypy</span>
 
@@ -626,11 +632,7 @@ black....................................................................Passed
 <span style="color:#a6e22e">warn_untyped_fields</span> = <span style="color:#a6e22e">True</span>
 </code></pre></div><p>Here is the output after we added new config:</p>
 <pre><code>my_project/math.py:1: error: Function is missing a type annotation
-tests/test_my_project.py:5: error: Function is missing a return type annotation
-tests/test_my_project.py:5: note: Use &quot;-&gt; None&quot; if function does not return a value
-tests/test_my_project.py:9: error: Function is missing a return type annotation
-tests/test_my_project.py:9: note: Use &quot;-&gt; None&quot; if function does not return a value
-Found 3 errors in 2 files (checked 4 source files)
+Found 1 errors in 1 files (checked 4 source files)
 </code></pre><p>In addition, VS Code uses Mypy as a linter and marks incorrect parts:</p>
 <p><img class="img-zoomable" src="/images/blog/python-best-practice/Untitled%2018.png" alt="/images/blog/python-best-practice/Untitled%2018.png" />
 </p>
@@ -648,10 +650,6 @@ Found 3 errors in 2 files (checked 4 source files)
     a: Union[int, Real], b: Union[int, Real]
 ) <span style="color:#f92672">-&gt;</span> Union[int, Real]:
     <span style="color:#66d9ef">return</span> a <span style="color:#f92672">*</span> b
-</code></pre></div><p>In test file, just add   <code>-&gt; None</code> as a return type:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_multiply_two_numbers</span>() <span style="color:#f92672">-&gt;</span> None:
-    result <span style="color:#f92672">=</span> multiply_two_numbers(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
-    <span style="color:#66d9ef">assert</span> result <span style="color:#f92672">==</span> <span style="color:#ae81ff">6</span>
 </code></pre></div><p>Commit changes:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git commit -m <span style="color:#e6db74">&#39;Add Mypy&#39;</span>
 </code></pre></div><h3 id="how-to-add-mypy-to-git-hooks">How to add mypy to git hooks?</h3>
@@ -792,6 +790,9 @@ code .
 <span style="color:#a6e22e">no_implicit_reexport</span> = <span style="color:#a6e22e">True</span>
 <span style="color:#a6e22e">disallow_untyped_defs</span> = <span style="color:#a6e22e">True</span>
 <span style="color:#a6e22e">ignore_missing_imports</span> = <span style="color:#a6e22e">True</span>
+
+[<span style="color:#a6e22e">mypy</span><span style="color:#960050;background-color:#1e0010">-</span><span style="color:#a6e22e">tests</span>.<span style="color:#960050;background-color:#1e0010">*</span>]
+<span style="color:#a6e22e">ignore_errors</span> = <span style="color:#a6e22e">True</span>
 </code></pre></div><p>Create <code>.pre-commit-config.yaml</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">repos</span>:
 -   <span style="color:#f92672">repo</span>: <span style="color:#ae81ff">https://github.com/pre-commit/pre-commit-hooks</span>
@@ -819,6 +820,7 @@ code .
     <span style="color:#f92672">hooks</span>:
     -   <span style="color:#f92672">id</span>: <span style="color:#ae81ff">isort</span>
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.coverage&#39;</span> &gt; .gitignore
+echo <span style="color:#e6db74">&#39;.vscode/\n.idea/&#39;</span> &gt;&gt; .gitignore
 curl -s https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore &gt;&gt; .gitignore
 git init -b main
 git add .
