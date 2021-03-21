@@ -95,7 +95,7 @@ They say that you should stick to algorithms and data structures, that you can l
     <div class="post-item post-meta">
         <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
 <span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6328 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6329 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
 
     </div>
     
@@ -350,7 +350,7 @@ Install or update to the latest version. For macOS:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init -b main
 </code></pre></div><p>First thing first, we should have <code>.gitignore</code> file, so we don&rsquo;t commit some temporary or binary files to the repo. We can manually copy-paste it from here <a href="https://github.com/github/gitignore/blob/master/Python.gitignore" target="_blank">https://github.com/github/gitignore/blob/master/Python.gitignore</a> or simply run following command which will create <code>.gitignore</code> and download content of the above link into it. You must be in your project root directory.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -s https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore &gt;&gt; .gitignore
-</code></pre></div><p>You may also exclude VS Code settings folder from version control. We may also exclude PyCharm settings if someone uses that code editor.</p>
+</code></pre></div><p>You may exclude VS Code settings folder from version control. In addition, we may also exclude PyCharm settings if someone uses that code editor.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;.vscode/\n.idea/&#39;</span> &gt;&gt; .gitignore
 </code></pre></div><p>Same way</p>
 <p>Now let&rsquo;s add everything we have so far to version control:</p>
