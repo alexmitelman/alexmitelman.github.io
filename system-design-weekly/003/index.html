@@ -16,19 +16,23 @@
 
 
 
-<title>Blogs - Alex Mitelman</title>
+<title>System Design Weekly 003: March 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/blog/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design, envoy, unicorn, kerberos, cassandra" />
 
-<meta property="og:title" content="Blogs" />
-<meta name="twitter:title" content="Blogs" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/blog/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-03-14T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 003: March 2021" />
+<meta name="twitter:title" content="System Design Weekly 003: March 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/003/" /><meta property="og:description" content="Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
+They&rsquo;ve decided to switch to Envoy proxy as it allows to dynamically change its configuration." />
+<meta name="twitter:description" content="Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
+They&rsquo;ve decided to switch to Envoy proxy as it allows to dynamically change its configuration." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-03-22T00:00:00+00:00" /><meta property="article:modified_time" content="2021-03-22T00:00:00+00:00" />
 
 
 <style>
@@ -83,10 +87,8 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-
-
-<div class="post">
+<article>
+    
     <h2 class="post-item post-title">
         <a href="https://mitelman.engineering/system-design-weekly/003/">System Design Weekly 003: March 2021</a>
     </h2>
@@ -96,58 +98,63 @@
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;808 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/envoy">envoy</a>&nbsp;<a href="/tags/unicorn">unicorn</a>&nbsp;<a href="/tags/kerberos">kerberos</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;</span>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
-They&rsquo;ve decided to switch to Envoy proxy as it allows to dynamically change its configuration.
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="slack-migrating-millions-of-concurrent-websockets-to-envoyhttpsslackengineeringmigrating-millions-of-concurrent-websockets-to-envoy"><a href="https://slack.engineering/migrating-millions-of-concurrent-websockets-to-envoy/" target="_blank">Slack: Migrating Millions of Concurrent Websockets to Envoy</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/003/Untitled.png" alt="/images/system-design-weekly/003/Untitled.png" />
+</p>
+<p>Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.</p>
+<p>They&rsquo;ve decided to switch to Envoy proxy as it allows to dynamically change its configuration. Also it&rsquo;s able to hot restart without dropping connections. The article describes migration and testing process.</p>
+<p>Interesting findings from the migration. It&rsquo;s hard to differentiate useful config from a technical debt. It&rsquo;s hard to figure out why some rule is in place. In some cases they were even forced to replicate mistakes in HAProxy configuration to Envoy because existing system relies on them.</p>
+<h3 id="github-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handlinghttpsgithubblog2021-03-18-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handling"><a href="https://github.blog/2021-03-18-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handling/" target="_blank">GitHub: How we found and fixed a rare race condition in our session handling</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/003/Untitled%201.png" alt="/images/system-design-weekly/003/Untitled%201.png" />
+</p>
+<p>GitHub received two reports from users over a short period of time that they were logged in under another user account. It looked like some recent change caused this bug so the first suspect was the load balancer config update, however, that wasn&rsquo;t the case.</p>
+<p>The next suspect is an application. It turned out that incorrect sessions happened on the same machine within the same process. Tech stack: Ruby on Rails with Unicorn Rack web server. Further investigation showed that HTTP body was correct but cookies sent to the client were cookies from another user that was recently handled within the same process.</p>
+<p>This was probably caused by a recent change in the architecture: some user related logic was moved to a background thread, the state of that was checked per some interval. Rack server created a single  Ruby Hash object that was reused between requests, which led to a race condition. It would only happen in a very rare occurrence of several conditions at the same time.</p>
+<p>GitHub team removed the thread, created patch to Unicorn, examined logs to find affected users, revoked all user session.</p>
+<h3 id="how-paypal-moves-secure-and-encrypted-data-across-security-zoneshttpsmediumcompaypal-techhow-paypal-moves-secure-and-encrypted-data-across-security-zones-10010c1788ce"><a href="https://medium.com/paypal-tech/how-paypal-moves-secure-and-encrypted-data-across-security-zones-10010c1788ce" target="_blank">How PayPal moves secure and encrypted data across security zones</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/003/Untitled%202.png" alt="/images/system-design-weekly/003/Untitled%202.png" />
+</p>
+<p>As a global payment company, PayPal works with data across different regions and datacenters with high InfoSec requirements. Some of the key principles: only a higher security zone can initiate a connection to a lower security zone. Data at rest must be encrypted. Previously PayPal used in-house developed secure-FTP solution for large files and Kafka for real-time messages.</p>
+<p>New solution is based on Hadoop and Kerberos. Hadoop is able to work with secure sockets over TLS 1.2. Authorization relies on a single Kerberos KDC (key distribution center). Data is transparently encrypted and decrypted with Hadoop TDE (Transparent Data Encryption) .</p>
+<h3 id="olx-cassandra-compaction-trade-offshttpstecholxcomcassandra-compaction-trade-offs-848ba51c64c0"><a href="https://tech.olx.com/cassandra-compaction-trade-offs-848ba51c64c0" target="_blank">OLX: Cassandra Compaction Trade-Offs</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/003/Untitled%203.png" alt="/images/system-design-weekly/003/Untitled%203.png" />
+</p>
+<p>Cassandra is an obvious choice for storing messages that users send to each other as such data is easily shardable per user ID. Cassandra first appends data in memory and then writes it to SSTable using LSM data structure. Article shortly describes this concept.</p>
+<p>Furthermore this blog post explores compaction problem and amplification factor, particularly, tradeoffs of different Cassandra compaction strategies. Initially, OLX used Time Window Compaction Strategy which lead to CPU spikes and huge read amplification factor (raf). This can be diagnosed with <code>nodetool</code>, usage example is provided in the article.</p>
+<p>As the goal was to lower read latencies, OLX changed their Cassandra strategy to Leveled compaction Strategy which was further proved as a good decision based on the measurements and graphs provided in the article.</p>
+<h3 id="uber-journey-toward-better-data-culture-from-first-principleshttpsengubercomubers-journey-toward-better-data-culture-from-first-principles"><a href="https://eng.uber.com/ubers-journey-toward-better-data-culture-from-first-principles/" target="_blank">Uber: Journey Toward Better Data Culture From First Principles</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/003/Untitled%204.png" alt="/images/system-design-weekly/003/Untitled%204.png" />
+</p>
+<p>Uber heavily relies on big data and data science. As a company that works extensively with data, they faced issues like: data duplication, inconsistencies, lack of ownership, etc. This led to developing a culture framework for working with data.</p>
+<p>Key takeaways. Data should be treated as code: proper documentation, review process, deprecation, etc. Each data artifact should have a clear owner and purpose. Data should have SLA for quality. Data should be tested on the staging environment. Data tier defines SLA for fixing bugs and data removal. For example, compliance - tier-1, temporary datasets - tier-5.</p>
+<p>Previously, application developers implemented logging inconsistently. “Platformizing” logging introduced standard for logging, so developers didn&rsquo;t have to concentrate on logging anymore.</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://www.scylladb.com/2021/03/16/zillow-optimistic-concurrency-with-write-time-timestamps/" target="_blank">Zillow: Optimistic Concurrency with Write-Time Timestamps</a></p>
+<p><a href="https://eng.lyft.com/ml-feature-serving-infrastructure-at-lyft-d30bf2d3c32a" target="_blank">ML Feature Serving Infrastructure at Lyft</a></p>
+<p><a href="https://blog.twitter.com/engineering/en_us/topics/infrastructure/2021/sharding-simplification-and-twitters-ads-serving-platform.html" target="_blank">Sharding, simplification, and Twitter’s ads serving platform</a></p>
+<p><a href="https://blog.cloudflare.com/third-times-the-cache-no-more/" target="_blank">Third Time’s the Cache, No More</a></p>
+<p><a href="https://blog.hotstar.com/artwork-personalised-5c9cdd5cf42b" target="_blank">Artwork, Personalized</a></p>
+<h2 id="software-architecture">Software Architecture</h2>
+<p><a href="https://blog.couchbase.com/data-structures-full-text-search-indexing-in-couchbase/" target="_blank">Data Structures &amp; Full-Text Search Indexing in Couchbase</a></p>
+<p><a href="https://medium.com/walmartglobaltech/implementation-of-ssl-pinning-7e57e280cc49" target="_blank">Implementation of SSL Pinning</a></p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://medium.com/expedia-group-tech/10-mistakes-that-should-be-avoided-when-managing-a-product-backlog-1c6c1f5653de" target="_blank">Ten Mistakes to Avoid when Managing a Product Backlog</a></p>
+<h2 id="products">Products</h2>
+<p><a href="https://aws.amazon.com/blogs/aws/amazon-s3-glacier-price-reduction/" target="_blank">Amazon S3 Glacier Price Reduction</a></p>
+<p><a href="https://www.hashicorp.com/blog/announcing-self-service-production-clusters-for-hcp-consul" target="_blank">Announcing Self-Service Production Clusters for HCP Consul</a></p>
+<p><a href="https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2gd-instances-graviton2-power-for-memory-intensive-workloads/" target="_blank">New Amazon EC2 X2gd Instances – Graviton2 Power for Memory-Intensive Workloads</a></p>
+<p><a href="https://blog.cloudflare.com/enhancing-privacy-focused-web-analytics-to-better-meet-your-metrics-needs/" target="_blank">Enhancing privacy-focused Web Analytics to better meet your metrics needs</a></p>
+<p><a href="https://blog.cloudflare.com/deep-dive-cloudflare-autonomous-edge-ddos-protection/" target="_blank">A deep-dive into Cloudflare’s autonomous edge DDoS protection</a></p>
+<p><a href="https://github.blog/2021-03-15-highlights-from-git-2-31/" target="_blank">Highlights from Git 2.31</a></p>
+
     </div>
-</div>
+</article>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 15</span>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/aws-dynamodb">aws dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
 
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
-There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 08</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/apache-druid">apache druid</a>&nbsp;<a href="/tags/apache-karaf">apache karaf</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
-<span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6329 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
-They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax.
-    </div>
-</div>
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
@@ -319,9 +326,28 @@ They say that you should stick to algorithms and data structures, that you can l
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#slack-migrating-millions-of-concurrent-websockets-to-envoyhttpsslackengineeringmigrating-millions-of-concurrent-websockets-to-envoy"><a href="https://slack.engineering/migrating-millions-of-concurrent-websockets-to-envoy/">Slack: Migrating Millions of Concurrent Websockets to Envoy</a></a></li>
+            <li><a href="#github-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handlinghttpsgithubblog2021-03-18-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handling"><a href="https://github.blog/2021-03-18-how-we-found-and-fixed-a-rare-race-condition-in-our-session-handling/">GitHub: How we found and fixed a rare race condition in our session handling</a></a></li>
+            <li><a href="#how-paypal-moves-secure-and-encrypted-data-across-security-zoneshttpsmediumcompaypal-techhow-paypal-moves-secure-and-encrypted-data-across-security-zones-10010c1788ce"><a href="https://medium.com/paypal-tech/how-paypal-moves-secure-and-encrypted-data-across-security-zones-10010c1788ce">How PayPal moves secure and encrypted data across security zones</a></a></li>
+            <li><a href="#olx-cassandra-compaction-trade-offshttpstecholxcomcassandra-compaction-trade-offs-848ba51c64c0"><a href="https://tech.olx.com/cassandra-compaction-trade-offs-848ba51c64c0">OLX: Cassandra Compaction Trade-Offs</a></a></li>
+            <li><a href="#uber-journey-toward-better-data-culture-from-first-principleshttpsengubercomubers-journey-toward-better-data-culture-from-first-principles"><a href="https://eng.uber.com/ubers-journey-toward-better-data-culture-from-first-principles/">Uber: Journey Toward Better Data Culture From First Principles</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#software-architecture">Software Architecture</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#products">Products</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">

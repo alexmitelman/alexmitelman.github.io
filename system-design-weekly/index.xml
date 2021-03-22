@@ -6,7 +6,17 @@
     <description>Recent content in System-design-weeklies on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 003: March 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/003/</link>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/003/</guid>
+      <description>Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
+They&amp;rsquo;ve decided to switch to Envoy proxy as it allows to dynamically change its configuration.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 002: March 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/002/</link>
