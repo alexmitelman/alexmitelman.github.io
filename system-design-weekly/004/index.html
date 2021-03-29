@@ -16,19 +16,23 @@
 
 
 
-<title>cockroachdb - Alex Mitelman</title>
+<title>System Design Weekly 004: March 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/tags/cockroachdb/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design, elasticsearch, cockroachdb" />
 
-<meta property="og:title" content="cockroachdb" />
-<meta name="twitter:title" content="cockroachdb" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/tags/cockroachdb/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-03-29T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 004: March 2021" />
+<meta name="twitter:title" content="System Design Weekly 004: March 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/004/" /><meta property="og:description" content="Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
+Key takeaways. Hybryd-Cloud: Google Cloud &#43; 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down." />
+<meta name="twitter:description" content="Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
+Key takeaways. Hybryd-Cloud: Google Cloud &#43; 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-03-29T00:00:00+00:00" /><meta property="article:modified_time" content="2021-03-29T00:00:00+00:00" />
 
 
 <style>
@@ -83,43 +87,70 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-<div class="page-info">
-  <span>Posts with the tag cockroachdb: </span>
-</div>
-
-
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
 
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;799 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
 
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
-Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.
-  </div>
-</div>
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="aurora-payment-acquiring-solution-with-cockroachdb-on-kuberneteshttpswwwcockroachlabscomblogpayment-solution-architecture"><a href="https://www.cockroachlabs.com/blog/payment-solution-architecture/" target="_blank">Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/004/Untitled.png" alt="/images/system-design-weekly/004/Untitled.png" />
+</p>
+<p>Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.</p>
+<p>Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down. Easy to migrate from PostgreSQL as CockroachDB is wire-compatible. Request hits the nearest datacenter with DNS multicast.</p>
+<h3 id="mozilla-how-mdns-site-search-workshttpshacksmozillaorg202103how-mdns-site-search-works"><a href="https://hacks.mozilla.org/2021/03/how-mdns-site-search-works/" target="_blank">Mozilla: How MDN’s site-search works</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/004/Untitled%201.png" alt="/images/system-design-weekly/004/Untitled%201.png" />
+</p>
+<p>Static sites built with site generators are called &ldquo;Jamstack&rdquo;. MDN is one of those sites. The only issue with such sites is search. Elasticsearch is the database that is good for full-text search.</p>
+<p>While building static HTML pages, build process also creates JSON pages with basically the same content. Python script then removes all HTML markup from those JSON files and adds information to the search index. The build process is run on a daily basis. Search index is being deleted on every iteration and recreated from scratch. Search is not fully available at the time of recreating index.</p>
+<p>Django server converts search requests into Elasticsearch API format. Each page has it &ldquo;popularity&rdquo; value which is based on Google Analytics pageviews. This &ldquo;popularity&rdquo; value combined with score from Elasticsearch defines the order of search results. In addition, there is Elasticsearch boosting API that adds extra points if the search phrase was found in a title, for example.</p>
+<p>The search results page is a blank HTML page that makes an async XHR request to search API.</p>
+<h3 id="cockroach-labs-from-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdbhttpswwwcockroachlabscomblogfrom-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdb"><a href="https://www.cockroachlabs.com/blog/from-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdb/" target="_blank">Cockroach Labs: From Batch to Streaming Data: Real Time Monitoring with Snowflake, Looker, and CockroachDB</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/004/Untitled%202.png" alt="/images/system-design-weekly/004/Untitled%202.png" />
+</p>
+<p>Cockroach Labs previously used batch processing to analyze telemetry data. Originally it was implemented with weekly cron job exports to Snowflake. It lacked flexibility, also relied on manual work for extra runs.</p>
+<p>Change data capture (CDC) feature allows to watch changes in data, then stream updates in near real-time to various sources, like Kafka. This is useful with microservices, also for keeping audit logs. With CDC, they load data to S3, then from S3 to Snowflake using Snowpipe. Looker, business intelligence tool, draws nice graphs out of the resulting data.</p>
+<h3 id="doordash-rebuilding-our-pricing-framework-for-better-auditability-observability-and-price-integrityhttpsdoordashengineering20210323rebuilding-our-pricing-framework"><a href="https://doordash.engineering/2021/03/23/rebuilding-our-pricing-framework/" target="_blank">DoorDash: Rebuilding our Pricing Framework for Better Auditability, Observability, and Price Integrity</a></h3>
+<p><img class="img-zoomable" src="https://i1.wp.com/doordash.engineering/wp-content/uploads/2021/03/init-context-14.jpg?w=1200&amp;ssl=1" alt="https://i1.wp.com/doordash.engineering/wp-content/uploads/2021/03/init-context-14.jpg?w=1200&amp;amp;ssl=1" />
+</p>
+<p>DoorDash had a pricing logic contained within a large monolith application. Its implementation was spread across the codebase, contained technical debt. In addition, they wanted to achieve high reliability, ensure integrity, etc.</p>
+<p>They&rsquo;ve decided to extract this logic to a separate pricing service. Each request initiates a pipeline: initialize context (get user, cart data, etc.), fetch item prices, delivery fees, etc, final price calculation (for example, calculate tax), construct the response, validate and persist response.</p>
+<p>Roll out of this microservice was made in parallel with the existing monolith. They&rsquo;ve had a job that compared prices from both system to ensure that results are consistent. As a result of the migration, p95 latency decreased by 60% for the pricing endpoint.</p>
+<p>To ensure that the customer was charged the right amount, they used Redis to implement price lock. All the audit information is persisted for audit, monitoring, and debugging.</p>
+<h3 id="etsy-how-we-built-a-context-specific-bidding-system-for-etsy-adshttpscodeascraftcom20210323how-we-built-a-context-specific-bidding-system-for-etsy-ads"><a href="https://codeascraft.com/2021/03/23/how-we-built-a-context-specific-bidding-system-for-etsy-ads/" target="_blank">Etsy: How We Built A Context-Specific Bidding System for Etsy Ads</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/004/Untitled%203.png" alt="/images/system-design-weekly/004/Untitled%203.png" />
+</p>
+<p>Etsy sellers can make bids to show their ads on the platform search. The majority of sellers don&rsquo;t adjust their bids professionally. Etsy needed a system to improve ads performance. They noticed that ads perform differently depending on the context, hence the name - contextual bidding.</p>
+<p>New system takes a lot of parameters into account: search relevance, time of day, day of week, platform, etc. They trained a machine learning model to predict rankings. On each search, system matches candidate ads and predicts post-click conversion rate. They also take into account listing&rsquo;s value to make a decision whether to bid or not. Clicked ads data is fed back to a training set.</p>
+<p>Article describes some details about ML model, increase in CTR (click through rate) and ROAS (return on ad spent).</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://medium.com/expedia-group-tech/traffic-shedding-rate-limiting-backpressure-oh-my-21f95c403b29" target="_blank">Traffic Shedding, Rate Limiting, Backpressure, Oh My!</a></p>
+<p><a href="https://medium.com/disney-streaming/automating-blue-green-deployments-for-ecs-fargate-with-aws-codedeploy-8a8d74192099" target="_blank">Automating Blue/Green Deployments for ECS Fargate with AWS CodeDeploy</a></p>
+<p><a href="https://doordash.engineering/2021/03/25/best-practices-for-regression-free-machine-learning-model-migrations/" target="_blank">Best Practices for Regression-free Machine Learning Model Migrations</a></p>
+<p><a href="https://engineering.linkedin.com/blog/2021/rethinking-site-capacity-projections-with-capacity-analyzer" target="_blank">Rethinking site capacity projections with Capacity Analyzer</a></p>
+<h2 id="software-architecture">Software Architecture</h2>
+<p><a href="https://dropbox.tech/mobile/detecting-memory-leaks-in-android-applications" target="_blank">Detecting memory leaks in Android applications</a></p>
+<p><a href="https://github.blog/2021-03-25-how-github-actions-renders-large-scale-logs/" target="_blank">How GitHub Actions renders large-scale logs</a></p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://www.digitalocean.com/blog/digitalocean-becomes-a-public-company/" target="_blank">DigitalOcean becomes a public company</a></p>
+<p><a href="https://aws.amazon.com/blogs/database/amazon-dynamodb-now-supports-audit-logging-and-monitoring-using-aws-cloudtrail/" target="_blank">Amazon DynamoDB now supports audit logging and monitoring using AWS CloudTrail</a></p>
+<p><a href="https://www.hashicorp.com/blog/vault-1-7" target="_blank">Announcing HashiCorp Vault 1.7</a></p>
+<p><a href="https://grafana.com/blog/2021/03/25/grafana-7.5-released-loki-alerting-and-label-browser-for-logs-next-generation-pie-chart-and-more/" target="_blank">Grafana 7.5 released: Loki alerting and label browser for logs, next-generation pie chart, and more!</a></p>
+<p><a href="https://www.elastic.co/blog/whats-new-elasticsearch-7-12-0-put-a-search-box-on-s3" target="_blank">Elasticsearch 7.12 released</a></p>
+<p><a href="https://www.elastic.co/blog/whats-new-kibana-7-12-0-manage-long-running-searches-in-background" target="_blank">What’s new in Kibana 7.12: Manage long-running searches in the background</a></p>
+<p><a href="https://medium.com/opentelemetry/announcing-opentelemetry-python-1-0-4e097562b8e0" target="_blank">Announcing OpenTelemetry Python 1.0!</a></p>
 
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 08</span>
+    </div>
+</article>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/apache-druid">apache druid</a>&nbsp;<a href="/tags/apache-karaf">apache karaf</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
-  </div>
-</div>
 
 
 
@@ -297,9 +328,27 @@ Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud o
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#aurora-payment-acquiring-solution-with-cockroachdb-on-kuberneteshttpswwwcockroachlabscomblogpayment-solution-architecture"><a href="https://www.cockroachlabs.com/blog/payment-solution-architecture/">Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes</a></a></li>
+            <li><a href="#mozilla-how-mdns-site-search-workshttpshacksmozillaorg202103how-mdns-site-search-works"><a href="https://hacks.mozilla.org/2021/03/how-mdns-site-search-works/">Mozilla: How MDN’s site-search works</a></a></li>
+            <li><a href="#cockroach-labs-from-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdbhttpswwwcockroachlabscomblogfrom-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdb"><a href="https://www.cockroachlabs.com/blog/from-batch-to-streaming-data-real-time-monitoring-with-snowflake-looker-and-cockroachdb/">Cockroach Labs: From Batch to Streaming Data: Real Time Monitoring with Snowflake, Looker, and CockroachDB</a></a></li>
+            <li><a href="#doordash-rebuilding-our-pricing-framework-for-better-auditability-observability-and-price-integrityhttpsdoordashengineering20210323rebuilding-our-pricing-framework"><a href="https://doordash.engineering/2021/03/23/rebuilding-our-pricing-framework/">DoorDash: Rebuilding our Pricing Framework for Better Auditability, Observability, and Price Integrity</a></a></li>
+            <li><a href="#etsy-how-we-built-a-context-specific-bidding-system-for-etsy-adshttpscodeascraftcom20210323how-we-built-a-context-specific-bidding-system-for-etsy-ads"><a href="https://codeascraft.com/2021/03/23/how-we-built-a-context-specific-bidding-system-for-etsy-ads/">Etsy: How We Built A Context-Specific Bidding System for Etsy Ads</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#software-architecture">Software Architecture</a></li>
+        <li><a href="#product-news">Product News</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -487,6 +536,8 @@ Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud o
     
     
     </div>
+    
+    
     
     
   </div>

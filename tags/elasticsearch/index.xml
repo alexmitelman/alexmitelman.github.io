@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>cockroachdb on Alex Mitelman</title>
-    <link>https://mitelman.engineering/tags/cockroachdb/</link>
-    <description>Recent content in cockroachdb on Alex Mitelman</description>
+    <title>elasticsearch on Alex Mitelman</title>
+    <link>https://mitelman.engineering/tags/elasticsearch/</link>
+    <description>Recent content in elasticsearch on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/cockroachdb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>System Design Weekly 004: March 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/004/</link>
@@ -15,15 +15,6 @@
       <guid>https://mitelman.engineering/system-design-weekly/004/</guid>
       <description>Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&amp;rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
 Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.</description>
-    </item>
-    
-    <item>
-      <title>System Design Weekly 001: March 2021</title>
-      <link>https://mitelman.engineering/system-design-weekly/001/</link>
-      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/system-design-weekly/001/</guid>
-      <description>Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.</description>
     </item>
     
   </channel>

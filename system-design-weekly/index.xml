@@ -6,7 +6,17 @@
     <description>Recent content in System-design-weeklies on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 29 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 004: March 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/004/</link>
+      <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/004/</guid>
+      <description>Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&amp;rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
+Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 003: March 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/003/</link>
