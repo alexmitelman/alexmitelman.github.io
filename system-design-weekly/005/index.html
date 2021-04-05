@@ -127,6 +127,10 @@ Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solut
 <h3 id="grafana-how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-servicehttpsgrafanacomblog20210326how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-service"><a href="https://grafana.com/blog/2021/03/26/how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-service/" target="_blank">Grafana: How we responded to a 2-hour outage in our Grafana Cloud Hosted Prometheus service</a></h3>
 <p>Grafana Cloud onboarded a new customer to their multi-tenant Prometheus cluster. This new customer mistakingly started sending more data than expected. Although, appropriate limits were correctly set, there was a bug that prevented blocking extra requests from the tenant. Extra load overwhelmed the cluster resulting in cascading failures across the stack. It turned out that fail-path was more CPU-intensive than success-path. Authentication gateways became overloaded and were removed by load balancers. Scaling up the cluster didn&rsquo;t help. Grafana eventually identified the tenant that caused the overload. Stricter limits were applied which solved the issue.</p>
 <p>Overall, outage lasted around 2 hours. Limits bug was eventually fixed. Limits automation was implemented along with cluster management improvement. The team is also working on recreating the scenario on dev environment.</p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://medium.com/@Pinterest_Engineering/open-sourcing-querybook-pinterests-collaborative-big-data-hub-ba2605558883" target="_blank">Open sourcing Querybook, Pinterest’s collaborative big data hub</a></p>
+<p><a href="https://auth0.com/blog/introducing-auth0-craptchas/" target="_blank">Introducing Auth0 CRAPTCHAs!</a></p>
+<p><a href="https://engineering.fb.com/2021/03/28/connectivity/echo-bifrost/" target="_blank">Advancing connectivity between the Asia-Pacific region and North America</a></p>
 <h2 id="system-design">System Design</h2>
 <p><a href="https://eng.lyft.com/running-atlantis-at-lyft-b95c7fa51db1" target="_blank">Running Atlantis at Lyft</a></p>
 <h2 id="software-architecture">Software Architecture</h2>
@@ -139,10 +143,6 @@ Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solut
 <h2 id="culture">Culture</h2>
 <p><a href="https://blog.cloudflare.com/targeted-ransomware-attack/" target="_blank">Anatomy of a Targeted Ransomware Attack</a></p>
 <p><a href="https://medium.com/airbnb-engineering/how-we-enable-airbnb-team-members-to-code-like-a-mobile-engineer-d7181a20399f" target="_blank">How We Enable Airbnb Team Members to Code Like a Mobile Engineer</a></p>
-<h2 id="product-news">Product News</h2>
-<p><a href="https://medium.com/@Pinterest_Engineering/open-sourcing-querybook-pinterests-collaborative-big-data-hub-ba2605558883" target="_blank">Open sourcing Querybook, Pinterest’s collaborative big data hub</a></p>
-<p><a href="https://auth0.com/blog/introducing-auth0-craptchas/" target="_blank">Introducing Auth0 CRAPTCHAs!</a></p>
-<p><a href="https://engineering.fb.com/2021/03/28/connectivity/echo-bifrost/" target="_blank">Advancing connectivity between the Asia-Pacific region and North America</a></p>
 
     </div>
 </article>
@@ -354,10 +354,10 @@ Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solut
             <li><a href="#grafana-how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-servicehttpsgrafanacomblog20210326how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-service"><a href="https://grafana.com/blog/2021/03/26/how-we-responded-to-a-2-hour-outage-in-our-grafana-cloud-hosted-prometheus-service/">Grafana: How we responded to a 2-hour outage in our Grafana Cloud Hosted Prometheus service</a></a></li>
           </ul>
         </li>
+        <li><a href="#product-news">Product News</a></li>
         <li><a href="#system-design">System Design</a></li>
         <li><a href="#software-architecture">Software Architecture</a></li>
         <li><a href="#culture">Culture</a></li>
-        <li><a href="#product-news">Product News</a></li>
       </ul>
     </li>
   </ul>
