@@ -8,12 +8,17 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/cdc/</loc>
+    <loc>https://mitelman.engineering/tags/change-data-capture/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mitelman.engineering/tags/couchbase/</loc>
+    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/event-sourcing/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url>
   

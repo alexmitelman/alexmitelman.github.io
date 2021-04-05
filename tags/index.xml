@@ -8,11 +8,11 @@
     <language>en-us</language>
     <lastBuildDate>Mon, 05 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>cdc</title>
-      <link>https://mitelman.engineering/tags/cdc/</link>
+      <title>change data capture</title>
+      <link>https://mitelman.engineering/tags/change-data-capture/</link>
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://mitelman.engineering/tags/cdc/</guid>
+      <guid>https://mitelman.engineering/tags/change-data-capture/</guid>
       <description></description>
     </item>
     
@@ -22,6 +22,15 @@
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/couchbase/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>event sourcing</title>
+      <link>https://mitelman.engineering/tags/event-sourcing/</link>
+      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/event-sourcing/</guid>
       <description></description>
     </item>
     
