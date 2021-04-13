@@ -6,7 +6,17 @@
     <description>Recent content in system design on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 006: April 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/006/</link>
+      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/006/</guid>
+      <description>Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 005: April 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/005/</link>
@@ -54,16 +64,6 @@ There are two options to solve this problem. The first is prefetching. This mean
       
       <guid>https://mitelman.engineering/system-design-weekly/001/</guid>
       <description>Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.</description>
-    </item>
-    
-    <item>
-      <title>System Design Weekly 006: April 2021</title>
-      <link>https://mitelman.engineering/system-design-weekly/006/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/system-design-weekly/006/</guid>
-      <description>Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
-Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.</description>
     </item>
     
   </channel>

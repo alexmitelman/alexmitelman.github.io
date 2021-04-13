@@ -28,7 +28,7 @@
 <meta property="og:title" content="Alex Mitelman" />
 <meta name="twitter:title" content="Alex Mitelman" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-04-05T00:00:00+00:00" />
+<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-04-13T00:00:00+00:00" />
 
 
 <style>
@@ -86,6 +86,22 @@
                 
 
 
+
+<div class="post">
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 13</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;</span>
+
+    </div>
+    <div class="post-item post-summary markdown-body">
+        Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
+    </div>
+</div>
 
 <div class="post">
     <h2 class="post-item post-title">
@@ -179,22 +195,6 @@ There are two options to solve this problem. The first is prefetching. This mean
     <div class="post-item post-summary markdown-body">
         Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
 They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;0001, Jan 01</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
-Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
     </div>
 </div>
 

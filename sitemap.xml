@@ -4,7 +4,42 @@
   
   <url>
     <loc>https://mitelman.engineering/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/aws/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/postgresql/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/redis/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/system-design/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/006/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/</loc>
+    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -38,22 +73,7 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/system-design/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/system-design-weekly/005/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/system-design-weekly/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -188,23 +208,7 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/aws/</loc>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/postgresql/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/redis/</loc>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/system-design-weekly/006/</loc>
   </url>
   
 </urlset>
