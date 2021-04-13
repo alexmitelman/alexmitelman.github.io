@@ -16,19 +16,23 @@
 
 
 
-<title>system design - Alex Mitelman</title>
+<title>System Design Weekly 006: April 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/tags/system-design/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design" />
 
-<meta property="og:title" content="system design" />
-<meta name="twitter:title" content="system design" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/tags/system-design/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-04-05T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 006: April 2021" />
+<meta name="twitter:title" content="System Design Weekly 006: April 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/006/" /><meta property="og:description" content="Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters." />
+<meta name="twitter:description" content="Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters." /><meta name="twitter:card" content="summary" />
 
 
 <style>
@@ -84,107 +88,70 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-<div class="page-info">
-  <span>Posts with the tag system design: </span>
-</div>
-
-
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/005/">System Design Weekly 005: April 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 05</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;953 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/event-sourcing">event sourcing</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Kiwi.com: Nonstop Operations with Scylla Even Through the OVHcloud Fire Fire on French OVHcloud affected four datacenters: SBG2 was destroyed, SBG1 adjacent rooms were partially on fire, SBG3 and SBG4 were switched off to fight the fire. Overall, 3.6 million websites were affected, including banks and mail servers.
-Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solution. Their monitoring system detected spikes as nodes went down but later other OVHcloud datacenters took over the requests.
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;799 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
-Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/003/">System Design Weekly 003: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 22</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;807 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/envoy">envoy</a>&nbsp;<a href="/tags/unicorn">unicorn</a>&nbsp;<a href="/tags/kerberos">kerberos</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
-They&rsquo;ve decided to switch to Envoy proxy as it allows dynamic change of the configuration.
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 15</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/aws-dynamodb">aws dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
-There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 08</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/apache-druid">apache druid</a>&nbsp;<a href="/tags/apache-karaf">apache karaf</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
-  </div>
-</div>
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;0001, Jan 01</span>
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;0001, Jan 01</span>
 
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;</span>
 
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
-Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
-  </div>
-</div>
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="github-how-we-scaled-the-api-with-a-sharded-replicated-rate-limiter-in-redishttpsgithubblog2021-04-05-how-we-scaled-github-api-sharded-replicated-rate-limiter-redis"><a href="https://github.blog/2021-04-05-how-we-scaled-github-api-sharded-replicated-rate-limiter-redis/" target="_blank">GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis</a></h3>
+<p>GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their <code>reset_at</code> value and number of calls. Memcached was also used for application caching purposes.</p>
+<p>Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters. Also, because Memcached was shared with other application&rsquo;s cache, it could sometimes &ldquo;evict&rdquo; rate limiter&rsquo;s data.</p>
+<p>As a solution, it was decided to use Redis. An application would pick a shard for the key. Primary would accept writes and replicas would accept reads. Redis has a native expiration feature, so no need for <code>reset_at</code>. Sounds good in theory but in practice there were bugs.</p>
+<p>There was about 1 second discrepancy between <code>X-RateLimit-Reset</code> values in different responses. It happened because of a mixed logic for calculating this value between Lua (Redis) and Ruby (application). To mitigate the issue it was decided that only an application will calculate this <code>expires_at</code> value. They still used Redis native TTL feature but only to clean up old values from the database.</p>
+<p>Another issue was that some requests were rejected although the response header said <code>X-RateLimit-Remaining: 5000</code>. It happened because primary doesn&rsquo;t expire a key until it&rsquo;s accessed, and replica doesn&rsquo;t expire data until it receives an instruction from the primary. So reading a key from a replica and updating it on a primary caused this bug. As a solution, an application should be ready to receive stale data from Redis, in this case, ignore it.</p>
+<h3 id="hotelscom-bot-attacks-you-are-not-alonehttpsmediumcomexpedia-group-techbot-attacks-you-are-not-alone-d8b3290342bd"><a href="https://medium.com/expedia-group-tech/bot-attacks-you-are-not-alone-d8b3290342bd" target="_blank">Hotels.com: Bot Attacks: You are not alone</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/005/Untitled.png" alt="/images/system-design-weekly/005/Untitled.png" />
+</p>
+<p><a href="http://hotels.com/" target="_blank">Hotels.com</a> reviewed incidents for the past 12 months and identified bot attacks as one of the most dangerous threats. Besides DoS and DDoS, there is also data scraping. There are more sophisticated attacks that use brute force. The Hotels.com team has experienced an attack on the checkout page to find exploitable coupon codes, an attack on the Sign In page for an account takeover (ATO).</p>
+<p>Basic attacks easy to block with a web application firewall (WAF), in this case by blocking the attacker&rsquo;s IP address. More sophisticated attacks are distributed across different machines in various countries.</p>
+<p>There are two levels of defense: edge level (reverse proxy) and application level. A trick to mitigate some attacks is to use the <code>robots.txt</code> file as a honeypot. Some bots deliberately try to access areas restricted by <code>robots.txt</code>. In this case, such bots can be identified and blocked.</p>
+<p>Edge layer solutions have some interesting techniques, for example, serve alternative or cached response, delaying the request instead of blocking (tarpitting), deprioritizing bot requests over user requests. A disadvantage of the edge solution is that it involves a third party (Cloudflare, Akamai).</p>
+<p>Common practices for application level mimic edge level: rate limiting, captcha. Be careful with authentication because it adds more complexity.</p>
+<p>Bot attacks are expensive and require a lot of resources. Eventually, an attacker will exhaust their resources and stop the attack. It&rsquo;s recommended to have alerts on autoscaling.</p>
+<h3 id="discourse-standing-on-the-shoulders-of-a-giant-elephant-upgrading-to-postgresql-13httpsblogdiscourseorg202104standing-on-the-shoulders-of-a-giant-elephant"><a href="https://blog.discourse.org/2021/04/standing-on-the-shoulders-of-a-giant-elephant/" target="_blank">Discourse: Standing on the Shoulders of a Giant Elephant: Upgrading to PostgreSQL 13</a></h3>
+<p>The latest major update to PostgreSQL 13 brings B-tree deduplication and corresponding performance improvement on such indexes. The Discourse team decided to test the upgrade and see how it affects their case.</p>
+<p>It was decided to use the largest table that Discourse has to test the update comparing to previous PostgreSQL 12. This table is about 1 billion rows, has several B-tree indexes, one of them with uniqueness constraint.</p>
+<p>Tests showed that index size was reduced from 72 GB to 43 GB. Taking into account that the unique index didn&rsquo;t change in size, the comparison on the rest of the indexes was about 21 GB against 7 GB.</p>
+<h3 id="how-facebook-encodes-your-videoshttpsengineeringfbcom20210405video-engineeringhow-facebook-encodes-your-videos"><a href="https://engineering.fb.com/2021/04/05/video-engineering/how-facebook-encodes-your-videos/" target="_blank">How Facebook encodes your videos</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/005/Untitled%201.png" alt="/images/system-design-weekly/005/Untitled%201.png" />
+</p>
+<p>Millions of videos are uploaded to Facebook. Those videos should be encoded to different resolutions with different bitrate and different codecs. VP9 codec better compresses comparing to H264 but also consumes more CPU. Computational resources are limited. Some videos will be viewed more than others, some codecs are not supported on all devices. On each upload, Facebook adds the video to a priority queue.</p>
+<p>Previously, priority was based on factors like the number of friends and followers, is it a licensed music video, is it a product video, etc. It didn&rsquo;t take into account that any video can go viral. Also, it was hard to manage an ever-growing combination of codecs/quality/compression, etc.</p>
+<p>The key to understanding the problem is an acknowledgment that a video consumes computational resources only once, no matter how many times it was later viewed. The Facebook team then came up with the formula that takes into account predicted watch time, cost of encoding, and compression efficiency.</p>
+<p>The next step is predicting what videos will be viewed the most in the next hour. ML model is trained based on various parameters like the number of views of previous videos by the uploader, duration, type (Live, Stories, etc), and many more.</p>
+<p>As a result, video views were less buffered, compression saved data on mobile, while improved video quality. Also, very compute-intensive encoding jobs were applied only to extremely popular videos.</p>
+<h3 id="aws-disaster-recovery-dr-architecture-part-i-strategies-for-recovery-in-the-cloudhttpsawsamazoncomblogsarchitecturedisaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud"><a href="https://aws.amazon.com/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud/" target="_blank">AWS: Disaster Recovery (DR) Architecture, Part I: Strategies for Recovery in the Cloud</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/005/Untitled%202.png" alt="/images/system-design-weekly/005/Untitled%202.png" />
+</p>
+<p>The main objectives for Disaster Recovery (DR) are recovery time (RTO), which represents a delay in a service interruption, and recovery point (RPO) which represents the amount of time since the latest recovery point. Better numbers cost more resources and complexity.</p>
+<p>With active/passive strategy, the workload is served from a single (active) data center. In case of an incident, the passive data center takes over after a failover process. With active/active strategy, both regions are operational, data is being replicated. In case of a disaster event, all requests are routed to the remaining data center.</p>
+<p>There is a need for backups even in case of active/active strategy to prevent other types of errors. Backup is created within the same region to S3 which is then copied to S3 in another region.</p>
+<p>With the Pilot light strategy, passive infrastructure is shut off but ready to be up in case of an incident. Amazon Aurora Global can replicate between AWS regions. The warm standby strategy is similar but the secondary datacenter is up and running (sometimes with lower capacity) but it doesn&rsquo;t service requests. Multi-site active/active strategy is similar to Warm standby but both datacenters serve requests. DynamoDB is a perfect tool for this strategy as data is being replicated within a second or so.</p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://www.postgresql.org/about/news/announcing-the-release-of-apache-age-040-2194/" target="_blank">Announcing the release of Apache AGE 0.4.0</a> -  PostgreSQL extension that provides graph database functionality</p>
+<p><a href="https://www.hashicorp.com/blog/announcing-hashicorp-waypoint-0-3-0" target="_blank">Announcing HashiCorp Waypoint 0.3</a> - Git repository polling and remote runners come to HashiCorp Waypoint to enable powerful workflows such as GitOps, along with more major improvements.</p>
+<p><a href="https://blog.cloudflare.com/introducing-transform-rules-with-url-rewriting-at-the-edge/" target="_blank">Dynamic URL Rewriting at the edge with Cloudflare</a></p>
+<p><a href="https://externals.io/message/113981" target="_blank">Update on git.php.net incident</a></p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://aws.amazon.com/blogs/database/is-amazon-rds-for-postgresql-or-amazon-aurora-postgresql-a-better-choice-for-me/" target="_blank">Is Amazon RDS for PostgreSQL or Amazon Aurora PostgreSQL a better choice for me?</a></p>
+<p><a href="https://anthonynsimon.com/blog/one-man-saas-architecture/" target="_blank">The Architecture Behind A One-Person Tech Startup</a></p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://www.elastic.co/blog/how-to-build-a-facial-recognition-system-using-elasticsearch-and-python" target="_blank">How to build a facial recognition system using Elasticsearch and Python</a></p>
+<p><a href="https://earthly.dev/blog/build-your-own-ngrok-clone/" target="_blank">Build Your Own Ngrok Clone With AWS</a></p>
+<p><a href="https://blog.couchbase.com/distributed-databases-overview/" target="_blank">Distributed Databases: An Overview</a></p>
+
+    </div>
+</article>
+
 
 
 
@@ -382,9 +349,27 @@ Such a solution works well but harder to scale. It was decided to have one Memca
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#github-how-we-scaled-the-api-with-a-sharded-replicated-rate-limiter-in-redishttpsgithubblog2021-04-05-how-we-scaled-github-api-sharded-replicated-rate-limiter-redis"><a href="https://github.blog/2021-04-05-how-we-scaled-github-api-sharded-replicated-rate-limiter-redis/">GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis</a></a></li>
+            <li><a href="#hotelscom-bot-attacks-you-are-not-alonehttpsmediumcomexpedia-group-techbot-attacks-you-are-not-alone-d8b3290342bd"><a href="https://medium.com/expedia-group-tech/bot-attacks-you-are-not-alone-d8b3290342bd">Hotels.com: Bot Attacks: You are not alone</a></a></li>
+            <li><a href="#discourse-standing-on-the-shoulders-of-a-giant-elephant-upgrading-to-postgresql-13httpsblogdiscourseorg202104standing-on-the-shoulders-of-a-giant-elephant"><a href="https://blog.discourse.org/2021/04/standing-on-the-shoulders-of-a-giant-elephant/">Discourse: Standing on the Shoulders of a Giant Elephant: Upgrading to PostgreSQL 13</a></a></li>
+            <li><a href="#how-facebook-encodes-your-videoshttpsengineeringfbcom20210405video-engineeringhow-facebook-encodes-your-videos"><a href="https://engineering.fb.com/2021/04/05/video-engineering/how-facebook-encodes-your-videos/">How Facebook encodes your videos</a></a></li>
+            <li><a href="#aws-disaster-recovery-dr-architecture-part-i-strategies-for-recovery-in-the-cloudhttpsawsamazoncomblogsarchitecturedisaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud"><a href="https://aws.amazon.com/blogs/architecture/disaster-recovery-dr-architecture-on-aws-part-i-strategies-for-recovery-in-the-cloud/">AWS: Disaster Recovery (DR) Architecture, Part I: Strategies for Recovery in the Cloud</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#product-news">Product News</a></li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -592,6 +577,8 @@ Such a solution works well but harder to scale. It was decided to have one Memca
     
     
     </div>
+    
+    
     
     
   </div>

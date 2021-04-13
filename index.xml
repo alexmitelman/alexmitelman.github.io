@@ -66,5 +66,15 @@ There are two options to solve this problem. The first is prefetching. This mean
 They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&amp;rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&amp;rsquo;s slightly more than just syntax.</description>
     </item>
     
+    <item>
+      <title>System Design Weekly 006: April 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/006/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/006/</guid>
+      <description>Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.</description>
+    </item>
+    
   </channel>
 </rss>
