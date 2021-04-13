@@ -188,7 +188,19 @@
   </url>
   
   <url>
+    <loc>https://mitelman.engineering/tags/aws/</loc>
+  </url>
+  
+  <url>
     <loc>https://mitelman.engineering/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/postgresql/</loc>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/redis/</loc>
   </url>
   
   <url>
