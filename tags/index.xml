@@ -6,7 +6,43 @@
     <description>Recent content in Tags on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cassandra</title>
+      <link>https://mitelman.engineering/tags/cassandra/</link>
+      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/cassandra/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>https://mitelman.engineering/tags/mysql/</link>
+      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scylla</title>
+      <link>https://mitelman.engineering/tags/scylla/</link>
+      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/scylla/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>system design</title>
+      <link>https://mitelman.engineering/tags/system-design/</link>
+      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/system-design/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>aws</title>
       <link>https://mitelman.engineering/tags/aws/</link>
@@ -31,15 +67,6 @@
       <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/redis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>system design</title>
-      <link>https://mitelman.engineering/tags/system-design/</link>
-      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/system-design/</guid>
       <description></description>
     </item>
     
@@ -89,15 +116,6 @@
     </item>
     
     <item>
-      <title>scylla</title>
-      <link>https://mitelman.engineering/tags/scylla/</link>
-      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/scylla/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cockroachdb</title>
       <link>https://mitelman.engineering/tags/cockroachdb/</link>
       <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
@@ -112,15 +130,6 @@
       <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/elasticsearch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cassandra</title>
-      <link>https://mitelman.engineering/tags/cassandra/</link>
-      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/cassandra/</guid>
       <description></description>
     </item>
     

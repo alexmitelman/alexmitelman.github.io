@@ -16,19 +16,21 @@
 
 
 
-<title>scylla - Alex Mitelman</title>
+<title>System Design Weekly 007: April 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/tags/scylla/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design, cassandra, scylla, mysql" />
 
-<meta property="og:title" content="scylla" />
-<meta name="twitter:title" content="scylla" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/tags/scylla/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-04-19T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 007: April 2021" />
+<meta name="twitter:title" content="System Design Weekly 007: April 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/007/" /><meta property="og:description" content="Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 &#43; 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable." />
+<meta name="twitter:description" content="Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 &#43; 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-04-19T00:00:00+00:00" /><meta property="article:modified_time" content="2021-04-19T00:00:00+00:00" />
 
 
 <style>
@@ -84,43 +86,64 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-<div class="page-info">
-  <span>Posts with the tag scylla: </span>
-</div>
-
-
-
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/007/">System Design Weekly 007: April 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 19</span>
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/007/">System Design Weekly 007: April 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 19</span>
 
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1184 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;</span>
 
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 + 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable.
-  </div>
-</div>
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="fullcontact-improving-the-graph-transition-to-scylladbhttpswwwfullcontactcomblog20210331resolve-transition-to-scylladb"><a href="https://www.fullcontact.com/blog/2021/03/31/resolve-transition-to-scylladb/" target="_blank">FullContact: Improving the Graph: Transition to ScyllaDB</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/007/Untitled.png" alt="/images/system-design-weekly/007/Untitled.png" />
+</p>
+<p>FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 + 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable. As a consequence, it maxed out the 250 MB/s limit for EBS.</p>
+<p>As an optimization, it was decided to switch to Leveled Compaction Strategy. This temporarily solved the problem. The next step was to double the heap size for the database. Also, they reduced SSTAble size to 80 MB. After all optimizations, the performance grew to 3,000 QPS.</p>
+<p>Next, the FullContact team started experimenting with Scylla, which is Cassandra compatible to extent that SSTable files are in the same format. Comparing to Cassandra&rsquo;s start-up within a seconds after copying the database files, it took Scylla hours to re-compact large database tables. After that, the API was finally able to handle more than 10,000 QPS, peaking to 20,000 QPS with 98p under 50 ms. Scylla supports Prometheus metrics, has preconfigured Grafana dashboards. The cluster was provisioned with 8 nodes of c5.large EC2.</p>
+<h3 id="behind-githubs-new-authentication-token-formatshttpsgithubblog2021-04-05-behind-githubs-new-authentication-token-formats"><a href="https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/" target="_blank">Behind GitHub’s new authentication token formats</a></h3>
+<p>GitHub updated its authentication tokens format. Key takeaways:</p>
+<ul>
+<li>Add prefix to make token identifiable. In the case of GitHub it&rsquo;s a 3 characters prefix that starts with <code>gh</code> and another letter for a token type, for example, <code>gho</code> - OAuth token, <code>ghs</code> - server-to-server token, etc.</li>
+<li>Use underscore separator: <code>_</code>. It improves readability and easy to copy with a double click.</li>
+<li>Use the last 6 digits as a checksum. It helps as a first step of the validation without even requesting the database.</li>
+</ul>
+<h3 id="load-balancing-in-scylla-alternatorhttpswwwscylladbcom20210413load-balancing-in-scylla-alternator"><a href="https://www.scylladb.com/2021/04/13/load-balancing-in-scylla-alternator/" target="_blank">Load Balancing in Scylla Alternator</a></h3>
+<p>Scylla supports DynamoDB API through Alternator. While clients that work with CQL (Cassandra Query Language, also supported by Scylla) are fully aware of different DB nodes, DynamoDB is a cloud solution that looks like a single URL, for example, <a href="https://dynamodb.us-east-1.amazonaws.com/" target="_blank"><code>https://dynamodb.us-east-1.amazonaws.com</code></a>. There are multiple nodes behind this URL, so there is a load balancer in front of them.</p>
+<p>DNS load balancing returns different IP addresses with 5 seconds TTL for each request. This solution is very efficient because only DNS data goes through the server. If a node becomes unavailable, another node can pick up its IP address. This is called the floating address technique.</p>
+<p>The above server-side solution works well for the cloud but is more complex for Scylla users that are responsible for the deployment of their DB. An alternative is client-side load balancing. In this case, the application uses the Alternator discovery service to get the list of available nodes. As a downside, it requires multiple changes to the application. To avoid that, there is an SDK that can be added as a library to the application. The blog post contains an example in Java, other languages are also supported.</p>
+<h3 id="mysql-innodb-data-locking--part-4-schedulinghttpsmysqlserverteamcominnodb-data-locking-part-4-scheduling"><a href="https://mysqlserverteam.com/innodb-data-locking-part-4-scheduling/" target="_blank">MySQL: InnoDB Data Locking – Part 4 “Scheduling”</a></h3>
+<p>After the database engine finished processing a transaction, which transaction should be picked up next? For years MySQL engine InnoDB was using First In First Out queue (FIFO) until researchers from the University of Michigan published a paper proposing a better way to choose the next transaction.</p>
+<p>It turns out that FIFO doesn&rsquo;t take into account the transaction age in the system because a transaction can request access to different resources over its lifetime and it will be considered as new in different queues. Proposed Variance Aware Transaction Scheduling had to solve this problem by rearranging waiters by the birth date, however, it never made it to production because researchers came up with the new paper that takes this idea further: Contention-Aware Lock Scheduling (CATS).</p>
+<p>The idea is to sort transactions based on the number of other transactions that have to wait if this transaction is waiting. To determine this number, a wait-for graph should be built. Traversing such a graph is not as straightforward as it may seem. There are also some performance considerations. The weight value is not calculated on the fly, instead, it uses a snapshot of wait-for relations which is processed in a separate thread. The final version has some optimizations and doesn&rsquo;t strictly traverse the graph in a topological order but is good enough from a performance perspective. It&rsquo;s available in MySQL as of version 8.0.3</p>
+<h3 id="uber-making-changes-quickly-and-safely-at-scale-fliprhttpsengubercomflipr"><a href="https://eng.uber.com/flipr/" target="_blank">Uber: Making Changes Quickly and Safely at Scale (Flipr)</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/007/Untitled%201.png" alt="/images/system-design-weekly/007/Untitled%201.png" />
+</p>
+<p>Applications usually need their configuration passed in a form of a boolean feature flag or other values like an integer for max number of characters. Uber faced a challenge that such configuration should also depend on different sort of condition. For example, enable a particular feature only in a particular city. In other words, configuration depends on context. Also, some parameters are only known for the application in runtime.</p>
+<p>Uber team designed a system called Flipr that solves this problem. A client library gets the configuration from the Flipr API. Uber infrastructure is so massive that this API uses caching. In the future, a subscription model will be able to deliver config to the apps. The host agent persists data on disk, so in case of any failure, an application can still read its config.</p>
+<p>Any configuration changes require peer reviews. There is also access control and permission system to ensure only authorized people get access to the configuration. Config rollouts can be done incrementally with monitoring and automatic rollback if necessary. 700 services on 50K hosts at Uber use Flipr. This generates a load of about 50K QPS.</p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://blog.cloudflare.com/cloudflare-pages-ga/" target="_blank">Cloudflare Pages is now Generally Available</a> - Pages is another solution to build static websites.
+Taking it further with Workers and Durable Objects, it opens possibilities to create full-stack services.</p>
+<p><a href="https://blog.cloudflare.com/location-based-personalization-using-workers/" target="_blank">Location-based personalization at the edge with Cloudflare Workers</a> - I thought it&rsquo;s nice that Cloudflare picked my city as an example of location-based personalization with Cloudflare Workers. And then I realized it shows me how it works. Awesome!</p>
+<p><a href="https://blog.cloudflare.com/restream-with-stream-connect/" target="_blank">Live stream to multiple platforms with Stream Connect</a> - Interesting case. Cloudflare allows streaming to the nearest edge server which will then re-stream video to Youtube, Facebook, and Twitch.</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://www.cockroachlabs.com/blog/titanic-explains-kubernetes/" target="_blank">Kubernetes As Explained Through the 1997 Blockbuster Titanic</a> - What if Titanic was run with Kubernetes? This article will not teach you k8s but it&rsquo;s fun to read.</p>
+<p><a href="https://www.fullcontact.com/blog/2021/03/31/resolve-transition-to-scylladb/" target="_blank">Improving the Graph: Transition to ScyllaDB</a></p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://grafana.com/blog/2021/04/15/learn-how-to-monitor-your-energy-use-at-home-with-a-raspberry-pi-grafana-and-prometheus/" target="_blank">Learn how to monitor your energy use at home with a Raspberry Pi, Grafana and Prometheus</a> - Turns out it&rsquo;s pretty easy to build an energy consumption monitoring for a smart home. I might  build it at my home.</p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://engineering.atspotify.com/2021/04/15/rethinking-spotify-search/" target="_blank">Rethinking Spotify Search</a> - Spotify&rsquo;s struggle with search. At some point, there were about 5 different search teams concentrated on different parts of search, like ingesting data, API, etc.</p>
+<p><a href="https://medium.com/airbnb-engineering/achieving-insights-and-savings-with-cost-data-ec9a49fd74bc" target="_blank">Achieving Insights and Savings with Cost Data</a> - Airbnb built an entire system to monitor and control their AWS costs, so they can reach out to stakeholders internally and reduce unnecessary usage and save money.</p>
 
-<div class="post">
-  <h2 class="post-item post-title">
-    <a href="https://mitelman.engineering/system-design-weekly/005/">System Design Weekly 005: April 2021</a>
-  </h2>
-  <div class="post-item post-meta">
-    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 05</span>
+    </div>
+</article>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;953 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/event-sourcing">event sourcing</a>&nbsp;</span>
-
-  </div>
-  <div class="post-item post-summary markdown-body">
-    Highlights Kiwi.com: Nonstop Operations with Scylla Even Through the OVHcloud Fire Fire on French OVHcloud affected four datacenters: SBG2 was destroyed, SBG1 adjacent rooms were partially on fire, SBG3 and SBG4 were switched off to fight the fire. Overall, 3.6 million websites were affected, including banks and mail servers.
-Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solution. Their monitoring system detected spikes as nodes went down but later other OVHcloud datacenters took over the requests.
-  </div>
-</div>
 
 
 
@@ -334,9 +357,28 @@ Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solut
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#fullcontact-improving-the-graph-transition-to-scylladbhttpswwwfullcontactcomblog20210331resolve-transition-to-scylladb"><a href="https://www.fullcontact.com/blog/2021/03/31/resolve-transition-to-scylladb/">FullContact: Improving the Graph: Transition to ScyllaDB</a></a></li>
+            <li><a href="#behind-githubs-new-authentication-token-formatshttpsgithubblog2021-04-05-behind-githubs-new-authentication-token-formats"><a href="https://github.blog/2021-04-05-behind-githubs-new-authentication-token-formats/">Behind GitHub’s new authentication token formats</a></a></li>
+            <li><a href="#load-balancing-in-scylla-alternatorhttpswwwscylladbcom20210413load-balancing-in-scylla-alternator"><a href="https://www.scylladb.com/2021/04/13/load-balancing-in-scylla-alternator/">Load Balancing in Scylla Alternator</a></a></li>
+            <li><a href="#mysql-innodb-data-locking--part-4-schedulinghttpsmysqlserverteamcominnodb-data-locking-part-4-scheduling"><a href="https://mysqlserverteam.com/innodb-data-locking-part-4-scheduling/">MySQL: InnoDB Data Locking – Part 4 “Scheduling”</a></a></li>
+            <li><a href="#uber-making-changes-quickly-and-safely-at-scale-fliprhttpsengubercomflipr"><a href="https://eng.uber.com/flipr/">Uber: Making Changes Quickly and Safely at Scale (Flipr)</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#product-news">Product News</a></li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#culture">Culture</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -560,6 +602,8 @@ Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solut
     
     
     </div>
+    
+    
     
     
   </div>
