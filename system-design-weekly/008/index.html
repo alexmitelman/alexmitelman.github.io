@@ -94,7 +94,7 @@
     <div class="post-item post-meta">
         <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 03</span>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1042 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;<a href="/tags/opentelemetry">opentelemetry</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1039 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;<a href="/tags/opentelemetry">opentelemetry</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
 
     </div>
     
@@ -128,10 +128,8 @@
 </p>
 <p>Yelp has a feature to message a business via the application. This feature is only available for businesses according to multiple criteria, for example, valid email. All these conditions can be queried by joining multiple SQL tables. Each change to those conditions should trigger a recalculation of the availability of this feature.</p>
 <p>One way to solve this problem is to call this logic from within an application but in this case responsibility to maintaining correctness lays with an engineer, which can lead to human errors. Another solution is &ldquo;change data capture&rdquo;. Yelp developed (and open-sourced) CDC solution for MySQL. With CDC, any change to the data that may affect messaging feature is captured and processed to check the updated status of availability of this feature.</p>
-<h2 id="product-news">Product News</h2>
 <h2 id="system-design">System Design</h2>
 <p><a href="https://engineering.fb.com/2021/04/27/developer-tools/reverse-debugging/" target="_blank">Reverse debugging at scale</a> - Facebook developed a kernel probe to work with stack traces via Intel Processor Trace. In case of failure, it&rsquo;s saved to a datastore, so an engineer can debug the code later. The also plan to develop a VS Code plugin for seamless experience.</p>
-<h2 id="tutorials">Tutorials</h2>
 <h2 id="culture">Culture</h2>
 <p><a href="https://engineering.fb.com/2021/04/29/developer-tools/rust/" target="_blank">A brief history of Rust at Facebook</a> - Facebook started using Rust back in 2016 when they started writing Mercurial compatible version control system for their monorepo. Libra was also written in Rust. Currently there a more than 100 Rust engineers at Facebook.</p>
 <p><a href="https://www.platformer.news/p/-what-really-happened-at-basecamp" target="_blank">What really happened at Basecamp</a></p>
@@ -375,9 +373,7 @@
             <li><a href="#powering-messaging-enabledness-with-yelps-data-infrastructurehttpsengineeringblogyelpcom202104powering-messaging-enabledness-with-yelps-data-infrastructurehtml"><a href="https://engineeringblog.yelp.com/2021/04/powering-messaging-enabledness-with-yelps-data-infrastructure.html">Powering Messaging Enabledness with Yelp&rsquo;s Data Infrastructure</a></a></li>
           </ul>
         </li>
-        <li><a href="#product-news">Product News</a></li>
         <li><a href="#system-design">System Design</a></li>
-        <li><a href="#tutorials">Tutorials</a></li>
         <li><a href="#culture">Culture</a></li>
       </ul>
     </li>
