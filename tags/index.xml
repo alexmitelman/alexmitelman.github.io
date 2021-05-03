@@ -6,7 +6,79 @@
     <description>Recent content in Tags on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>change data capture</title>
+      <link>https://mitelman.engineering/tags/change-data-capture/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/change-data-capture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cockroachdb</title>
+      <link>https://mitelman.engineering/tags/cockroachdb/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/cockroachdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>couchbase</title>
+      <link>https://mitelman.engineering/tags/couchbase/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/couchbase/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dynamodb</title>
+      <link>https://mitelman.engineering/tags/dynamodb/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/dynamodb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mongodb</title>
+      <link>https://mitelman.engineering/tags/mongodb/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/mongodb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>https://mitelman.engineering/tags/mysql/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>opentelemetry</title>
+      <link>https://mitelman.engineering/tags/opentelemetry/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/opentelemetry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>system design</title>
+      <link>https://mitelman.engineering/tags/system-design/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/system-design/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>cassandra</title>
       <link>https://mitelman.engineering/tags/cassandra/</link>
@@ -17,29 +89,11 @@
     </item>
     
     <item>
-      <title>mysql</title>
-      <link>https://mitelman.engineering/tags/mysql/</link>
-      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/mysql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>scylla</title>
       <link>https://mitelman.engineering/tags/scylla/</link>
       <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/scylla/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>system design</title>
-      <link>https://mitelman.engineering/tags/system-design/</link>
-      <pubDate>Mon, 19 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/system-design/</guid>
       <description></description>
     </item>
     
@@ -71,24 +125,6 @@
     </item>
     
     <item>
-      <title>change data capture</title>
-      <link>https://mitelman.engineering/tags/change-data-capture/</link>
-      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/change-data-capture/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>couchbase</title>
-      <link>https://mitelman.engineering/tags/couchbase/</link>
-      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/couchbase/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>event sourcing</title>
       <link>https://mitelman.engineering/tags/event-sourcing/</link>
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
@@ -103,24 +139,6 @@
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/kafka/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mongodb</title>
-      <link>https://mitelman.engineering/tags/mongodb/</link>
-      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/mongodb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cockroachdb</title>
-      <link>https://mitelman.engineering/tags/cockroachdb/</link>
-      <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/cockroachdb/</guid>
       <description></description>
     </item>
     

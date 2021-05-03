@@ -6,7 +6,16 @@
     <description>Recent content in system design on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 03 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 008: May 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/008/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/008/</guid>
+      <description>Highlights DoorDash: Optimizing OpenTelemetry’s Span Processor for High Throughput and Low CPU Costs With an effort to migrate from the monolith to microservices, there is a need to trace requests between these services. OpenTelemetry is a new project aiming to become a standard. As a request hits a system, OpenTelemetry assigns a unique ID, all the underlying services (called spans) receive the same ID. Spans data is being collected on a local collector, then it&amp;rsquo;s sent to a collector gateway.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 007: April 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/007/</link>

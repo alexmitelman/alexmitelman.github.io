@@ -4,16 +4,66 @@
   
   <url>
     <loc>https://mitelman.engineering/</loc>
-    <lastmod>2021-04-19T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/cassandra/</loc>
-    <lastmod>2021-04-19T00:00:00+00:00</lastmod>
+    <loc>https://mitelman.engineering/tags/change-data-capture/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/cockroachdb/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/couchbase/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/dynamodb/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/mongodb/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mitelman.engineering/tags/mysql/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/opentelemetry/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/system-design/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/008/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/</loc>
+    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/cassandra/</loc>
     <lastmod>2021-04-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,22 +73,7 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/system-design/</loc>
-    <lastmod>2021-04-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/system-design-weekly/007/</loc>
-    <lastmod>2021-04-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/system-design-weekly/</loc>
-    <lastmod>2021-04-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/</loc>
     <lastmod>2021-04-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -63,16 +98,6 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/change-data-capture/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/couchbase/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/tags/event-sourcing/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url>
@@ -83,18 +108,8 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/mongodb/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/system-design-weekly/005/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/cockroachdb/</loc>
-    <lastmod>2021-03-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>

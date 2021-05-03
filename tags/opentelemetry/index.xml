@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>opentelemetry on Alex Mitelman</title>
+    <link>https://mitelman.engineering/tags/opentelemetry/</link>
+    <description>Recent content in opentelemetry on Alex Mitelman</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 03 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/opentelemetry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 008: May 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/008/</link>
+      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/008/</guid>
+      <description>Highlights DoorDash: Optimizing OpenTelemetry’s Span Processor for High Throughput and Low CPU Costs With an effort to migrate from the monolith to microservices, there is a need to trace requests between these services. OpenTelemetry is a new project aiming to become a standard. As a request hits a system, OpenTelemetry assigns a unique ID, all the underlying services (called spans) receive the same ID. Spans data is being collected on a local collector, then it&amp;rsquo;s sent to a collector gateway.</description>
+    </item>
+    
+  </channel>
+</rss>
