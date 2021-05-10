@@ -8,13 +8,13 @@
     <language>en-us</language>
     <lastBuildDate>Mon, 10 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/system-design-weekly/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>System Design Weekly 008: May 2021</title>
+      <title>System Design Weekly 009: May 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/009/</link>
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/system-design-weekly/009/</guid>
-      <description>Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to deliver to make purchases and deliver orders.
-The easiest and the most naive solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them.</description>
+      <description>Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to make purchases and deliver orders.
+The easiest and the most naïve solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them.</description>
     </item>
     
     <item>
