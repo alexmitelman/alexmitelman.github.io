@@ -16,19 +16,23 @@
 
 
 
-<title>Tags - Alex Mitelman</title>
+<title>System Design Weekly 008: May 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/tags/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design" />
 
-<meta property="og:title" content="Tags" />
-<meta name="twitter:title" content="Tags" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/tags/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-05-10T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 008: May 2021" />
+<meta name="twitter:title" content="System Design Weekly 008: May 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/009/" /><meta property="og:description" content="Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to deliver to make purchases and deliver orders.
+The easiest and the most naive solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them." />
+<meta name="twitter:description" content="Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to deliver to make purchases and deliver orders.
+The easiest and the most naive solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-05-10T00:00:00+00:00" /><meta property="article:modified_time" content="2021-05-10T00:00:00+00:00" />
 
 
 <style>
@@ -84,10 +88,8 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-
-
-<div class="post">
+<article>
+    
     <h2 class="post-item post-title">
         <a href="https://mitelman.engineering/system-design-weekly/009/">System Design Weekly 008: May 2021</a>
     </h2>
@@ -97,152 +99,67 @@
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1158 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;</span>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to deliver to make purchases and deliver orders.
-The easiest and the most naive solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/008/">System Design Weekly 008: May 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 03</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1039 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;<a href="/tags/opentelemetry">opentelemetry</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights DoorDash: Optimizing OpenTelemetry’s Span Processor for High Throughput and Low CPU Costs With an effort to migrate from the monolith to microservices, there is a need to trace requests between these services. OpenTelemetry is a new project aiming to become a standard. As a request hits a system, OpenTelemetry assigns a unique ID, all the underlying services (called spans) receive the same ID. Spans data is being collected on a local collector, then it&rsquo;s sent to a collector gateway.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/007/">System Design Weekly 007: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 19</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1184 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 + 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 13</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
-Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/005/">System Design Weekly 005: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 05</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;953 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/event-sourcing">event sourcing</a>&nbsp;</span>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="instacart-dont-let-the-crows-guide-your-routeshttpstechinstacartcomdont-let-the-crow-guide-your-routes-f24c96daedba"><a href="https://tech.instacart.com/dont-let-the-crow-guide-your-routes-f24c96daedba" target="_blank">Instacart: Don’t let the crows guide your routes</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/009/Untitled.png" alt="/images/system-design-weekly/009/Untitled.png" />
+</p>
+<p>Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to deliver to make purchases and deliver orders.</p>
+<p>The easiest and the most naive solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them. On average, the real distance by road was about 33% longer.</p>
+<p>Using external services, like Mapbox, significantly increases distance accuracy computing. The mean error is only 5%. This comes with the price of calling third-party API with latency and price quirks. In addition, such a solution doesn&rsquo;t scale to billions of trips even with caching previous results.</p>
+<p>The remaining solution involves machine learning. Having historical trip data and cached Mapbox data, it is possible to build a model to predict the actual distance. The resulting error for such a solution is around 11%, which is not as good as Mapbox data but way better than Haversine distance.</p>
+<p>There is a weekly job to retrain the model according to the new data coming in. The sample Python code is provided in the article.</p>
+<h3 id="doordash-migrating-from-python-to-kotlin-for-our-backend-serviceshttpsdoordashengineering20210504migrating-from-python-to-kotlin-for-our-backend-services"><a href="https://doordash.engineering/2021/05/04/migrating-from-python-to-kotlin-for-our-backend-services/" target="_blank">DoorDash: Migrating From Python to Kotlin for Our Backend Services</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/009/Untitled%201.png" alt="/images/system-design-weekly/009/Untitled%201.png" />
+</p>
+<p>Legacy monolith application at DoorDash was Django app written in Python 2. As Python 2 reached the end of life, it was decided to use a single language for server software. This helps to share best practices across teams, build shared libraries, engineers to change teams with minimum effort. The team ruled out C++, Ruby, PHP, and Scala. The final language options were Kotlin, Java, Go, Rust, and Python 3. The pros and cons of each of these languages are described on the chart. The final decision was made in favor of Kotlin.</p>
+<p>Here are some Kotlin benefits over Java:</p>
+<ul>
+<li>null safety</li>
+<li>better integration with Prometheus</li>
+<li>support of coroutines</li>
+</ul>
+<p>It was challenging for the team to switch from Python to Kotlin, as most of the tutorials online aim for Android development. Senior staff at DoorDash wrote a Kotlin guide for their peers. Gradle dependency is challenging and less intuitive compared to other systems. DoorDash uses Artifactory to share libraries across projects. Some Java NIO libraries don&rsquo;t scale well for coroutines, as they use a thread pool.</p>
+<p>DoorDash team builds microservices with Armeria framework for microservices with gRPC for messages, Apache Kafka as a message queue, Apache Cassandra, and PostgreSQL as storage.</p>
+<h3 id="cncf-end-user-technology-radar-secret-management-february-2021httpsradarcncfio2021-02-secrets-management"><a href="https://radar.cncf.io/2021-02-secrets-management" target="_blank">CNCF End User Technology Radar: Secret Management, February 2021</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/009/2021-02-secrets-management.svg" alt="/images/system-design-weekly/009/2021-02-secrets-management.svg" />
+</p>
+<p>Cloud Native Computing Foundation released Secret Management Tech Radar with surprising results. It was expected to have cloud provider solutions getting wide adoption. While true for AWS KMS and AWS Secrets Manager, the most adopted technology turned out to be Hashicorp Vault. Its success can be explained by being a cloud-agnostic solution, which means there is no vendor lock with the cloud provider, also it&rsquo;s a good fit for multi-cloud environments. With that being said, AWS, GCP, and Azure secret management systems are still popular options due to tight integration and automation that complements other cloud services. cert-manager seems to be the go-to solution for Kubernetes. It&rsquo;s also worth mentioning SPIRE as a promising technology for service authentication.</p>
+<h3 id="wallmart-solr-performance-tuninghttpsmediumcomwalmartglobaltechsolr-performance-tuning-beb7d0d0f8d9"><a href="https://medium.com/walmartglobaltech/solr-performance-tuning-beb7d0d0f8d9" target="_blank">Wallmart: Solr Performance Tuning</a></h3>
+<p>In this blog post, the Wallmart team shares their experience setting up Solr. Solr is a search engine written in Java and using Apache Lucene - the library that also powers Elasticsearch.</p>
+<p>Initial Walmart set up was 40GB index over 5 shards with 8 core CPU and 28GB RAM, 16GB of which is allocated to JVM heap, leaving 12GB to index. With default settings, the application eventually crashed on performance testing showing overall terrible results, like 500s filter cache warmup, 100% CPU utilization, and 50s 99p latency.</p>
+<p>Increasing hardware set up to 28GB RAM and 32 cores CPU improved the situation: 99p dropped to 111ms, 60% CPU, 70% JVM heap usage. This was a read-only test, so the next step was adding a 21K update per minute. This lead to 99p being around 37s while 95p remained around 100ms.</p>
+<p>This is the part where an engineer gets to understand the underlying machinery of the system in use. Optimizing the query reduced p99 latency to 130ms. After this optimization, it was decided to run the test on the initial hardware setup, as it was one-third the cost of the upgraded one. Tests went well but degraded after 4 hours of testing.</p>
+<p>Narrowing down the problem should find the bottleneck. Simplified queries without filters didn&rsquo;t help. Querying only one shard to mitigate network effects of inter-shard communication didn&rsquo;t help either. The next step is optimizing disk I/O.</p>
+<p>Solr relies on Linux disk caching: most-used files are cached in memory. Reducing JVM heap size from 16GB to 8GB freed more cache memory. As a result, p99 latency is again within the expected 137ms while CPU and JVM heap are still under the limits.</p>
+<p>The biggest lesson learned is to build a proper understanding of the underlying Solr design to evaluate and make the required optimizations.</p>
+<h3 id="medium-breaking-up-big-fredhttpsmediumengineeringbreaking-up-big-fred-407751e58625"><a href="https://medium.engineering/breaking-up-big-fred-407751e58625" target="_blank">Medium: Breaking up Big Fred</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/009/Untitled%202.png" alt="/images/system-design-weekly/009/Untitled%202.png" />
+</p>
+<p>Fred is a Slack bot that is used internally at Medium. Fred has multiple features, like opening a helpdesk ticket, celebrating teammates, code review notifications for Github, JIRA comments, some cron jobs, and many more. Multiple teams contributed to monolith Fred but none had ownership over it.</p>
+<p>One day Fred&rsquo;s performance degraded to an extent that even restarts didn&rsquo;t help. Log investigation didn&rsquo;t show any useful results, Fred was dying quietly.</p>
+<p>The Medium team made a simple decision - deploy several instances of the same monolith Fred service with different features &ldquo;on&rdquo;. For example, one instance handles Github, another handles JIRA, yet another handles cron jobs. The team never discovered the cause of the initial outage.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://aws.amazon.com/blogs/database/capture-changes-from-amazon-documentdb-via-aws-lambda-and-publish-them-to-amazon-msk/" target="_blank">Capture changes from Amazon DocumentDB via AWS Lambda and publish them to Amazon MSK</a> - AWS Change Data Capture solution for DocumentDB with Lambda and Kafka (AWS MSK).</p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://www.galiglobal.com/blog/2021/20210313-The-principal-role.html" target="_blank">My thoughts about the Principal role</a> - how is a Principal Software Engineer different from a developer or Architect? Is it a management role? This blog post answers these and other questions about the Principal Software Engineering role.</p>
+<p><a href="https://engineeringblog.yelp.com/2021/05/engineering-career-series-using-structured-interviews-to-improve-equity.html" target="_blank">Engineering Career Series: Using structured interviews to improve equity</a></p>
+<p>&ldquo;We focused on standardizing questions across all of our open roles to four key question types:</p>
+<ul>
+<li>Problem Solving</li>
+<li>System Design</li>
+<li>Ownership, Tenacity, and Curiosity</li>
+<li>Playing Well with Others.</li>
+</ul>
+<p>Men were progressing to the next stage of the interview process at a higher rate than women. We were able to quickly reduce this gap by replacing individual interviewers’ judgment on a candidate’s performance with standardized pass/fail criteria. Interviewer bias still exists in your hiring process.
+We clarified what signals we wanted interviewers to look for and capture. Points are awarded for expected candidate behaviors. Interviewers are required to provide an explanation for when and why points are deducted.&rdquo;</p>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Kiwi.com: Nonstop Operations with Scylla Even Through the OVHcloud Fire Fire on French OVHcloud affected four datacenters: SBG2 was destroyed, SBG1 adjacent rooms were partially on fire, SBG3 and SBG4 were switched off to fight the fire. Overall, 3.6 million websites were affected, including banks and mail servers.
-Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solution. Their monitoring system detected spikes as nodes went down but later other OVHcloud datacenters took over the requests.
-    </div>
-</div>
+</article>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;799 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
 
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
-Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/003/">System Design Weekly 003: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 22</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;807 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/envoy">envoy</a>&nbsp;<a href="/tags/unicorn">unicorn</a>&nbsp;<a href="/tags/kerberos">kerberos</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
-They&rsquo;ve decided to switch to Envoy proxy as it allows dynamic change of the configuration.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 15</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/aws-dynamodb">aws dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
-There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/001/">System Design Weekly 001: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 08</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;904 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/apache-druid">apache druid</a>&nbsp;<a href="/tags/apache-karaf">apache karaf</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
-<span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6329 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
-They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax.
-    </div>
-</div>
 
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
@@ -462,9 +379,26 @@ They say that you should stick to algorithms and data structures, that you can l
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#instacart-dont-let-the-crows-guide-your-routeshttpstechinstacartcomdont-let-the-crow-guide-your-routes-f24c96daedba"><a href="https://tech.instacart.com/dont-let-the-crow-guide-your-routes-f24c96daedba">Instacart: Don’t let the crows guide your routes</a></a></li>
+            <li><a href="#doordash-migrating-from-python-to-kotlin-for-our-backend-serviceshttpsdoordashengineering20210504migrating-from-python-to-kotlin-for-our-backend-services"><a href="https://doordash.engineering/2021/05/04/migrating-from-python-to-kotlin-for-our-backend-services/">DoorDash: Migrating From Python to Kotlin for Our Backend Services</a></a></li>
+            <li><a href="#cncf-end-user-technology-radar-secret-management-february-2021httpsradarcncfio2021-02-secrets-management"><a href="https://radar.cncf.io/2021-02-secrets-management">CNCF End User Technology Radar: Secret Management, February 2021</a></a></li>
+            <li><a href="#wallmart-solr-performance-tuninghttpsmediumcomwalmartglobaltechsolr-performance-tuning-beb7d0d0f8d9"><a href="https://medium.com/walmartglobaltech/solr-performance-tuning-beb7d0d0f8d9">Wallmart: Solr Performance Tuning</a></a></li>
+            <li><a href="#medium-breaking-up-big-fredhttpsmediumengineeringbreaking-up-big-fred-407751e58625"><a href="https://medium.engineering/breaking-up-big-fred-407751e58625">Medium: Breaking up Big Fred</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#culture">Culture</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -696,6 +630,8 @@ They say that you should stick to algorithms and data structures, that you can l
     
     
     </div>
+    
+    
     
     
   </div>
