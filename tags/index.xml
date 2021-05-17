@@ -6,7 +6,52 @@
     <description>Recent content in Tags on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 10 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 17 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>lambda</title>
+      <link>https://mitelman.engineering/tags/lambda/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/lambda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://mitelman.engineering/tags/network/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>s3</title>
+      <link>https://mitelman.engineering/tags/s3/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/s3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>step functions</title>
+      <link>https://mitelman.engineering/tags/step-functions/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/step-functions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>system design</title>
+      <link>https://mitelman.engineering/tags/system-design/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/system-design/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>kotlin</title>
       <link>https://mitelman.engineering/tags/kotlin/</link>
@@ -22,15 +67,6 @@
       <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/solr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>system design</title>
-      <link>https://mitelman.engineering/tags/system-design/</link>
-      <pubDate>Mon, 10 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/system-design/</guid>
       <description></description>
     </item>
     

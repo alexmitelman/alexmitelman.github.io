@@ -28,7 +28,7 @@
 <meta property="og:title" content="Alex Mitelman" />
 <meta name="twitter:title" content="Alex Mitelman" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-05-10T00:00:00+00:00" />
+<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-05-17T00:00:00+00:00" />
 
 
 <style>
@@ -86,6 +86,21 @@
                 
 
 
+
+<div class="post">
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/010/">System Design Weekly 010: May 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 17</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1171 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/s3">s3</a>&nbsp;<a href="/tags/lambda">lambda</a>&nbsp;<a href="/tags/step-functions">step functions</a>&nbsp;<a href="/tags/network">network</a>&nbsp;</span>
+
+    </div>
+    <div class="post-item post-summary markdown-body">
+        Highlights AWS: Diving Deep on S3 Consistency Werner Vogels, CTO at Amazon, shares the journey of building strong consistency for AWS S3. When S3 was launched 15 years ago in 2006, it was simple storage for files, backups, etc. The eventual consistency model was more than enough for such purposes. This means that sometimes API would return an older version of the object that was not yet propagated through the nodes.
+    </div>
+</div>
 
 <div class="post">
     <h2 class="post-item post-title">
@@ -227,23 +242,15 @@ There are two options to solve this problem. The first is prefetching. This mean
         Highlights Reddit: Scaling Reporting Reddit had an ad analytics system that aggregated data per ad ID and per day. This data was stored in Redis as a Thrift object. This works well if an advertiser wants to see analytics for a given day. However, looking up stats per range of dates means that application had to get every value for every date in the range of dates, deserialize Thrift dictionaries, which is also a CPU intensive operation.
     </div>
 </div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/">Python Best Practices for a New Project in 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2020, Oct 18</span>
-<span><i>Updated:</i>&nbsp;2021, Mar 14</span>
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;6329 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;30 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/python">python</a>&nbsp;<a href="/tags/vs-code">vs code</a>&nbsp;<a href="/tags/pyenv">pyenv</a>&nbsp;<a href="/tags/poetry">poetry</a>&nbsp;<a href="/tags/pytest">pytest</a>&nbsp;<a href="/tags/pre-commit">pre-commit</a>&nbsp;<a href="/tags/flake8">flake8</a>&nbsp;<a href="/tags/black">black</a>&nbsp;<a href="/tags/mypy">mypy</a>&nbsp;<a href="/tags/isort">isort</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Intro The goal of this tutorial is to describe Python development ecosystem. It can be helpful for someone coming to Python from another programming language.
-They say that you should stick to algorithms and data structures, that you can learn a new language in just a couple of weeks, that it&rsquo;s just a new syntax. I completely agree that algorithms and data structures are extremely important but when it comes to language it&rsquo;s slightly more than just syntax.
-    </div>
-</div>
-
+<div class="pagination"><div class="pag-item pag-current">
+    <a href="/">1</a>
+  </div><div class="pag-item">
+    <a href="/page/2/">2</a>
+  </div><div class="pag-next">
+    <a href="/page/2/"><i class="iconfont icon-chevron-forward-circle-sharp"></i></a>
+  </div><div class="pag-last">
+    <a href="/page/2/"><i class="iconfont icon-caret-forward-circle-sharp"></i></a>
+  </div></div>
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
     
@@ -401,6 +408,10 @@ They say that you should stick to algorithms and data structures, that you can l
             </span>
             
             <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
                 <a href="/tags/mongodb/">mongodb</a>
             </span>
             
@@ -410,6 +421,10 @@ They say that you should stick to algorithms and data structures, that you can l
             
             <span>
                 <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
             </span>
             
             <span>
@@ -445,11 +460,19 @@ They say that you should stick to algorithms and data structures, that you can l
             </span>
             
             <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
                 <a href="/tags/scylla/">scylla</a>
             </span>
             
             <span>
                 <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
             </span>
             
             <span>
@@ -604,6 +627,10 @@ They say that you should stick to algorithms and data structures, that you can l
             </span>
             
             <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
                 <a href="/tags/mongodb/">mongodb</a>
             </span>
             
@@ -613,6 +640,10 @@ They say that you should stick to algorithms and data structures, that you can l
             
             <span>
                 <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
             </span>
             
             <span>
@@ -648,11 +679,19 @@ They say that you should stick to algorithms and data structures, that you can l
             </span>
             
             <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
                 <a href="/tags/scylla/">scylla</a>
             </span>
             
             <span>
                 <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
             </span>
             
             <span>

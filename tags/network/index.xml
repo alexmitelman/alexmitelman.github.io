@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>network on Alex Mitelman</title>
+    <link>https://mitelman.engineering/tags/network/</link>
+    <description>Recent content in network on Alex Mitelman</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 010: May 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/010/</link>
+      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/010/</guid>
+      <description>Highlights AWS: Diving Deep on S3 Consistency Werner Vogels, CTO at Amazon, shares the journey of building strong consistency for AWS S3. When S3 was launched 15 years ago in 2006, it was simple storage for files, backups, etc. The eventual consistency model was more than enough for such purposes. This means that sometimes API would return an older version of the object that was not yet propagated through the nodes.</description>
+    </item>
+    
+  </channel>
+</rss>

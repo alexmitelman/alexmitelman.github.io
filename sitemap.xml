@@ -4,7 +4,47 @@
   
   <url>
     <loc>https://mitelman.engineering/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/lambda/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/network/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/s3/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/step-functions/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/system-design/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/010/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/system-design-weekly/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/</loc>
+    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -18,22 +58,7 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/system-design/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/system-design-weekly/009/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/system-design-weekly/</loc>
-    <lastmod>2021-05-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/</loc>
     <lastmod>2021-05-10T00:00:00+00:00</lastmod>
   </url>
   
