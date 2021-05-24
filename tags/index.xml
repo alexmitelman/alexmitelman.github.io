@@ -8,6 +8,42 @@
     <language>en-us</language>
     <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>aws</title>
+      <link>https://mitelman.engineering/tags/aws/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/aws/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dynamodb</title>
+      <link>https://mitelman.engineering/tags/dynamodb/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/dynamodb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kafka</title>
+      <link>https://mitelman.engineering/tags/kafka/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>network</title>
+      <link>https://mitelman.engineering/tags/network/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>system design</title>
       <link>https://mitelman.engineering/tags/system-design/</link>
       <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
@@ -22,15 +58,6 @@
       <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/lambda/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>network</title>
-      <link>https://mitelman.engineering/tags/network/</link>
-      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/network/</guid>
       <description></description>
     </item>
     
@@ -107,15 +134,6 @@
     </item>
     
     <item>
-      <title>dynamodb</title>
-      <link>https://mitelman.engineering/tags/dynamodb/</link>
-      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/dynamodb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>mongodb</title>
       <link>https://mitelman.engineering/tags/mongodb/</link>
       <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
@@ -161,15 +179,6 @@
     </item>
     
     <item>
-      <title>aws</title>
-      <link>https://mitelman.engineering/tags/aws/</link>
-      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/aws/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>postgresql</title>
       <link>https://mitelman.engineering/tags/postgresql/</link>
       <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
@@ -193,15 +202,6 @@
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/event-sourcing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kafka</title>
-      <link>https://mitelman.engineering/tags/kafka/</link>
-      <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/kafka/</guid>
       <description></description>
     </item>
     
@@ -238,15 +238,6 @@
       <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/unicorn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>aws dynamodb</title>
-      <link>https://mitelman.engineering/tags/aws-dynamodb/</link>
-      <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/aws-dynamodb/</guid>
       <description></description>
     </item>
     

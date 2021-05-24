@@ -8,6 +8,26 @@
   </url>
   
   <url>
+    <loc>https://mitelman.engineering/tags/aws/</loc>
+    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/dynamodb/</loc>
+    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/kafka/</loc>
+    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/network/</loc>
+    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mitelman.engineering/tags/system-design/</loc>
     <lastmod>2021-05-24T00:00:00+00:00</lastmod>
   </url>
@@ -29,11 +49,6 @@
   
   <url>
     <loc>https://mitelman.engineering/tags/lambda/</loc>
-    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/network/</loc>
     <lastmod>2021-05-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -88,11 +103,6 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/dynamodb/</loc>
-    <lastmod>2021-05-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/tags/mongodb/</loc>
     <lastmod>2021-05-03T00:00:00+00:00</lastmod>
   </url>
@@ -128,11 +138,6 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/tags/aws/</loc>
-    <lastmod>2021-04-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/tags/postgresql/</loc>
     <lastmod>2021-04-13T00:00:00+00:00</lastmod>
   </url>
@@ -149,11 +154,6 @@
   
   <url>
     <loc>https://mitelman.engineering/tags/event-sourcing/</loc>
-    <lastmod>2021-04-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/kafka/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -190,11 +190,6 @@
   <url>
     <loc>https://mitelman.engineering/tags/unicorn/</loc>
     <lastmod>2021-03-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/aws-dynamodb/</loc>
-    <lastmod>2021-03-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
