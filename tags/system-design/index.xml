@@ -6,7 +6,17 @@
     <description>Recent content in system design on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/system-design/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 011: May 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/011/</link>
+      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/011/</guid>
+      <description>Highlights Pinterest: Shallow Mirror Kafka MirrorMaker is a tool to replicate Kafka clusters across different regions. Data from different Source Brokers is transferred to MirrorMaker which then sends this data to Destination Brokers in other regions. Pinterest started experiencing scalability issues at some point.
+Monitoring showed some CPU and memory spikes. During the investigation, it became apparent that most of the CPU time was spent on message decompression and recompression. Memory consumption was often 2-10 times bigger than the actual data being sent.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 010: May 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/010/</link>

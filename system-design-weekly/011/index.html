@@ -16,19 +16,23 @@
 
 
 
-<title>Alex Mitelman - Personal website</title>
+<title>System Design Weekly 011: May 2021 - Alex Mitelman</title>
 
 
 <meta name="author" content="Alex Mitelman" />
 
 
 
-<link rel="alternate" type="application/rss+xml" href="https://mitelman.engineering/index.xml" title="Alex Mitelman" />
+<meta name="keywords" content="system design" />
 
-<meta property="og:title" content="Alex Mitelman" />
-<meta name="twitter:title" content="Alex Mitelman" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-05-24T00:00:00+00:00" />
+
+<meta property="og:title" content="System Design Weekly 011: May 2021" />
+<meta name="twitter:title" content="System Design Weekly 011: May 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/011/" /><meta property="og:description" content="Highlights Pinterest: Shallow Mirror Kafka MirrorMaker is a tool to replicate Kafka clusters across different regions. Data from different Source Brokers is transferred to MirrorMaker which then sends this data to Destination Brokers in other regions. Pinterest started experiencing scalability issues at some point.
+Monitoring showed some CPU and memory spikes. During the investigation, it became apparent that most of the CPU time was spent on message decompression and recompression. Memory consumption was often 2-10 times bigger than the actual data being sent." />
+<meta name="twitter:description" content="Highlights Pinterest: Shallow Mirror Kafka MirrorMaker is a tool to replicate Kafka clusters across different regions. Data from different Source Brokers is transferred to MirrorMaker which then sends this data to Destination Brokers in other regions. Pinterest started experiencing scalability issues at some point.
+Monitoring showed some CPU and memory spikes. During the investigation, it became apparent that most of the CPU time was spent on message decompression and recompression. Memory consumption was often 2-10 times bigger than the actual data being sent." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-05-24T00:00:00+00:00" /><meta property="article:modified_time" content="2021-05-24T00:00:00+00:00" />
 
 
 <style>
@@ -84,10 +88,8 @@
             
             <div class="col-12 col-md-9 float-left content">
                 
-
-
-
-<div class="post">
+<article>
+    
     <h2 class="post-item post-title">
         <a href="https://mitelman.engineering/system-design-weekly/011/">System Design Weekly 011: May 2021</a>
     </h2>
@@ -97,161 +99,70 @@
 <span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1507 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;8 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;</span>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Pinterest: Shallow Mirror Kafka MirrorMaker is a tool to replicate Kafka clusters across different regions. Data from different Source Brokers is transferred to MirrorMaker which then sends this data to Destination Brokers in other regions. Pinterest started experiencing scalability issues at some point.
-Monitoring showed some CPU and memory spikes. During the investigation, it became apparent that most of the CPU time was spent on message decompression and recompression. Memory consumption was often 2-10 times bigger than the actual data being sent.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/010/">System Design Weekly 010: May 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 17</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1171 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/s3">s3</a>&nbsp;<a href="/tags/lambda">lambda</a>&nbsp;<a href="/tags/step-functions">step functions</a>&nbsp;<a href="/tags/network">network</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights AWS: Diving Deep on S3 Consistency Werner Vogels, CTO at Amazon, shares the journey of building strong consistency for AWS S3. When S3 was launched 15 years ago in 2006, it was simple storage for files, backups, etc. The eventual consistency model was more than enough for such purposes. This means that sometimes API would return an older version of the object that was not yet propagated through the nodes.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/009/">System Design Weekly 009: May 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 10</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1156 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/kotlin">kotlin</a>&nbsp;<a href="/tags/vault">vault</a>&nbsp;<a href="/tags/solr">solr</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to make purchases and deliver orders.
-The easiest and the most naïve solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/008/">System Design Weekly 008: May 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 03</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1039 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;<a href="/tags/opentelemetry">opentelemetry</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights DoorDash: Optimizing OpenTelemetry’s Span Processor for High Throughput and Low CPU Costs With an effort to migrate from the monolith to microservices, there is a need to trace requests between these services. OpenTelemetry is a new project aiming to become a standard. As a request hits a system, OpenTelemetry assigns a unique ID, all the underlying services (called spans) receive the same ID. Spans data is being collected on a local collector, then it&rsquo;s sent to a collector gateway.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/007/">System Design Weekly 007: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 19</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1184 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;</span>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="pinterest-shallow-mirrorhttpsmediumcompinterest-engineeringshallow-mirror-f543b14bb25"><a href="https://medium.com/pinterest-engineering/shallow-mirror-f543b14bb25" target="_blank">Pinterest: Shallow Mirror</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/011/Untitled%202.png" alt="/images/system-design-weekly/011/Untitled%202.png" />
+</p>
+<p>Kafka MirrorMaker is a tool to replicate Kafka clusters across different regions. Data from different Source Brokers is transferred to MirrorMaker which then sends this data to Destination Brokers in other regions. Pinterest started experiencing scalability issues at some point.</p>
+<p>Monitoring showed some CPU and memory spikes. During the investigation, it became apparent that most of the CPU time was spent on message decompression and recompression. Memory consumption was often 2-10 times bigger than the actual data being sent. This picture represents Kafka MirrorMaker internals.</p>
+<p>The reason for message decompressing and deserializing is the ability of plugins to transform the message. However, Pinterest doesn&rsquo;t use this functionality. MirrorMaker is used only for replication purposes.</p>
+<p>The initial thought to fix this is to send compressed messages directly to the destination broker. It turned out that messages are packaged based on topics and partitions, so there is a need to repackage. Luckily, while messages inside the batches are compressed, the package headers are not, so it&rsquo;s possible to extract messages without decompression. The Pinterest team created Shallow Mirror functionality for Kafka MirrorMaker that allows regrouping batches without decompressing the message inside the batch.</p>
+<p>The Pinterest team deployed their version of MirrorMaker and observed a significant reduction in CPU and memory consumption. After battle testing, several issues were discovered. Passing just pointers to bytes between sender and receiver to avoid deep copy didn&rsquo;t work because the batch contained an offset that is not relevant after the batch regroup.</p>
+<p>Another issue was consumers receiving extra messages. Turned out that batches contained non-relevant messages, so the solution was cropping the batch. Next issue: small batches need more network due to specifics of TCP connection. Turned out that MemoryRecord better to contain several batches.</p>
+<p>Finally, MirrorMaker got so fast that another bottleneck was discovered. Broker reconstructed batches to translate messages to different formats. The Pinterest team also fixed that issue.</p>
+<p>The proposal to add Shallow Mirror functionality awaits approval for the merge to upstream Kafka.</p>
+<h3 id="paypal-low-latency-file-transfers-with-dropzonehttpsmediumcompaypal-techlow-latency-file-transfers-with-paypal-dropzone-506433f269c7"><a href="https://medium.com/paypal-tech/low-latency-file-transfers-with-paypal-dropzone-506433f269c7" target="_blank">PayPal: Low latency file transfers with DropZone</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/011/Untitled%201.png" alt="/images/system-design-weekly/011/Untitled%201.png" />
+</p>
+<p>PayPal has a secure file transfer platform called DropZone. The team&rsquo;s objective was to improve user experience with low latency file uploads using existing edge infrastructure. Internet speed is often measured with bandwidth and latency. Bandwidth represents the data transferred over a period of time, for example, 1Mbps. Network latency is the time taken for a packet to travel from the source of origin to its destination. Round trip time (RTT) measures the time for a packet to come back to the origin source. It&rsquo;s not always double the time because the return route can be different. Processing time also adds to RTT. The speed of light in optic fiber is around 200,000 km/s or 200 km/ms.</p>
+<p>&ldquo;Transferring a single TCP packet from Sydney to Los Angeles takes at least 125ms using optical fibre. With a max TCP packet size of 64KB, the number of round trips required to transfer a 1GB file would be 15625; in other words, it would take at least 33 minutes to transfer a 1GB file.&rdquo;</p>
+<p>To make things worse, last-mile latency significantly decreases overall speed due to numerous hops, routing, congestion, etc. While we can&rsquo;t overcome the speed of light, we can reduce last-mile latency.</p>
+<p>If a client wants to upload a file to a remote server, that means last-mile latency is going to be a factor on both sides of the transfer. PayPal has a distributed across the globe server infrastructure. By routing requests to the nearest to the client Edge server, PayPal leverages existing POPs and Edge infrastructure while reducing the last mile latency. DNS resolves to different IPs worldwide pointing to PayPal’s nearest Edge servers.</p>
+<p>This architecture not only significantly increased the file uploads speed but also improved disaster recovery as it mitigates a single point of failure.</p>
+<h3 id="everything-you-need-to-know-about-dynamodb-partitionshttpswwwalexdebriecompostsdynamodb-partitions"><a href="https://www.alexdebrie.com/posts/dynamodb-partitions/" target="_blank">Everything you need to know about DynamoDB Partitions</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/011/Untitled.png" alt="/images/system-design-weekly/011/Untitled.png" />
+</p>
+<p>DynamoDB may seem like a large black box database but in reality, it&rsquo;s a distributed key-value storage. Understanding partitions is the key to understanding DynamoDB. Each record should contain a primary key. It can be a simple key or a composite key. The simple key is also called the partition key. Composite key in addition to partition key should contain a sort key. In this case, the combination of these two keys makes the record unique.</p>
+<p>When you request DynamoDB, it hits the router first. The router gets the metadata from the request, extracts the partition key, and applies a hash function to it. Thanks to the resulting hash value, the router can understand which DB partition is responsible for the request. The time complexity of finding the appropriate node is O(1). Each partition is about 10GB. Amazon adds partitions automatically as your table grows. With this constant time, Amazon can scale DynamoDB horizontally to thousands of partitions.</p>
+<p>The fact that all requests pass through a router, distinguishes DynamoDB from other NoSQL databases like Cassandra, where clients should be topology-aware. DynamoDB client doesn&rsquo;t have to maintain cluster metadata.</p>
+<p>Understanding this partition aspect helps to understand DynamoDB constraints. <code>Scan</code> is an expensive operation because it searches database across partitions as a partition key is not provided. <code>Query</code> reads a range of records as partition key is specified. Single record operations are straightforward.</p>
+<p>Design your table to make efficient queries. For example, if you need to make geo-lookups, break down a dataset into countries, states, cities, etc. A narrow initial search then provides an in-memory filter.</p>
+<p>Partitions explain the absence of JOINs, as data would be joined across different partitions, and needs a separate node to perform the join operation. You would probably need to denormalize data to work around the absence of JOIN.</p>
+<h3 id="building-hulus-living-room-experience-with-amazon-alexahttpsmediumcomdisney-streamingbuilding-hulus-living-room-experience-with-amazon-alexa-db2ff79e5da0"><a href="https://medium.com/disney-streaming/building-hulus-living-room-experience-with-amazon-alexa-db2ff79e5da0" target="_blank">Building Hulu’s Living Room Experience with Amazon Alexa</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/011/Untitled%203.png" alt="/images/system-design-weekly/011/Untitled%203.png" />
+</p>
+<p>Hulu app for Fire TV allows voice commands via Alexa devices like Echo or Dot. Users can watch a TV show, channel, and control playback with voice commands like &ldquo;Alexa, watch The Handmaid’s Tale.&rdquo;</p>
+<p>This command system is built with Video Skill API in the Alexa Skills Kit. Hulu metadata service exports catalog to Amazon Alexa service. This Alexa service converts voice commands into Alexa directives. Lambda functions convert these directives to Hulu-specific actions. Amazon ADM service sends push notifications to the Hulu Fire TV app. This app executes directives received from ADM on the TV device. Alexa Video Library registers the Hulu app with the Alexa service and activates Hulu video skill on app startup.</p>
+<h2 id="data-science">Data Science</h2>
+<p><a href="https://dropbox.tech/machine-learning/optimizing-payments-with-machine-learning" target="_blank">Optimizing payments with machine learning</a> - how to pick the best time to charge the customer&rsquo;s credit card? &ldquo;We took an 8 day window and divided it into one-hour chunks, resulting in a total of 192 time chunks. We used our models to find the highest ranking time chunk to attempt the renewal.&rdquo;</p>
+<p><a href="https://www.cncf.io/blog/2021/05/18/our-journey-to-building-a-managed-orchestration-system-at-bloomberg/" target="_blank">Our journey to building a managed orchestration system at Bloomberg</a></p>
+<p><a href="https://medium.com/airbnb-engineering/how-airbnb-achieved-metric-consistency-at-scale-f23cc53dea70" target="_blank">How Airbnb Achieved Metric Consistency at Scale</a> - &ldquo;When Brian, our CEO, would ask simple questions like which city had the most bookings in the previous week, Data Science and Finance would sometimes provide diverging answers using slightly different tables, metric definitions, and business logic.&rdquo; A journey of Airbnb data paltform - Minerva.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://aws.amazon.com/blogs/compute/optimizing-serverless-development-with-samconfig/" target="_blank">Optimizing serverless development with samconfig</a> - Infrastructure as Code for AWS Lambda</p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://github.com/Skyscanner/turbolift" target="_blank">turbolift</a> by Skyscanner - a simple tool to help apply changes across many GitHub repositories simultaneously</p>
+<p><a href="https://blog.timescale.com/blog/how-we-made-distinct-queries-up-to-8000x-faster-on-postgresql/" target="_blank">How we made DISTINCT queries up to 8000x faster on PostgreSQL</a> - it turns out that PostgreSQL currently lacks the ability to efficiently pull a list of unique values from an ordered index. New version of TimescaleDB supports Skip Scan, including Postges tables.</p>
+<p><a href="https://auth0.com/blog/actions-now-generally-available/" target="_blank">Auth0 Actions Is Now Generally Available</a> - run custom code triggered by user actions</p>
+<p><a href="https://eng.uber.com/pprof-go-profiler/" target="_blank">pprof++: A Go Profiler with Hardware Performance Monitoring</a> - Uber created a better Go profiler</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://medium.com/airbnb-engineering/how-does-airbnb-track-and-measure-growth-marketing-15ee4ce55c5d" target="_blank">How does Airbnb track and measure growth marketing?</a> - Airbnb decided not to use Google&rsquo;s UTM tracking, designed their own tracking system instead.</p>
+<p><a href="https://eng.uber.com/architecture-api-gateway/" target="_blank">The Architecture of Uber’s API gateway</a> - Uber team has implemented an in-house API gateway in Go. It&rsquo;s cool, here is what it can do.</p>
+<p><a href="https://medium.com/disney-streaming/dns-infrastructure-at-hulu-c69fd20170dc" target="_blank">DNS infrastructure at Hulu</a> -  this article starts with &ldquo;For companies running their own datacenter&hellip;&rdquo;. And then lots of fun configuring DNS.</p>
+<p><a href="https://aws.amazon.com/blogs/architecture/the-technology-behind-kfcs-finger-lickin-good-success/" target="_blank">The Technology Behind KFC’s Finger Lickin’ Good Success</a> - KFC share their AWS design patterns</p>
+<p><a href="https://dropbox.tech/infrastructure/boosting-dropbox-upload-speed" target="_blank">Boosting Dropbox upload speed and improving Windows’ TCP stack</a> - Dropbox engineers debug uncharted territory - Windows networking system</p>
+<p><a href="https://www.docker.com/blog/docker-hub-incident-reviews-april-3rd-and-15th-2021/" target="_blank">Docker Hub Incident Reviews – April 3rd and 15th 2021</a> - tldr; 1) load balancer was autoscaled for bandwidth but it was scaled down over the weekend to lower CPU instance; 2) service discovery was updated in the wrong order - no valid backends.</p>
+<p><a href="https://www.interdb.jp/pg/index.html" target="_blank">The Internals of PostgreSQL</a> - an entire free online book on PostgreSQL internals.</p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://www.theregister.com/2021/05/19/salesforce_root_cause/" target="_blank">That Salesforce outage: Global DNS downfall started by one engineer trying a quick fix</a> - it&rsquo;s always DNS but now with race conditions. Salesforce kind of blame a DevOps engineer while deny that they blame but &ldquo;We have taken action with that particular employee&rdquo;. This is how not to post mortem.</p>
 
     </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 + 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable.
-    </div>
-</div>
+</article>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 13</span>
 
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;</span>
 
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
-Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
-    </div>
-</div>
 
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/005/">System Design Weekly 005: April 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 05</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;953 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/event-sourcing">event sourcing</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Kiwi.com: Nonstop Operations with Scylla Even Through the OVHcloud Fire Fire on French OVHcloud affected four datacenters: SBG2 was destroyed, SBG1 adjacent rooms were partially on fire, SBG3 and SBG4 were switched off to fight the fire. Overall, 3.6 million websites were affected, including banks and mail servers.
-Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solution. Their monitoring system detected spikes as nodes went down but later other OVHcloud datacenters took over the requests.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;799 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
-Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/003/">System Design Weekly 003: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 22</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;807 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/envoy">envoy</a>&nbsp;<a href="/tags/unicorn">unicorn</a>&nbsp;<a href="/tags/kerberos">kerberos</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
-They&rsquo;ve decided to switch to Envoy proxy as it allows dynamic change of the configuration.
-    </div>
-</div>
-
-<div class="post">
-    <h2 class="post-item post-title">
-        <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
-    </h2>
-    <div class="post-item post-meta">
-        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 15</span>
-
-<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/aws-dynamodb">aws dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
-
-    </div>
-    <div class="post-item post-summary markdown-body">
-        Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
-There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
-    </div>
-</div>
-<div class="pagination"><div class="pag-item pag-current">
-    <a href="/">1</a>
-  </div><div class="pag-item">
-    <a href="/page/2/">2</a>
-  </div><div class="pag-next">
-    <a href="/page/2/"><i class="iconfont icon-chevron-forward-circle-sharp"></i></a>
-  </div><div class="pag-last">
-    <a href="/page/2/"><i class="iconfont icon-caret-forward-circle-sharp"></i></a>
-  </div></div>
             </div>
             <aside class="col-12 col-md-3 float-left sidebar">
     
@@ -498,9 +409,28 @@ There are two options to solve this problem. The first is prefetching. This mean
             
         </div>
     </div>
-    
-    
-    
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#pinterest-shallow-mirrorhttpsmediumcompinterest-engineeringshallow-mirror-f543b14bb25"><a href="https://medium.com/pinterest-engineering/shallow-mirror-f543b14bb25">Pinterest: Shallow Mirror</a></a></li>
+            <li><a href="#paypal-low-latency-file-transfers-with-dropzonehttpsmediumcompaypal-techlow-latency-file-transfers-with-paypal-dropzone-506433f269c7"><a href="https://medium.com/paypal-tech/low-latency-file-transfers-with-paypal-dropzone-506433f269c7">PayPal: Low latency file transfers with DropZone</a></a></li>
+            <li><a href="#everything-you-need-to-know-about-dynamodb-partitionshttpswwwalexdebriecompostsdynamodb-partitions"><a href="https://www.alexdebrie.com/posts/dynamodb-partitions/">Everything you need to know about DynamoDB Partitions</a></a></li>
+            <li><a href="#building-hulus-living-room-experience-with-amazon-alexahttpsmediumcomdisney-streamingbuilding-hulus-living-room-experience-with-amazon-alexa-db2ff79e5da0"><a href="https://medium.com/disney-streaming/building-hulus-living-room-experience-with-amazon-alexa-db2ff79e5da0">Building Hulu’s Living Room Experience with Amazon Alexa</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#data-science">Data Science</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#product-news">Product News</a></li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#culture">Culture</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
 </aside>
         </div>
         <div class="btn">
@@ -760,6 +690,8 @@ There are two options to solve this problem. The first is prefetching. This mean
     
     
     </div>
+    
+    
     
     
   </div>
