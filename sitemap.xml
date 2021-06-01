@@ -4,12 +4,47 @@
   
   <url>
     <loc>https://mitelman.engineering/</loc>
-    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/blog/python-best-practice/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/api-gateway/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://mitelman.engineering/tags/aws/</loc>
-    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/blog/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/blog/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/lambda/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/opinion/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mitelman.engineering/tags/</loc>
+    <lastmod>2021-06-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -40,16 +75,6 @@
   <url>
     <loc>https://mitelman.engineering/system-design-weekly/</loc>
     <lastmod>2021-05-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/</loc>
-    <lastmod>2021-05-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mitelman.engineering/tags/lambda/</loc>
-    <lastmod>2021-05-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -223,11 +248,6 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/blog/</loc>
-    <lastmod>2021-03-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mitelman.engineering/tags/flake8/</loc>
     <lastmod>2021-03-14T00:00:00+00:00</lastmod>
   </url>
@@ -268,7 +288,7 @@
   </url>
   
   <url>
-    <loc>https://mitelman.engineering/blog/python-best-practice/automating-python-best-practices-for-a-new-project/</loc>
+    <loc>https://mitelman.engineering/blog/automating-python-best-practices-for-a-new-project/</loc>
     <lastmod>2021-03-14T00:00:00+00:00</lastmod>
   </url>
   

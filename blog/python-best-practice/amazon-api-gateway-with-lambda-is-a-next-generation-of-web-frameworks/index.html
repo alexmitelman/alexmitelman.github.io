@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.80.0" />
+
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
+
+
+
+<title>Amazon API Gateway with Lambda is a next generation of web frameworks - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="blog, opinion, aws, api gateway, lambda" />
+
+
+<meta property="og:title" content="Amazon API Gateway with Lambda is a next generation of web frameworks" />
+<meta name="twitter:title" content="Amazon API Gateway with Lambda is a next generation of web frameworks" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/blog/python-best-practice/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/" /><meta property="og:description" content="A short history of web frameworks What is a web framework? A web framework is a set of tools for the rapid development of server-side applications that provides a boilerplate to simplify the implementation of common tasks. According to MDN, those tasks are routing URLs to appropriate handlers, interacting with databases, supporting sessions and user authorization, formatting output (e.g. HTML, JSON, XML), and improving security against web attacks. The most popular web frameworks are Ruby on Rails, Django, Flask, FastAPI, Express, Laravel." />
+<meta name="twitter:description" content="A short history of web frameworks What is a web framework? A web framework is a set of tools for the rapid development of server-side applications that provides a boilerplate to simplify the implementation of common tasks. According to MDN, those tasks are routing URLs to appropriate handlers, interacting with databases, supporting sessions and user authorization, formatting output (e.g. HTML, JSON, XML), and improving security against web attacks. The most popular web frameworks are Ruby on Rails, Django, Flask, FastAPI, Express, Laravel." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-06-01T00:00:00+00:00" /><meta property="article:modified_time" content="2021-06-01T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(60%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(60%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/blog/python-best-practice/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/">Amazon API Gateway with Lambda is a next generation of web frameworks</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Jun 01</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1463 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;7 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/blog">blog</a>&nbsp;<a href="/tags/opinion">opinion</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;<a href="/tags/api-gateway">api gateway</a>&nbsp;<a href="/tags/lambda">lambda</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="a-short-history-of-web-frameworks">A short history of web frameworks</h2>
+<p>What is a web framework? A web framework is a set of tools for the rapid development of server-side applications that provides a boilerplate to simplify the implementation of common tasks. <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks" target="_blank">According to MDN</a>, those tasks are routing URLs to appropriate handlers, interacting with databases, supporting sessions and user authorization, formatting output (e.g. HTML, JSON, XML), and improving security against web attacks. The most popular web frameworks are Ruby on Rails, Django, Flask, FastAPI, Express, Laravel.</p>
+<p>If you are old enough to remember the world without such frameworks, you may think of a PHP project where each PHP file responsible for generating a different web page with some MySQL queries to build the dynamic content from the database. Building such websites required a lot of effort.</p>
+<p>People quickly noticed that there is a common pattern in building different websites, so they&rsquo;ve built frameworks to automate the boilerplate code. The motto of Django is &ldquo;The Web framework for perfectionists with deadlines&rdquo;. Without diving into specifics of model–view–controller (MVC) paradigm, let&rsquo;s just acknowledge that developers get an initial folder structure, ORM to access a database without writing a single line of SQL and many more, so developers can start implementing the business logic fairly quickly. As a downside, there is a learning curve to learn another tool. Developers now need to follow some framework conventions that sometimes may feel like magic, for example passing some object references as strings in Django.</p>
+<p>With the introduction of the single-page applications (SPA) concept, web development split into two applications: backend API that generates responses with JSON and frontend application that renders the page and makes requests to the backend over RESTful API. Backend frameworks don&rsquo;t need to generate HTML anymore, frontend applications implemented with React or Vue are now responsible for rendering the web page. At this point, the backend application represents an API that returns data in a form of a JSON object. Effectively, any backend application is now associated with building an API. Flask micro web framework is a great tool for building such API.</p>
+<p>In the most common cases, implementing an API with Flask means routing a request to an appropriate handler function, authorizing the request and running other custom middleware on the request and/or response objects, validating the input, making a database query, rendering a response.</p>
+<h2 id="amazon-api-gateway-as-a-framework">Amazon API Gateway as a framework</h2>
+<p>So how exactly Amazon API Gateway can help us building an API? Isn&rsquo;t it some sort of reverse proxy that is also used to call AWS Lambda from the internet?</p>
+<p>Well, turns out that API Gateway can do much more than that. A brilliant article <a href="https://www.alexdebrie.com/posts/api-gateway-elements/" target="_blank">A Detailed Overview of AWS API Gateway</a> can help us to learn more about it. So let&rsquo;s consider this diagram that represents API Gateway flow:</p>
+<p><img class="img-zoomable" src="/images/blog/api_gateway_framework/api_gateway_diagram.png" alt="/images/blog/api_gateway_framework/api_gateway_diagram.png" />
+</p>
+<p>(Image courtesy Alex DeBrie)</p>
+<p>Do you recognize the pattern from our Flask API implementation? Here API Gateway also accepts the request, authorizes it, routes the request to the appropriate handler function, renders the response. Notice that both Flask and FastAPI don&rsquo;t provide ORM out of the box, so it&rsquo;s OK to rule it out of equation in case of API Gateway as well.</p>
+<p>Remember how we can concentrate on implementing business logic in the case of Flask? Similarly, we can now concentrate on implementing our business logic in a form of Lambda function, and API Gateway can take care of everything else for us.</p>
+<p>API Gateway can authorize the request against an identity service like Amazon Cognito or any other like Auth0. In this case, our Lambda function already accepts authorized requests with the identity data.</p>
+<p>API Gateway can validate the request parameters and the request body according to predefined JSON schema so our Lambda function can skip validation steps.</p>
+<p>Lambda function receives an event object with all the information about the request, the same way as web framework passes the request to our handler function.</p>
+<p>Finally, API Gateway can transform the response from the Lambda function according to the predefined mappings, for example, return the right status code.</p>
+<p>Same as with other frameworks, there is a learning curve. API Gateway should be configured to do its job that we won&rsquo;t do in our application code anymore. The best practice is Infrastructure as Code (IaS) as opposed to configuration manually by mouse clicks in the AWS console web interface. There is a variety of tools for that. <a href="https://www.serverless.com/" target="_blank">Serverless framework</a> can be a &ldquo;gateway drug&rdquo; to IaS as it has the most human-readable format. <a href="https://aws.amazon.com/serverless/sam/" target="_blank">AWS Serverless Application Model</a> (SAM) is an IaS specifically for building serverless applications with Lambda. <a href="https://www.terraform.io/" target="_blank">Terraform</a> is another option. <a href="https://aws.amazon.com/cloudformation/" target="_blank">AWS CloudFormation</a> is the most sophisticated solution to provision any AWS resource. Most likely that native parameters to define fine-grained APIs with Serverless, SAM, and Terraform will lack some features. In this case, they fall back to the CloudFormation format.</p>
+<p>If you&rsquo;d want to get your hands dirty with building your first serverless application, I&rsquo;d suggest trying out Serverless framework as has the most friendly language. It should be enough to get you an impression of IaS and deploying serverless applications. It also allows running Lambda function locally, however, I noticed that the event format is different from the actual Lambda, so I had to debug and find out the actual event format. From another hand, it allows you to see the output and errors of your cloud functions in the terminal locally which is very helpful for debugging.</p>
+<p>Although Serverless is nice for building very simple applications, it won&rsquo;t help to bring the full power of API Gateway. I&rsquo;d suggest AWS CloudFormation as the last resort to ultimately configure every detail of API Gateway.</p>
+<h2 id="infrastructure-as-code-learning-curve">Infrastructure as Code learning curve</h2>
+<p>This brings us to the next question. Is it worth it? Why do I need to learn another tool?</p>
+<p>Of course, there is no right answer. It depends. There was some learning curve for your favorite web framework. Why CodeFormation should be any different? It&rsquo;s just a tool that serves its purpose. The bigger question is why should I make a serverless application while I can develop it with my favorite framework. And the answer is again &ldquo;It depends&rdquo;.</p>
+<p>I&rsquo;ve developed a Telegram bot that makes some basic calculations for me. I am a single user of this Telegram bot. It&rsquo;s implemented with Lambda so I don&rsquo;t need to spin up and manage an entire EC2 instance that will answer my question once a week or so.</p>
+<p>If you have some occasional workload, Lambda is a great candidate not to have an instance up and running the entire time. If your load is unpredictable, if there is a chance of going viral, Lambda is a good candidate to scale automatically for you while your EC2 instances can die under the load.</p>
+<p>Let&rsquo;s not forget that provisioning those instances requires some effort too, with all those IAM permissions, VPC groups, and all that jazz. All in all, you will end up having it in a form of IaC anyway. So we break even with serverless here. Except for the burden of managing security updates is still on you while Amazon does all the job for us in case of serverless.</p>
+<p>As an indie developer, there is a need to be a full-stack. This means that in addition to frontend and backend roles there is a need to wear a DevOps hat as well. I can imagine it&rsquo;s not something new, there was always a need to deploy an application somehow.</p>
+<p>With all that being said, I imagine that DevOps become a part of a development team. While frontend and backend were responsible for the application layer, DevOps were responsible for the infrastructure layer. With some part of application responsibilities shifting to other components, there is a growing need to work closely. I can imagine a team that contains frontend, backend, and DevOps engineers working on some features together.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We always build on top of existing technologies adding another layer of abstractions. We moved bytes between CPU registers with Assembly, then C allowed us to express logic in a more human-readable form. Higher-level languages allowed us to build dynamic websites. Web frameworks allowed us to concentrate on implementing the actual business logic and API. Serverless application is another level of abstraction that allows us to provision and deploy scalable web applications. The application can be written on a variety of languages supported by AWS Lambda, including Python, JavaScript, Go, Java, C#. Different parts of such applications can be developed in different languages, for example, if there are different teams in charge of different parts of an API. Debugging is going to be more challenging due to the cloud-first nature of such a system. I&rsquo;m looking forward to seeing the progress in tooling for this ecosystem.</p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/tags/system-design/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#a-short-history-of-web-frameworks">A short history of web frameworks</a></li>
+        <li><a href="#amazon-api-gateway-as-a-framework">Amazon API Gateway as a framework</a></li>
+        <li><a href="#infrastructure-as-code-learning-curve">Infrastructure as Code learning curve</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/tags/system-design/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2021
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>
