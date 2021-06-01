@@ -9,10 +9,10 @@
     <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/opinion/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Amazon API Gateway with Lambda is a next generation of web frameworks</title>
-      <link>https://mitelman.engineering/blog/python-best-practice/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</link>
+      <link>https://mitelman.engineering/blog/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://mitelman.engineering/blog/python-best-practice/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</guid>
+      <guid>https://mitelman.engineering/blog/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</guid>
       <description>A short history of web frameworks What is a web framework? A web framework is a set of tools for the rapid development of server-side applications that provides a boilerplate to simplify the implementation of common tasks. According to MDN, those tasks are routing URLs to appropriate handlers, interacting with databases, supporting sessions and user authorization, formatting output (e.g. HTML, JSON, XML), and improving security against web attacks. The most popular web frameworks are Ruby on Rails, Django, Flask, FastAPI, Express, Laravel.</description>
     </item>
     
