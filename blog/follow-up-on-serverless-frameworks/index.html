@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>Follow up on Serverless Frameworks - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="blog, opinion, aws, api gateway, lambda, cdk, iac, chalice" />
+
+
+<meta property="og:title" content="Follow up on Serverless Frameworks" />
+<meta name="twitter:title" content="Follow up on Serverless Frameworks" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/" /><meta property="og:description" content="I&rsquo;ve received incredible feedback on my last week&rsquo;s blog post Amazon API Gateway with Lambda is the Next Generation of Web Frameworks.
+As Adrian Mace suggested, there is a new Infrastructure as Code (IaC) tool from Amazon, called AWS CDK (Cloud Development Kit). I missed this awesome tool. To quote Adrian:
+ &ldquo;CDK allows you to define your infrastructure using imperative languages like TypeScript, Python, or Golang with the full powers that those languages can provide, and then ‘compiles down’ into Cloudformation templates upon deploy/synth." />
+<meta name="twitter:description" content="I&rsquo;ve received incredible feedback on my last week&rsquo;s blog post Amazon API Gateway with Lambda is the Next Generation of Web Frameworks.
+As Adrian Mace suggested, there is a new Infrastructure as Code (IaC) tool from Amazon, called AWS CDK (Cloud Development Kit). I missed this awesome tool. To quote Adrian:
+ &ldquo;CDK allows you to define your infrastructure using imperative languages like TypeScript, Python, or Golang with the full powers that those languages can provide, and then ‘compiles down’ into Cloudformation templates upon deploy/synth." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-06-14T00:00:00+00:00" /><meta property="article:modified_time" content="2021-06-14T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/">Follow up on Serverless Frameworks</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Jun 14</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;662 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/blog">blog</a>&nbsp;<a href="/tags/opinion">opinion</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;<a href="/tags/api-gateway">api gateway</a>&nbsp;<a href="/tags/lambda">lambda</a>&nbsp;<a href="/tags/cdk">cdk</a>&nbsp;<a href="/tags/iac">iac</a>&nbsp;<a href="/tags/chalice">chalice</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <p>I&rsquo;ve received incredible feedback on my last week&rsquo;s blog post <a href="https://mitelman.engineering/blog/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/">Amazon API Gateway with Lambda is the Next Generation of Web Frameworks</a>.</p>
+<p>As <a href="https://amace.id.au/" target="_blank">Adrian Mace</a> suggested, there is a new Infrastructure as Code (IaC) tool from Amazon, called AWS CDK (Cloud Development Kit). I missed this awesome tool. To quote Adrian:</p>
+<blockquote>
+<p>&ldquo;CDK allows you to define your infrastructure using imperative languages like TypeScript, Python, or Golang with the full powers that those languages can provide, and then ‘compiles down’ into Cloudformation templates upon deploy/synth.</p>
+<p>When it comes to learning, a great resource is Amazon’s official <a href="https://cdkworkshop.com/" target="_blank">CDK Workshop</a>. You should have a play with it and see what you think, their concept of ‘Constructs’ has sparked the creation of <a href="http://cdk8s.io/" target="_blank">https://cdk8s.io</a> and <a href="https://learn.hashicorp.com/tutorials/terraform/cdktf" target="_blank">cdktf</a> as well.</p>
+</blockquote>
+<blockquote>
+<p>In AWS CDK, The Level 1 Constructs directly map to CloudFormation resources (all the properties in the constructs set properties in the resource). Then you have Level 2 Constructs which the CDK team builds and maintains which uses one or many L1 constructs to build a ‘solution’.</p>
+</blockquote>
+<blockquote>
+<p>For example, <a href="https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_ecs_patterns/ApplicationLoadBalancedFargateService.html" target="_blank">ApplicationLoadBalancedFargateService</a> which with a single object and by only defining the bare minimum (your Fargate code and a few other things) it will deploy an ECS Cluster, push your docker container to ECR, deploy a Fargate task, set up load balancing, etc. It does this by creating multiple L1 constructs with sensible defaults on your behalf.</p>
+</blockquote>
+<blockquote>
+<p><a href="https://github.com/aws-samples/aws-cdk-examples" target="_blank">More examples here</a>&rdquo;.</p>
+</blockquote>
+<p>Turns out, Mischa Spiegelmock came up with very similar ideas in his recent blog post <a href="https://spiegelmock.com/2021/05/29/frameworkless-web-applications-aws-cdk/" target="_blank">Frameworkless Web Applications</a> a couple of days before me. Even more, they created an anti-framework for building cloud-native serverless applications. So now building IaC looks and feels like a regular web framework. It&rsquo;s called <a href="https://www.jetkit.dev/" target="_blank">JetKit/CDK</a>. Check it out.</p>
+<p>λ According to <a href="https://www.datadoghq.com/state-of-serverless/" target="_blank">The State of Serverless 2021</a>, Lambda functions are invoked 3.5 times more often than two years ago. The Serverless Framework is the leading way to deploy Lambda applications with AWS CloudFormation. Python is the most popular Lambda runtime, especially in large environments.</p>
+<p>With that being said, Amazon created its own Python framework for Lambda and API Gateway applications. It&rsquo;s called <a href="https://aws.github.io/chalice/" target="_blank">Chalice</a>. Hello World application would look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> chalice <span style="color:#f92672">import</span> Chalice
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> Chalice(app_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;helloworld&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#34;hello&#34;</span>: <span style="color:#e6db74">&#34;world&#34;</span>}
+</span></span></code></pre></div><p>If that looks familiar, it&rsquo;s intentional. The syntax is very similar to Flask. Even the name &ldquo;Chalice&rdquo; gives away this intention. Developers created APIs like this for years. Now it is possible to create serverless applications without leaving the comfort zone.</p>
+<p>Chalice is built on top of AWS SAM which is built on top of CloudFormation. While Chalice helps to generate Infrastructure as Code for API Gateway and Lambda, applications usually use more infrastructure than that, for example, database.</p>
+<p>There is a tight integration between AWS CDK and Chalice. By creating <code>infrastructure</code> folder inside the project, we can define infrastructure in Python linking it to the Chalice application. CDK recognizes the app and sets appropriate IAM policies for Lambda functions to access infrastructure like a database.</p>
+<p>Chalice creates REST API within AWS API Gateway as opposed to HTTP API. Wait, what? Yes, Amazon came up with this very confusing naming. Naming is hard. In short, HTTP API is the new version of API Gateway. Amazon claims it to be <a href="https://aws.amazon.com/about-aws/whats-new/2019/12/amazon-api-gateway-offers-faster-cheaper-simpler-apis-using-http-apis-preview/" target="_blank">up to 71% cheaper</a> than REST API that is sort of an old version of API Gateway. So, Chalice currently supports only the old version - REST API. There is <a href="https://github.com/aws/chalice/issues/1321" target="_blank">no indication</a> of when Chalice gets the support of HTTP API. These two versions of API Gateway have different feature sets, <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html" target="_blank">more on this here</a>. As Chalice is being actively developed by Amazon, and Amazon bets on serverless and IaC, there is a good chance that Chalice will get HTTP API support sooner or later.</p>
+<p>To wrap things up, there is a growing community and interest in serverless development. The existence of <a href="https://github.com/chalice-dev/awesome-chalice" target="_blank">Awesome Chalice</a> list on GitHub is a good indicator of that.</p>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents"></nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

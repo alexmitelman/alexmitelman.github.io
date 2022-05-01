@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>System Design Weekly 019: August 2021 - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design, lambda" />
+
+
+<meta property="og:title" content="System Design Weekly 019: August 2021" />
+<meta name="twitter:title" content="System Design Weekly 019: August 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/019/" /><meta property="og:description" content="Highlights HashiCorp State of Cloud Strategy Survey HahiCorp surveyed 3200&#43; decision-makers from their contact database. Here are key takeaways:
+ 76% of the companies are already multi-cloud. 86% plan to be multi-cloud in two years. 90% of large corporations adopt multi-cloud solutions while only 60% of startups moved towards this direction. Digital transformation is the main multi-cloud driver. Other reasons are avoiding single cloud vendor lock, cost reduction, and scaling. Service mesh adoption is expected to grow 2." />
+<meta name="twitter:description" content="Highlights HashiCorp State of Cloud Strategy Survey HahiCorp surveyed 3200&#43; decision-makers from their contact database. Here are key takeaways:
+ 76% of the companies are already multi-cloud. 86% plan to be multi-cloud in two years. 90% of large corporations adopt multi-cloud solutions while only 60% of startups moved towards this direction. Digital transformation is the main multi-cloud driver. Other reasons are avoiding single cloud vendor lock, cost reduction, and scaling. Service mesh adoption is expected to grow 2." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-08-30T00:00:00+00:00" /><meta property="article:modified_time" content="2021-08-30T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/019/">System Design Weekly 019: August 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Aug 30</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;847 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/lambda">lambda</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="hashicorp-state-of-cloud-strategy-surveyhttpswwwhashicorpcomstate-of-the-cloud"><a href="https://www.hashicorp.com/state-of-the-cloud" target="_blank">HashiCorp State of Cloud Strategy Survey</a></h3>
+<p>HahiCorp surveyed 3200+ decision-makers from their contact database. Here are key takeaways:</p>
+<ul>
+<li>76% of the companies are already multi-cloud. 86% plan to be multi-cloud in two years. 90% of large corporations adopt multi-cloud solutions while only 60% of startups moved towards this direction.</li>
+<li>Digital transformation is the main multi-cloud driver. Other reasons are avoiding single cloud vendor lock, cost reduction, and scaling.</li>
+<li>Service mesh adoption is expected to grow 2.5x — from 11% today to 28% in a year (with another 21% in the process).</li>
+<li>Skill shortage is the main challenge to multi-cloud operations.</li>
+<li>A third of respondents are spending more than $2 million a year on multi-cloud initiatives, and 6% are investing more than $50 million a year.</li>
+<li>29% overspent their 2020 cloud budget, mostly due to shifting priorities or COVID-19.</li>
+<li>Companies mostly deploy open source solutions while around quarter use open source as a service.</li>
+</ul>
+<p><img class="img-zoomable" src="/images/system-design-weekly/019/Untitled.png" alt="/images/system-design-weekly/019/Untitled.png" />
+</p>
+<h3 id="building-well-architected-serverless-applications-optimizing-application-performance">Building well-architected serverless applications: Optimizing application performance</h3>
+<p><a href="https://aws.amazon.com/blogs/compute/building-well-architected-serverless-applications-optimizing-application-performance-part-1/" target="_blank">Part 1</a> <a href="https://aws.amazon.com/blogs/compute/building-well-architected-serverless-applications-optimizing-application-performance-part-2/" target="_blank">Part 2</a></p>
+<p>When a function is first invoked, the Lambda service creates an instance of the function to process the event. This is called a cold start. Lambda functions must contain a handler method in your code that processes events. During a cold start, Lambda runs the function initialization code, which is the code outside the handler, and then runs the handler code. During a warm start, Lambda runs the handler code.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/019/Untitled1.png" alt="/images/system-design-weekly/019/Untitled1.png" />
+</p>
+<p>Initialize SDK clients, objects, and database connections outside of the function handler so that they are started during the cold start process. These connections then remain during subsequent warm starts, which improves function performance and cost.</p>
+<p>Lambda provides a writable local file system available at <code>/tmp</code>. This is local to each function but shared between subsequent invocations within the same execution environment. You can download and cache assets locally in the <code>/tmp</code> folder during the cold start. This data is then available locally by all subsequent warm start invocations, improving performance.</p>
+<p>You can view the function cold start initialization time using Amazon CloudWatch Logs. A log <code>REPORT</code> line for a cold start includes the <code>Init Duration</code> value. This is the time the initialization code takes to run before the handler. When X-Ray tracing is enabled for a function, the trace includes the Initialization segment. A subsequent warm start <code>REPORT</code> line does not include the <code>Init Duration</code> value and is not present in the X-Ray trace.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/019/Untitled2.png" alt="/images/system-design-weekly/019/Untitled2.png" />
+</p>
+<p>AWS Lambda functions can be invoked synchronously and asynchronously. As synchronous processing involves a request-response pattern, the client caller also needs to wait for a response from a downstream service. If the downstream service then needs to call another service, you end up chaining calls that can impact service reliability, in addition to response times. The more services you integrate, the longer the response time, and you can no longer sustain complex workflows using synchronous transactions.</p>
+<p>Favor asynchronous over synchronous request-response processing. With asynchronous processing, you pass the event to an internal Lambda queue for processing and Lambda handles the rest. An external process, separate from the function, manages polling and retries. Using this asynchronous approach can also make it easier to handle unpredictable traffic with significant volumes.</p>
+<p>You can configure the amount of memory allocated to a Lambda function, between 128 MB and 10,240 MB. The amount of memory also determines the amount of virtual CPU available to a function. Adding more memory proportionally increases the amount of CPU, increasing the overall computational power available. If a function is CPU-, network- or memory-bound, then changing the memory setting can dramatically improve its performance.</p>
+<p><a href="https://github.com/alexcasalboni/aws-lambda-power-tuning" target="_blank">AWS Lambda Power Tuning</a> allows you to systematically test different memory size configurations and depending on your performance strategy – cost, performance, balanced – it identifies what is the most optimum memory size to use.</p>
+<p>Amazon API Gateway edge-optimized APIs provide a fully managed Amazon CloudFront distribution. These are better for geographically distributed clients. API requests are routed to the nearest CloudFront Point of Presence (POP), which typically improves connection time.</p>
+<p>Regional API endpoints are intended when clients are in the same Region. This helps you to reduce request latency and allows you to add your own content delivery network if necessary.</p>
+<h2 id="products">Products</h2>
+<p><a href="https://cloud.google.com/blog/topics/developers-practitioners/what-memorystore" target="_blank">What is Memorystore?</a> - a fully managed in-memory data store service for Redis and Memcached at Google Cloud.</p>
+<p><a href="https://cloud.google.com/blog/topics/developers-practitioners/your-google-cloud-database-options-explained" target="_blank">Your Google Cloud database options, explained</a> - <a href="https://storage.googleapis.com/gweb-cloudblog-publish/images/Which-Database_v07-10-21_1.max-2000x2000.jpeg" target="_blank">this picture</a> says it all.</p>
+<p><a href="https://www.nginx.com/blog/new-open-source-modern-apps-reference-architecture/" target="_blank">A New, Open Source Modern Apps Reference Architecture</a> - NGINX came up with the &ldquo;golden image&rdquo; for modern apps architecture</p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://medium.com/building-carta/how-to-be-a-successful-manager-of-managers-1b3954428312" target="_blank">How to be a successful manager of managers</a> - Preeti Kaur, a VP of Engineering at Carta, shares her experience.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://developers.redhat.com/articles/2021/08/24/game-telemetry-kafka-streams-and-quarkus-part-1#" target="_blank">Game telemetry with Kafka Streams and Quarkus</a></p>
+<h2 id="blogs">Blogs</h2>
+<p><a href="https://www.atlassian.com/engineering/how-we-build-data-residency-for-atlassian-cloud" target="_blank">How we build Data Residency for Atlassian Cloud</a> - more and more companies care about their data residency. Jira tickets and Confluence pages can now be stored in a specified realm per tenant. Atlassian Cloud relies on AWS.</p>
+<p>Disclosure. I build Data Residency-as-a-service at <a href="https://incountry.com/" target="_blank">InCountry</a> in more than 90 countries.</p>
+<p><a href="https://slack.engineering/data-lineage-at-slack/" target="_blank">Data Lineage at Slack</a> - data lineage refers to the ability to trace how and where data sources are used.</p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#hashicorp-state-of-cloud-strategy-surveyhttpswwwhashicorpcomstate-of-the-cloud"><a href="https://www.hashicorp.com/state-of-the-cloud">HashiCorp State of Cloud Strategy Survey</a></a></li>
+            <li><a href="#building-well-architected-serverless-applications-optimizing-application-performance">Building well-architected serverless applications: Optimizing application performance</a></li>
+          </ul>
+        </li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#blogs">Blogs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

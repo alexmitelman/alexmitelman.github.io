@@ -6,9 +6,20 @@
     <description>Recent content in api gateway on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/api-gateway/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/api-gateway/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Amazon API Gateway with Lambda is a next generation of web frameworks</title>
+      <title>Follow up on Serverless Frameworks</title>
+      <link>https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/</guid>
+      <description>I&amp;rsquo;ve received incredible feedback on my last week&amp;rsquo;s blog post Amazon API Gateway with Lambda is the Next Generation of Web Frameworks.
+As Adrian Mace suggested, there is a new Infrastructure as Code (IaC) tool from Amazon, called AWS CDK (Cloud Development Kit). I missed this awesome tool. To quote Adrian:
+ &amp;ldquo;CDK allows you to define your infrastructure using imperative languages like TypeScript, Python, or Golang with the full powers that those languages can provide, and then ‘compiles down’ into Cloudformation templates upon deploy/synth.</description>
+    </item>
+    
+    <item>
+      <title>Amazon API Gateway with Lambda is the Next Generation of Web Frameworks</title>
       <link>https://mitelman.engineering/blog/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       

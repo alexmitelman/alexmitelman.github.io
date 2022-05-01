@@ -6,7 +6,17 @@
     <description>Recent content in postgresql on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/postgresql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 014: July 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/014/</link>
+      <pubDate>Mon, 05 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/014/</guid>
+      <description>I came across the word &amp;ldquo;exabyte&amp;rdquo; three times in just one today. Previously I didn&amp;rsquo;t even know this word exists. So 1 exabyte is 1,000 petabytes, or 1 exabyte is 1,000,000 terabytes. Companies operate at a scale of millions of terabytes now.
+&amp;ldquo;Apple is apparently Google’s largest customer now, followed by ByteDance (parent company of the TikTok app). Apple holds 8 exabytes of data with Google Cloud, ByteDance is in the region of 500 petabytes — 16x less.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 006: April 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/006/</link>

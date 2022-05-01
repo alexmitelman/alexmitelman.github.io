@@ -6,7 +6,16 @@
     <description>Recent content in step functions on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/step-functions/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/step-functions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 018: August 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/018/</link>
+      <pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/018/</guid>
+      <description>Highlights Logging at Twitter: Updated Centralized logging at Twitter was limited by low ingestion capacity and query capabilities which resulted in poor adoption. The previous solution ingested around 600K events per second per data center. However, only around 10% of the logs were submitted, with the remaining 90% discarded by the rate limiter. To address this, Twitter adopted Splunk Enterprise and migrated centralized logging to it. Now it ingests 4 times more logging data and has a better query engine and better user adoption.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 010: May 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/010/</link>

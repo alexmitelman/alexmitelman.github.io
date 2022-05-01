@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
-<meta name="generator" content="Hugo 0.80.0" />
+<meta name="generator" content="Hugo 0.98.0" />
 
 
-<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dsrkafuu/dsr-cdn@1/images/favicons/dsrca/favicon.ico" />
+<link rel="icon" href="/favico.svg" />
+
 
 
 
@@ -28,18 +29,18 @@
 <meta property="og:title" content="system design" />
 <meta name="twitter:title" content="system design" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://mitelman.engineering/tags/system-design/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-05-24T00:00:00+00:00" />
+<meta property="og:url" content="https://mitelman.engineering/tags/system-design/" /><meta name="twitter:card" content="summary" /><meta property="og:updated_time" content="2021-08-30T00:00:00+00:00" />
 
 
 <style>
     @media (prefers-color-scheme: dark) {
         body[data-theme='auto'] img {
-            filter: brightness(60%);
+            filter: brightness(80%);
         }
     }
 
     body[data-theme='dark'] img {
-        filter: brightness(60%);
+        filter: brightness(80%);
     }
 </style>
 
@@ -90,6 +91,132 @@
 </div>
 
 
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/009/">System Design Weekly 009: May 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 10</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1156 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/kotlin">kotlin</a>&nbsp;<a href="/tags/vault">vault</a>&nbsp;<a href="/tags/solr">solr</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights Instacart: Don’t let the crows guide your routes Instacart connects shoppers to make purchases and deliver them to the app customers. To make it more efficient, the application should calculate optimal routes to make purchases and deliver orders.
+The easiest and the most naïve solution to calculate the path between two dots on a map is to calculate Haversine Distance - a straight line between two dots, similar to a bird flying between them.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/008/">System Design Weekly 008: May 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, May 03</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1039 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;<a href="/tags/opentelemetry">opentelemetry</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights DoorDash: Optimizing OpenTelemetry’s Span Processor for High Throughput and Low CPU Costs With an effort to migrate from the monolith to microservices, there is a need to trace requests between these services. OpenTelemetry is a new project aiming to become a standard. As a request hits a system, OpenTelemetry assigns a unique ID, all the underlying services (called spans) receive the same ID. Spans data is being collected on a local collector, then it&rsquo;s sent to a collector gateway.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/007/">System Design Weekly 007: April 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 19</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1184 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights FullContact: Improving the Graph: Transition to ScyllaDB FullContact set an ambitious goal of 10,000 QPS. Initially, they moved their database from HBase to Cassandra. Cluster consisted of 3 instances of c5.2xlarge EC2 + 2 TB of gp2 EBS storage. With the growing amount of records in the database, response time crept from 100 ms to 300 ms. It turned out that the default Size Tiered Compaction Strategy is optimized for inserts which lead to a single file for SSTable.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/006/">System Design Weekly 006: April 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 13</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1206 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;6 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/aws">aws</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights GitHub: How we scaled the API with a sharded, replicated rate limiter in Redis GitHub API has a limit on API calls per key. Such keys were stored in Memcached along with their reset_at value and number of calls. Memcached was also used for application caching purposes.
+Such a solution works well but harder to scale. It was decided to have one Memcached per datacenter, in which case clients can face some issues if requests hit different datacenters.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/005/">System Design Weekly 005: April 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Apr 05</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;953 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;5 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/scylla">scylla</a>&nbsp;<a href="/tags/mongodb">mongodb</a>&nbsp;<a href="/tags/couchbase">couchbase</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/event-sourcing">event sourcing</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights Kiwi.com: Nonstop Operations with Scylla Even Through the OVHcloud Fire Fire on French OVHcloud affected four datacenters: SBG2 was destroyed, SBG1 adjacent rooms were partially on fire, SBG3 and SBG4 were switched off to fight the fire. Overall, 3.6 million websites were affected, including banks and mail servers.
+Kiwi.com uses Scylla - NoSQL database, as a highly available and resilient solution. Their monitoring system detected spikes as nodes went down but later other OVHcloud datacenters took over the requests.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/004/">System Design Weekly 004: March 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 29</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;799 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/cockroachdb">cockroachdb</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights Aurora: Payment Acquiring Solution with CockroachDB on Kubernetes Aurora is the company that handles credit card payments. Such transactions should work all the time, be consistent and scalable. That&rsquo;s why they migrate from PostgreSQL to CockroachDB: eventual consistency is not an option in this business. CockroachDB guarantees serializable transactions. This blog post describes higher level architecture of the solution. Tech stack: .NET Core C#, ReactJS, CockroachDB.
+Key takeaways. Hybryd-Cloud: Google Cloud + 2 co-location, never be 100% cloud or 100% private, hence no vendor lock, better availability if certain cloud provider goes down.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/003/">System Design Weekly 003: March 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 22</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;807 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/envoy">envoy</a>&nbsp;<a href="/tags/unicorn">unicorn</a>&nbsp;<a href="/tags/kerberos">kerberos</a>&nbsp;<a href="/tags/cassandra">cassandra</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights Slack: Migrating Millions of Concurrent Websockets to Envoy Slack makes an extensive use of websocket technology for their messaging service. Historically, they used HAProxy as a load balance, however, they faced an issue with dynamic updates of a list of endpoints. They could also change config and restart a load balancer which is tricky as it has to maintain existing websocket connections.
+They&rsquo;ve decided to switch to Envoy proxy as it allows dynamic change of the configuration.
+  </div>
+</div>
+
+<div class="post">
+  <h2 class="post-item post-title">
+    <a href="https://mitelman.engineering/system-design-weekly/002/">System Design Weekly 002: March 2021</a>
+  </h2>
+  <div class="post-item post-meta">
+    <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Mar 15</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;836 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;4 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/unbound">unbound</a>&nbsp;<a href="/tags/dynamodb">dynamodb</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
+
+  </div>
+  <div class="post-item post-summary markdown-body">
+    Highlights Cloudflare: The benefits of serving stale DNS entries when using Consul Cloudflare faced an issue with long latencies for DNS responses in certain parts of the world. In addition DNS over TLS is also a factor. They use Unbound as a DNS resolver. For a better failover, they set 30 seconds TTL for such responses.
+There are two options to solve this problem. The first is prefetching. This means that on each request TTL is checked.
+  </div>
+</div>
 
 <div class="post">
   <h2 class="post-item post-title">
@@ -171,7 +298,11 @@
             </li>
             
             <li>
-                <a href="/tags/system-design/">System Design Weekly</a>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
             </li>
             
             <li>
@@ -191,6 +322,10 @@
             
             <li>
                 <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
             </li>
             
         </ul>
@@ -217,6 +352,10 @@
             </span>
             
             <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
                 <a href="/tags/black/">black</a>
             </span>
             
@@ -229,7 +368,19 @@
             </span>
             
             <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
                 <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
             </span>
             
             <span>
@@ -242,6 +393,10 @@
             
             <span>
                 <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
             </span>
             
             <span>
@@ -258,6 +413,18 @@
             
             <span>
                 <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
             </span>
             
             <span>
@@ -281,6 +448,10 @@
             </span>
             
             <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
                 <a href="/tags/mongodb/">mongodb</a>
             </span>
             
@@ -290,6 +461,10 @@
             
             <span>
                 <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
             </span>
             
             <span>
@@ -329,6 +504,10 @@
             </span>
             
             <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
                 <a href="/tags/redis/">redis</a>
             </span>
             
@@ -342,6 +521,10 @@
             
             <span>
                 <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
             </span>
             
             <span>
@@ -398,7 +581,11 @@
             </li>
             
             <li>
-                <a href="/tags/system-design/">System Design Weekly</a>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
             </li>
             
             <li>
@@ -418,6 +605,10 @@
             
             <li>
                 <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
             </li>
             
         </ul>
@@ -444,6 +635,10 @@
             </span>
             
             <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
                 <a href="/tags/black/">black</a>
             </span>
             
@@ -456,7 +651,19 @@
             </span>
             
             <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
                 <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
             </span>
             
             <span>
@@ -469,6 +676,10 @@
             
             <span>
                 <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
             </span>
             
             <span>
@@ -485,6 +696,18 @@
             
             <span>
                 <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
             </span>
             
             <span>
@@ -508,6 +731,10 @@
             </span>
             
             <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
                 <a href="/tags/mongodb/">mongodb</a>
             </span>
             
@@ -517,6 +744,10 @@
             
             <span>
                 <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
             </span>
             
             <span>
@@ -556,6 +787,10 @@
             </span>
             
             <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
                 <a href="/tags/redis/">redis</a>
             </span>
             
@@ -569,6 +804,10 @@
             
             <span>
                 <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
             </span>
             
             <span>
@@ -688,7 +927,7 @@
     <div class="container-lg clearfix">
         <div class="col-12 footer">
             
-            <span>&copy; 2021
+            <span>&copy; 2022
                 <a href="https://mitelman.engineering/">Alex Mitelman</a>
                 
                 | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"

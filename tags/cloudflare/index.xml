@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cloudflare on Alex Mitelman</title>
+    <link>https://mitelman.engineering/tags/cloudflare/</link>
+    <description>Recent content in cloudflare on Alex Mitelman</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/cloudflare/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I Migrated this Site to Cloudflare</title>
+      <link>https://mitelman.engineering/blog/how-i-migrated-this-site-to-cloudflare/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/blog/how-i-migrated-this-site-to-cloudflare/</guid>
+      <description>I&amp;rsquo;ve migrated my website from GitHub Pages to Cloudflare Pages. I&amp;rsquo;ve also moved my domain from Namecheap to Cloudflare. I have already used Cloudflare Web Analytics instead of Google Analytics. The reasoning behind this is following:
+Cloudflare Web Analytics. I didn&amp;rsquo;t like the idea of Google tracking my website visitors. Google Analytics sets a cookie. This probably means that such sites need to put that annoying cookie disclaimer that the EU came up with (out of good intentions, of course).</description>
+    </item>
+    
+  </channel>
+</rss>

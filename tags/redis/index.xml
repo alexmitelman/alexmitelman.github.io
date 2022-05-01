@@ -6,7 +6,16 @@
     <description>Recent content in redis on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>System Design Weekly 013: June 2021</title>
+      <link>https://mitelman.engineering/system-design-weekly/013/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/system-design-weekly/013/</guid>
+      <description>Highlights Learn how Dream11, the World’s largest fantasy sports platform, scale their social network with Amazon Neptune and Amazon ElastiCache Dream11 is a fantasy sports platform that has social network features. The team evaluated different graph database solutions for the social network service and chose Amazon Neptune after a load/stress PoC. Dream11 is already operating within AWS infrastructure so including a fully managed graph DB into the VPC was one of the factors.</description>
+    </item>
+    
     <item>
       <title>System Design Weekly 006: April 2021</title>
       <link>https://mitelman.engineering/system-design-weekly/006/</link>

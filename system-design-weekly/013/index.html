@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>System Design Weekly 013: June 2021 - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design, neptune, redis, elasticache, kafka, linkerd" />
+
+
+<meta property="og:title" content="System Design Weekly 013: June 2021" />
+<meta name="twitter:title" content="System Design Weekly 013: June 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/013/" /><meta property="og:description" content="Highlights Learn how Dream11, the World’s largest fantasy sports platform, scale their social network with Amazon Neptune and Amazon ElastiCache Dream11 is a fantasy sports platform that has social network features. The team evaluated different graph database solutions for the social network service and chose Amazon Neptune after a load/stress PoC. Dream11 is already operating within AWS infrastructure so including a fully managed graph DB into the VPC was one of the factors." />
+<meta name="twitter:description" content="Highlights Learn how Dream11, the World’s largest fantasy sports platform, scale their social network with Amazon Neptune and Amazon ElastiCache Dream11 is a fantasy sports platform that has social network features. The team evaluated different graph database solutions for the social network service and chose Amazon Neptune after a load/stress PoC. Dream11 is already operating within AWS infrastructure so including a fully managed graph DB into the VPC was one of the factors." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-06-28T00:00:00+00:00" /><meta property="article:modified_time" content="2021-06-28T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/013/">System Design Weekly 013: June 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Jun 28</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1385 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;7 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/neptune">neptune</a>&nbsp;<a href="/tags/redis">redis</a>&nbsp;<a href="/tags/elasticache">elasticache</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/linkerd">linkerd</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="learn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticachehttpsawsamazoncomblogsdatabaselearn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticache"><a href="https://aws.amazon.com/blogs/database/learn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticache/" target="_blank">Learn how Dream11, the World’s largest fantasy sports platform, scale their social network with Amazon Neptune and Amazon ElastiCache</a></h3>
+<p>Dream11 is a fantasy sports platform that has social network features. The team evaluated different graph database solutions for the social network service and chose Amazon Neptune after a load/stress PoC. Dream11 is already operating within AWS infrastructure so including a fully managed graph DB into the VPC was one of the factors. Also, Amazon Neptune came out as a performance winner.</p>
+<p>Neptune uses Gremlin as the querying language for Labeled Property Graphs (LPG), which are powered by Apache TinkerPop, a standard graph computing framework.</p>
+<p>Graph DB schema is presented on the diagram below. Entities are divided into nodes and edges differentiated by labels. Edges describe the relationship between nodes using a label. For example, user &ldquo;u:1003&rdquo; follows user &ldquo;u:1002&rdquo;, user &ldquo;u:1001&rdquo; blocks user &ldquo;u1004&rdquo;. The edge would have an id &ldquo;f:1003:1002&rdquo; with the label &ldquo;follow&rdquo;. This helps to quickly answer the question of whether user 1003 follows user 1002.</p>
+<p>The affinity property contains a value that represents the connection score. The higher the value, the stronger the relationship. This is determined by the Data Science team.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/013/Untitled.png" alt="/images/system-design-weekly/013/Untitled.png" />
+</p>
+<p>Neptune as a graph database is good for graph traversals, however, some operations, like list of followers and followings, and appropriate counts, can be optimized for performance because they should be computed every time. In addition, lists are expected to have pagination. To compute such paginated results, the database should traverse the graph from the very beginning, as there is no order like in a regular relational database. For example, if a user has 10 000 000 followers, then getting the paginated result of followers from 9 000 000 to 9 100 000 would make the database traverse the first 9 100 000 edges. Same for count operation. In general, such operations have the complexity of O(n).</p>
+<p>To solve this problem it was decided to leverage sorted sets data type provided by Amazon ElastiCache for Redis. A set is a collection of unique items, while a sorted set is a collection of unique values ordered by some score. To represent a list of followers for a user, the keys for sorted sets of followers have the format <code>followers_&lt;user_id&gt;</code>, and the values are lists of tuples. A tuple consists of <code>(&lt;user_id, affinity_score&gt;)</code>.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/013/Untitled3.png" alt="/images/system-design-weekly/013/Untitled3.png" />
+</p>
+<p>Pagination is implemented with <code>ZRANGE</code> operation which has the complexity of O(log(n)). The count is implemented with <code>ZCARD</code> operation with the complexity of O(1). This is a great performance improvement comparing to O(n) in a graph database. In addition, items are sorted by the affinity score associated with each follower.</p>
+<p>Apache Kafka is used to keeping ElastiCache for the Redis cluster in sync with graph data in Neptune. Any change to Neptune is posted to Kafka. Kafka consumers read that message and update Redis. This is an asynchronous process. Redis cluster is deployed with Multi-AZ strategy with regular snapshots.</p>
+<p>Stack. Application is written in Java with Vert.x framework and deployed to 100 EC2 instances behind Elastic Load Balancer. Neptune: one writer and five read replicas of size db.r5.12xlarge each. ElastiCache for Redis cluster of 10 shards, two replicas per shard of size cache.m5.12xlarge each.</p>
+<p>The resulted throughput is 50 million requests per minute with 1.5 milliseconds latency. The solution can scale horizontally to support future growth.</p>
+<h3 id="the-service-mesh-what-every-software-engineer-needs-to-know-about-the-worlds-most-over-hyped-technologyhttpsbuoyantioservice-mesh-manifesto"><a href="https://buoyant.io/service-mesh-manifesto/" target="_blank">The Service Mesh: What Every Software Engineer Needs to Know about the World&rsquo;s Most Over-Hyped Technology</a></h3>
+<p>Service mesh represents a set of proxies attached to services and additional management processes. In service mesh methodology, proxies are called data plane, and management processes are called control plane.</p>
+<p>Proxies are Layer 7 TCP proxies, just as NGINX or HAProxy. The most popular service mesh implementation Linkerd uses Linkerd-proxy. Other meshes use different proxies, for example, Envoy. In service mesh, proxies are used as both forward proxy (regular proxy) and reverse proxy. The main point is to use a proxy on the calls between different services.</p>
+<p>The control plane coordinates the work of the data plane providing service discovery, metrics aggregation, TLS certificates, and more. The control plane is used to change data plane behavior.</p>
+<p>The proxy is always run alongside application containers using a sidecar pattern. They should always be on the same pod in Kubernetes terminology.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/013/Untitled1.png" alt="/images/system-design-weekly/013/Untitled1.png" />
+</p>
+<p>Service mesh only makes sense for a system built with various services as opposed to monolith applications because it&rsquo;s designed for service-to-service calls. Linkerd-proxy should always run with each instance of every service. Such architecture implies automatic deployment as it would be inconvenient to deploy this many proxies by hand.</p>
+<p>Linkerd-proxy is written in Rust, which makes it fast, small and light. These qualities are essential as we add two proxy hops to every call - client-side and server-side.</p>
+<p>The main goal of a service mesh is to make sure that the traffic between services is an ideal insertion point for functionality. It&rsquo;s achieved by providing:</p>
+<ul>
+<li>Reliability features. Request retries, timeouts, canaries (traffic splitting/shifting), etc.</li>
+<li>Observability features. Aggregation of success rates, latencies, and request volumes for each service, or individual routes; drawing of service topology maps; etc.</li>
+<li>Security features. Mutual TLS, access control, etc.</li>
+</ul>
+<p>L7 proxy operates on a request level. The client-side proxy can load balance a call to a server-side proxy across all the instances based on the observed latency. It can retry failed requests. The server-side proxy can reject a call if it&rsquo;s not allowed or rate-limit it. Both sides can validate TLS certificates, hence mutual TLS. Linkerd doesn&rsquo;t transform the request data, like payload, JSON body, or protobuf.</p>
+<p>Service mesh is applied to every service regardless of its programming language or framework. It&rsquo;s decoupled from the application, so every change in configuration, update, maintenance, etc. is purely platform level and requires no changes to the application. The main advantage that service development can focus on solving business problems and the platform takes care of the rest.</p>
+<h3 id="facebook-network-hose---managing-uncertain-network-demand-with-model-simplicityhttpsengineeringfbcom20210615data-infrastructurenetwork-hose"><a href="https://engineering.fb.com/2021/06/15/data-infrastructure/network-hose/" target="_blank">Facebook: Network hose - Managing uncertain network demand with model simplicity</a></h3>
+<p>How do we forecast the volume of traffic between two datacenters connected with a backbone network? There are very few companies in the world that face this problem, and yet it&rsquo;s an interesting experience.</p>
+<p>Building a backbone network can take months in case of terrestrial fiber or even years for submarine cables across the Atlantic Ocean. It&rsquo;s unrealistic for service owners to provide a traffic estimate per datacenter pair. With current changes in traffic, it&rsquo;s even harder to predict network consumption in a year. There is more, some datacenters are yet to be built. In addition, the network is a shared resource between different services. Tracking and investigating every traffic surge is increasingly difficult.</p>
+<p>The Facebook team came up with a network-hose planning model. Instead of asking how much traffic a service would generate from X to Y, they ask how much ingress and egress traffic service is expected to generate from X.</p>
+<p>The blog post gets into some mathematical details.</p>
+<h3 id="deezer-lifting-our-2000-favorite-tracks-limithttpsdeezeriolifting-our-2-000-favorite-tracks-limit-bc92b46d15f0"><a href="https://deezer.io/lifting-our-2-000-favorite-tracks-limit-bc92b46d15f0" target="_blank">Deezer: Lifting our 2,000 favorite tracks limit</a></h3>
+<p>Deezer had a limitation of 2000 favorite tracks for the user. Increasing this limit was one of the most requested features.</p>
+<p>Initially, Deezer app loaded all 2000 favorite tracks metadata on startup, which doesn&rsquo;t make a lot of sense. Reducing the payload to only the needed information - trackID and date added, helped to decrease the initial payload by a factor of 30. This also improved app memory consumption, improved user experience with fast app startup.</p>
+<p>Next, instead of loading all 2000 tracks at once, the application loads tracks metadata in batches of 500. Implementing such pagination reduced the pressure on servers.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p>A <a href="https://bee-travels.github.io/docs/kube/" target="_blank">nice introduction</a> that explains the key concepts of Kubernetes from the <a href="https://bee-travels.github.io/" target="_blank">Bee Travels</a> project - a demo project that builds an event-driven travel system based on microservices written in different languages.</p>
+<p><a href="https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8" target="_blank">Understanding Kafka Topic Partitions</a> - a primer into Kafka&rsquo;s key concepts.</p>
+<p>Spring 2021 <a href="http://composition.al/CSE138-2021-03/schedule.html" target="_blank">Distributed Systems course</a> by Lindsey Kuper, CS professor at UC Santa Cruz. No distributed systems background necessary. Free!</p>
+<h2 id="products">Products</h2>
+<p><a href="https://cloud.google.com/blog/topics/developers-practitioners/cloud-run-story-serverless-containers" target="_blank">Cloud Run: A story of serverless containers</a> - Cloud Run is a Google Cloud service similar to AWS Lambda or AWS Fargate. It runs containers instead of functions.</p>
+<p><a href="https://cloud.google.com/blog/topics/developers-practitioners/learn-cloud-functions-snap" target="_blank">Learn Cloud Functions in a snap!</a> - Function as a Service flavor from Google Cloud, a competitor of AWS Lambda.</p>
+<p><a href="https://github.com/Kuadrant/authorino/" target="_blank">Authorino</a> - API protection solution that works with Envoy proxy and Kubernetes.</p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#learn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticachehttpsawsamazoncomblogsdatabaselearn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticache"><a href="https://aws.amazon.com/blogs/database/learn-how-dream11-the-worlds-largest-fantasy-sports-platform-scale-their-social-network-with-amazon-neptune-and-amazon-elasticache/">Learn how Dream11, the World’s largest fantasy sports platform, scale their social network with Amazon Neptune and Amazon ElastiCache</a></a></li>
+            <li><a href="#the-service-mesh-what-every-software-engineer-needs-to-know-about-the-worlds-most-over-hyped-technologyhttpsbuoyantioservice-mesh-manifesto"><a href="https://buoyant.io/service-mesh-manifesto/">The Service Mesh: What Every Software Engineer Needs to Know about the World&rsquo;s Most Over-Hyped Technology</a></a></li>
+            <li><a href="#facebook-network-hose---managing-uncertain-network-demand-with-model-simplicityhttpsengineeringfbcom20210615data-infrastructurenetwork-hose"><a href="https://engineering.fb.com/2021/06/15/data-infrastructure/network-hose/">Facebook: Network hose - Managing uncertain network demand with model simplicity</a></a></li>
+            <li><a href="#deezer-lifting-our-2000-favorite-tracks-limithttpsdeezeriolifting-our-2-000-favorite-tracks-limit-bc92b46d15f0"><a href="https://deezer.io/lifting-our-2-000-favorite-tracks-limit-bc92b46d15f0">Deezer: Lifting our 2,000 favorite tracks limit</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#products">Products</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

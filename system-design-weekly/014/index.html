@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>System Design Weekly 014: July 2021 - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design, postgresql, kafka" />
+
+
+<meta property="og:title" content="System Design Weekly 014: July 2021" />
+<meta name="twitter:title" content="System Design Weekly 014: July 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/014/" /><meta property="og:description" content="I came across the word &ldquo;exabyte&rdquo; three times in just one today. Previously I didn&rsquo;t even know this word exists. So 1 exabyte is 1,000 petabytes, or 1 exabyte is 1,000,000 terabytes. Companies operate at a scale of millions of terabytes now.
+&ldquo;Apple is apparently Google’s largest customer now, followed by ByteDance (parent company of the TikTok app). Apple holds 8 exabytes of data with Google Cloud, ByteDance is in the region of 500 petabytes — 16x less." />
+<meta name="twitter:description" content="I came across the word &ldquo;exabyte&rdquo; three times in just one today. Previously I didn&rsquo;t even know this word exists. So 1 exabyte is 1,000 petabytes, or 1 exabyte is 1,000,000 terabytes. Companies operate at a scale of millions of terabytes now.
+&ldquo;Apple is apparently Google’s largest customer now, followed by ByteDance (parent company of the TikTok app). Apple holds 8 exabytes of data with Google Cloud, ByteDance is in the region of 500 petabytes — 16x less." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-07-05T00:00:00+00:00" /><meta property="article:modified_time" content="2021-07-05T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/014/">System Design Weekly 014: July 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Jul 05</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1279 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;7 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/postgresql">postgresql</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <p>I came across the word &ldquo;exabyte&rdquo; three times in just one today. Previously I didn&rsquo;t even know this word exists. So 1 exabyte is 1,000 petabytes, or 1 exabyte is 1,000,000 terabytes. Companies operate at a scale of millions of terabytes now.</p>
+<p>&ldquo;Apple is apparently Google’s largest customer now, followed by ByteDance (parent company of the TikTok app). Apple holds <a href="https://9to5mac.com/2021/06/29/apple-reportedly-increases-spending-on-google-cloud-by-50-year-over-year-exceeds-8-exabytes-of-storage/" target="_blank">8 exabytes</a> of data with Google Cloud, ByteDance is in the region of 500 petabytes — 16x less.&rdquo;</p>
+<p>&ldquo;LinkedIn now stores <a href="https://engineering.linkedin.com/blog/2021/the-exabyte-club--linkedin-s-journey-of-scaling-the-hadoop-distr" target="_blank">1 exabyte</a> of total data across all Hadoop clusters.&rdquo;</p>
+<p>Facebook has built an entire distributed file system to <a href="https://engineering.fb.com/2021/06/21/data-infrastructure/tectonic-file-system/" target="_blank">store exabytes</a> of data.</p>
+<p>Google has helped create the most detailed map yet of the connections within the human brain. The brain map includes 50,000 cells forming 130 million connections called synapses, all rendered in three dimensions. The data set measures 1.4 petabytes, roughly 700 times the storage capacity of an average modern computer. &ldquo;A whole mouse brain is only 1000 times bigger than this, an <a href="https://www.newscientist.com/article/2279937-google-has-mapped-a-piece-of-human-brain-in-the-most-detail-ever/" target="_blank">exabyte</a> instead of a petabyte.&rdquo;</p>
+<hr>
+<h2 id="highlights">Highlights</h2>
+<h3 id="robinhoods-how-we-scaled-brokerage-system-for-greater-reliabilityhttpsrobinhoodengineeringhow-we-scaled-robinhoods-brokerage-system-for-greater-reliability-cfa6542bacef"><a href="https://robinhood.engineering/how-we-scaled-robinhoods-brokerage-system-for-greater-reliability-cfa6542bacef" target="_blank">Robinhood’s: How we scaled brokerage system for greater reliability</a></h3>
+<p>Robinhood provides a brokerage system for individual traders. Two years ago the brokerage system received 100k requests per second at peak time. This number grew in just a half a year to about 750k requests per second.</p>
+<p>The original brokerage trading system was built on a single database server with a dynamically scalable application server tier. Previously, a lot of team&rsquo;s work was focused on vertical scalability, increasing the number of application servers, caching, optimizing slow queries, upgrading database sizes, or optimizing the application code.</p>
+<p>However, at a certain point in time Robinhood team had to find a solution for the database scaling. They&rsquo;ve reviewed Google’s Cloud Spanner, AWS’s DynamoDB, CitusDB, and CockroachDB but realized that migration to another DB engine from Postgres would require a significant amount of effort to rewrite not only the data access layer but business logic as well. So it was decided to build a sharding system on top of PostgreSQL with sharding the application to increase reliability through service isolation.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/014/Untitled.png" alt="/images/system-design-weekly/014/Untitled.png" />
+</p>
+<p>The design introduces sharding control layers to allow the newly divided system to appear as one.  The routing layer is responsible for routing an external API request to the correct shard by inspecting and mapping the request to a user, which then maps to a specific shard. The aggregation layer allows other services to query data without knowing which shard it lives in.</p>
+<p>The Kafka message streaming is set up for every shard to consume all messages, but only process messages that correspond to users that exist in that shard. For heavy cases, it&rsquo;s possible to create specific topics for individual shards to avoid the overhead.</p>
+<p>Building the aggregation layer was particularly challenging because the data that needs to be returned for any given request could now reside in multiple shards. The stateless aggregation service sends requests to all shards and aggregates the results.</p>
+<p>The system started with only one shard at the beginning of 2020, now it&rsquo;s 10 shards, each of which is capable to handle hundreds of thousands of requests per second.</p>
+<h3 id="facebook-tectonic-filesystem---efficiency-from-exascalehttpswwwusenixorgsystemfilesfast21-panpdf"><a href="https://www.usenix.org/system/files/fast21-pan.pdf" target="_blank">Facebook: Tectonic Filesystem - Efficiency from Exascale</a></h3>
+<p>Before Tectonic, Facebook’s storage infrastructure consisted of a constellation of specialized storage systems. Haystack and f4 were used for blob storage. Data warehouse was spread across many HDFS instances.</p>
+<p>Haystack was used for the frequently accessed content. Haystack’s effective replication factor was 5.3x. As data aged and got less frequent access, it was moved to f4, which is space-efficient with a replication factor of 2.8x but has lower throughput.</p>
+<p>HDFS (Hadoop Distributed File System) was used for data analytics and AI training data and models. HDFS clusters are limited in size because they use a single machine to store and serve metadata. In some cases, a single data warehouse dataset exceeded a single HDFS cluster’s capacity.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/014/Untitled1.png" alt="/images/system-design-weekly/014/Untitled1.png" />
+</p>
+<p>Enter Tectonic - Facebook’s distributed filesystem. Tectonic consists of storage nodes, metadata nodes, and stateless nodes for background operations. The Client Library orchestrates remote procedure calls to the meta-data and storage nodes.</p>
+<p>Chunk Store is a cluster of storage nodes, each node has 36 hard drives and 1 SSD for metadata. Each chunk is a file on a local XFS. Blocks are composed of chunks. Tectonic provides per-block durability as multiple copies of the chunk are created. Background services repair damaged or lost chunks.</p>
+<p>Metadata Store stores the filesystem hierarchy and the mapping of blocks to chunks. The naming, file, and block layers are logically separated with each layer hashed and partitioned separately. Metadata is stored in ZippyDB, a linearizable, fault-tolerant, sharded key-value store which in turn works on top of RocksDB. The name layer maps directories and subdirectories, the file layer maps files to a list of blocks, the block layer maps blocks to chunks.</p>
+<p>The Client Library exposes a filesystem abstraction to applications. It reads and writes on the chunk level. The Client Library can write directly to storage nodes in parallel, allowing it to replicate chunks in parallel.</p>
+<p>Facebook&rsquo;s whitepaper goes into more detail on various optimizations, multitenancy management, running in production, trade-offs, and more.</p>
+<h3 id="http3-and-quic-past-present-and-futurehttpsblogsakamaicom202106http3-and-quic-past-present-and-futurehtmlutm_sourcefeedburnerutm_mediumfeedutm_campaignfeed3atheakamaiblog28theakamaiblog29"><a href="https://blogs.akamai.com/2021/06/http3-and-quic-past-present-and-future.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A&#43;TheAkamaiBlog&#43;%28The&#43;Akamai&#43;Blog%29" target="_blank">HTTP/3 and QUIC: Past, Present, and Future</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/014/Untitled2.png" alt="/images/system-design-weekly/014/Untitled2.png" />
+</p>
+<p>IETF QUIC RFCs have been published in May 2021. So what is all the fuss about? QUIC is a new transport for the internet. HTTP/3 is the mapping of HTTP which uses IETF QUIC as a transport.</p>
+<p>Every device on the network can (and does) inspect TCP packets. QUIC improves privacy and offers substantially better performance in challenging network conditions.</p>
+<p>It&rsquo;s very difficult to deploy a protocol other than TCP or UDP on the internet. QUIC re-implements basic transport services within an encrypted envelope, using UDP to cross the internet.</p>
+<p>The QUIC specification is described in several RFCs. The most important ones are <a href="https://www.rfc-editor.org/rfc/rfc9000.html" target="_blank">RFC 9000</a> (QUIC: A UDP-Based Multiplexed and Secure Transport) and <a href="https://www.rfc-editor.org/rfc/rfc9001.html" target="_blank">RFC 9001</a> (Using TLS to Secure QUIC). The former is version 1 of IETF QUIC, the core transport protocol. The latter describes the integration of TLS 1.3 and QUIC version 1. TLS is neither on top of nor below QUIC; the relationship is more complicated.</p>
+<p>IETF version of the transport is stable and ready for production use. IETF working groups are already exploring QUIC as a transport for DNS, SSH, BGP, RTP, and many others.</p>
+<h2 id="system-design">System Design</h2>
+<p><a href="https://medium.com/airbnb-engineering/a-deep-dive-into-airbnbs-server-driven-ui-system-842244c5f5" target="_blank">A Deep Dive into Airbnb’s Server-Driven UI System</a> - remember when Airbnb decided to get rid of React? Here is what they came up with.</p>
+<p><a href="https://www.fastly.com/blog/the-legacy-waf-4-ways-this-antiquated-technology-fails-to-protect-your-apps" target="_blank">The legacy WAF: 4 ways this antiquated technology fails to protect your apps</a> - &ldquo;PCI requirement 6.6 states that you have to either have a WAF in place or do a thorough code review on every change to the application. The legacy WAF is run in monitoring mode, where it watches traffic and logs any event as an attack. When it’s time for an audit, the legacy WAF gets flipped on for a short bit, then back off again. In reality, of course, some auditors don’t even care if you have it in active blocking mode. Just having a WAF in place is good enough for them.&rdquo;</p>
+<p><a href="https://medium.com/paypal-tech/multi-tenancy-support-for-android-sdks-7df96c33dccf" target="_blank">Multi-tenancy support for Android SDKs</a></p>
+<h2 id="products">Products</h2>
+<p><a href="https://marketplace.visualstudio.com/items?itemName=Stripe.vscode-stripe" target="_blank">Stripe Extension for VS Code</a> - generate sample code, view API request logs, forward events to your application.</p>
+<p><a href="https://grafana.com/blog/2021/06/28/new-in-grafana-8.0-streaming-real-time-events-and-data-to-dashboards/" target="_blank">New in Grafana 8.0: Streaming real-time events and data to dashboards</a></p>
+<p><a href="https://pingcap.com/blog/tifs-a-tikv-based-partition-tolerant-strictly-consistent-file-system" target="_blank">TiFS, a TiKV-Based Partition Tolerant, Strictly Consistent File System</a> - PingCAP team came up with this file system written in Rust and based on the key-value store during their Hackathon.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://aws.amazon.com/blogs/compute/using-github-actions-to-deploy-serverless-applications/" target="_blank">Using GitHub Actions to deploy serverless applications</a> - this example is for AWS SAM.</p>
+<p><a href="https://medium.com/expedia-group-tech/database-pointers-73e476f1e687" target="_blank">Database pointers</a> - a collection of best practices for AWS RDS, MySQL, and more.</p>
+<p><a href="https://auth0.com/blog/protocol-types-in-python/" target="_blank">Protocol Types in Python 3.8</a></p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#robinhoods-how-we-scaled-brokerage-system-for-greater-reliabilityhttpsrobinhoodengineeringhow-we-scaled-robinhoods-brokerage-system-for-greater-reliability-cfa6542bacef"><a href="https://robinhood.engineering/how-we-scaled-robinhoods-brokerage-system-for-greater-reliability-cfa6542bacef">Robinhood’s: How we scaled brokerage system for greater reliability</a></a></li>
+            <li><a href="#facebook-tectonic-filesystem---efficiency-from-exascalehttpswwwusenixorgsystemfilesfast21-panpdf"><a href="https://www.usenix.org/system/files/fast21-pan.pdf">Facebook: Tectonic Filesystem - Efficiency from Exascale</a></a></li>
+            <li><a href="#http3-and-quic-past-present-and-futurehttpsblogsakamaicom202106http3-and-quic-past-present-and-futurehtmlutm_sourcefeedburnerutm_mediumfeedutm_campaignfeed3atheakamaiblog28theakamaiblog29"><a href="https://blogs.akamai.com/2021/06/http3-and-quic-past-present-and-future.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+TheAkamaiBlog+%28The+Akamai+Blog%29">HTTP/3 and QUIC: Past, Present, and Future</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#system-design">System Design</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

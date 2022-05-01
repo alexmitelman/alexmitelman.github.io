@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>System Design Weekly 017: July - August 2021 - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design, bigtable, kafka" />
+
+
+<meta property="og:title" content="System Design Weekly 017: July - August 2021" />
+<meta name="twitter:title" content="System Design Weekly 017: July - August 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/017/" /><meta property="og:description" content="Highlights How WhatsApp enables multi-device capability WhatsApp phone client was previously a source of truth. If someone wanted to use WhatsApp on another device, the messages would be transferred through the smartphone app. If the smartphone battery was drained, such a companion app would not be able to work. The smartphone kept the data.
+WhatsApp now allows connecting 4 additional devices that are independent of the smartphone. Each device gets an identity key." />
+<meta name="twitter:description" content="Highlights How WhatsApp enables multi-device capability WhatsApp phone client was previously a source of truth. If someone wanted to use WhatsApp on another device, the messages would be transferred through the smartphone app. If the smartphone battery was drained, such a companion app would not be able to work. The smartphone kept the data.
+WhatsApp now allows connecting 4 additional devices that are independent of the smartphone. Each device gets an identity key." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-08-10T00:00:00+00:00" /><meta property="article:modified_time" content="2021-08-10T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/017/">System Design Weekly 017: July - August 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Aug 10</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1350 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;7 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/bigtable">bigtable</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="how-whatsapp-enables-multi-device-capabilityhttpsengineeringfbcom20210714securitywhatsapp-multi-device"><a href="https://engineering.fb.com/2021/07/14/security/whatsapp-multi-device/" target="_blank">How WhatsApp enables multi-device capability</a></h3>
+<p>WhatsApp phone client was previously a source of truth. If someone wanted to use WhatsApp on another device, the messages would be transferred through the smartphone app. If the smartphone battery was drained, such a companion app would not be able to work. The smartphone kept the data.</p>
+<p>WhatsApp now allows connecting 4 additional devices that are independent of the smartphone. Each device gets an identity key. Adding a new device will require biometric authentication if this feature is enabled by a user. The WhatsApp server maintains a mapping between each person’s account and all their device identities. When someone wants to send a message, they get their device list keys from the server.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/017/Untitled.png" alt="/images/system-design-weekly/017/Untitled.png" />
+</p>
+<p>WhatsApp multi-device uses a client-fanout approach, where the WhatsApp client sending the message encrypts and transmits it N number of times to N number of different devices — those in the sender and receiver’s device lists. Each message is individually encrypted using the established pairwise encryption session with each device. Messages are not stored on the server after they are delivered.</p>
+<p>For voice and video calls, the initiator generates a set of random 32-byte SRTP master secrets for each of the recipient’s devices. This secret is sent in a message to all the recipients&rsquo; devices. The call is protected by the SRTP master secret that was generated for a device that was used to answer the call.</p>
+<p>For group calls, the server randomly selects a participant device that is in the call (either the initiator or a device on which a user has accepted the call) to generate the SRTP master secret.</p>
+<p>For the initial device synchronization, the primary device encrypts a bundle of the messages from recent chats and transfers them to the newly linked device. The key to this encrypted message history is delivered to the newly linked device via an end-to-end encrypted message. After the companion device downloads, decrypts, unpacks, and stores the messages securely, the keys are deleted.</p>
+<p>For ongoing synchronization, the WhatsApp server securely stores a copy of each application state that all of someone’s devices can access. All the information, and the metadata about the information, is end-to-end encrypted with constantly changing keys known only to that person’s devices.</p>
+<h3 id="how-wunderkind-scales-up-to-200k-requests-per-second-using-google-cloudhttpscloudgooglecomblogproductsdatabasesbigtable-helps-wunderkind-scale-retail-and-media-customers"><a href="https://cloud.google.com/blog/products/databases/bigtable-helps-wunderkind-scale-retail-and-media-customers" target="_blank">How Wunderkind scales up to 200K requests per second using Google Cloud</a></h3>
+<p>Wunderkind is a performance marketing company that works with online retailers and publishers. After running into limitations with the legacy database system, they turned to Cloud Bigtable and Google Cloud. It helped to be more flexible and easily scale for high traffic demand which can be 40,000 requests per second.</p>
+<p>Companies send events from their websites to Wunderkind. Black Friday and Cyber Monday get 31 billion events, sometimes as many as 200K events per second. Wunderkind shows 1.6 billion impressions that have seen close to 1 billion pageviews. Wunderkind also securely sends about 100 million emails. This scenario requires scalable solutions as well as the elasticity to pay only for what is used, and that’s where Google Cloud comes in.</p>
+<p>Externally facing APIs, which are running on Google Kubernetes Engine, receive user events - up to hundreds of thousands per second. Those events go to Pub/Sub, Dataflow and from there they are written to Bigtable and BigQuery, Google Cloud’s serverless, and highly scalable data warehouse. Events can be things like product views or additions to shopping carts. The Bigtable key represents a combination of email address and the customer ID, and the event details are stored in that record.</p>
+<p>The last time there was an event about a user is marked in Memorystore for Redis, Google Cloud’s fully managed Redis service. Another service periodically checks Memorystore for users that have not been active for a campaign-specific period. It then decides whether to reach out to them. In this case, Memorystore for Redis is used as a rate limiter or token bucket. Such requests are throttled with Memorystore in order not to overwhelm the email or texting providers API.</p>
+<p>Product information is stored in Cloud SQL for MySQL. Memorystore for Redis is used to cache that information since many of the products are repeatedly called. Cloud SQL instance has 16 vCPUs, 60GBs of memory, and 0.5TB of disk space. Product information updates generate about a thousand write transactions per second.</p>
+<p>Initially, the user history database was AWS DynamoDB. Wunderkind team had run into issues with hot shards with no way to determine how or why. The migration to Bigtable started with writing the data to two locations from Pub/Sub, performing some backfill of data until that was up and running. The migration lasted a few months until the full switch to Bigtable.</p>
+<p>Bigtable instance that stores user events has about 30 TB with about 50 nodes.</p>
+<h3 id="google-cloud-what-you-need-to-know-about-confidential-computinghttpscloudgooglecomblogproductsidentity-securityconfidential-computing-data-encryption-during-processing"><a href="https://cloud.google.com/blog/products/identity-security/confidential-computing-data-encryption-during-processing" target="_blank">Google Cloud: What you need to know about Confidential Computing</a></h3>
+<p>We are used to the best practices to keep the data encrypted at rest and in transit. Confidential computing allows keeping code and other data encrypted when it’s being processed in memory.</p>
+<p>Confidential Computing is built on the newest generation of AMD CPU processors, which have a Secure Encrypted Virtualization extension that enables the hardware to generate encryption keys that are ephemeral and associated with a single VM. They are never stored anywhere else and are not extractable - the software will never have access to those keys. This creates a cryptographically isolated space.</p>
+<p>Memory controllers use the keys to quickly decrypt cache lines when you need to execute an instruction and then immediately encrypts them again. In the CPU itself, data is decrypted but it remains encrypted in memory.</p>
+<p>With Confidential Computing, you can encrypt data in use without making any code changes in the applications.</p>
+<p><a href="https://confidentialcomputing.io/" target="_blank">Confidential Computing Consortium</a> <a href="https://confidentialcomputing.io/members/" target="_blank">includes vendors</a> like Google, AMD, Red Hat, Intel, IBM, and Microsoft.</p>
+<h3 id="tyrannical-data-and-its-antidotes-in-the-microservices-worldhttpswwwconfluentioblogbreak-up-single-database-systems-with-microservices-kafka"><a href="https://www.confluent.io/blog/break-up-single-database-systems-with-microservices-kafka/" target="_blank">Tyrannical Data and Its Antidotes in the Microservices World</a></h3>
+<p>We start designing applications that cater to the database itself, possibly even implementing horrible elements like infinite stored procedures and awkward triggers. Many of the data breaches that you read about in the media are a result of storing sensitive data alongside non-sensitive data in the same database.</p>
+<p>Concerning security and compliance, a microservices architecture allows you to split your sensitive and non-sensitive data between services. And all services should ideally perform information hiding, as defined by David Parnas, or only share what is necessary to accomplish their respective functions. Microservices can allow teams to function more independently from each other, allowing changes to be made and deployed without requiring high degrees of coordination between teams.</p>
+<p>Apache Kafka gives you the chance to bring this data back together again. Simply add a reporting database to your ecosystem. You funnel your Kafka event stream into a relational database. Once the data is there, you can query it as usual. Push queries in ksqlDB resemble constantly updating SELECT statements written in SQL-like syntax.</p>
+<h2 id="blogs-and-articles">Blogs and Articles</h2>
+<p><a href="https://www.grammarly.com/blog/engineering/snippets-grammarly-business/" target="_blank">How We Built It: Snippets for Grammarly Business</a></p>
+<p><a href="https://blog.couchbase.com/microservices-architecture-in-couchbase/" target="_blank">4 Patterns for Microservices Architecture in Couchbase</a></p>
+<p><a href="https://www.cncf.io/blog/2021/07/19/think-grpc-when-you-are-architecting-modern-microservices/" target="_blank">Think gRPC, when you are architecting modern microservices!</a> Benefits of gRPC: supports TLS by default, uses HTTP/2 which supports multiplexing of requests and responses, headers compression, binary data transfer. gRPC makes use of a language-agnostic data serialization mechanism called protocol buffers to specify the contract for remote procedure calls.</p>
+<p><a href="https://medium.com/hashicorp-engineering/the-trouble-with-service-mesh-6b0336964323" target="_blank">The Trouble with Service Mesh</a> - The blog post is worth reading. Goes deep into network details. Long story short, TCP has a lot of overhead with all the layers of abstraction with containers, proxies adding even more overhead. The solution is UNIX sockets but the road is bumpy.</p>
+<p><a href="https://insights.stackoverflow.com/survey/2021" target="_blank">The 2021 Stack Overflow Developer Survey is here!</a> - just in case you&rsquo;ve missed it.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://medium.com/walmartglobaltech/implementing-github-enterprise-oauth2-with-passport-js-fd18ee9fefe7" target="_blank">Implementing GitHub Enterprise OAuth2 With Passport.js</a></p>
+<p><a href="https://blog.cloudcraft.co/how-to-replicate-your-data-with-dynamodb-global-tables/" target="_blank">How to Replicate Your Data with DynamoDB Global Tables</a></p>
+<p><a href="https://cloud.google.com/blog/topics/developers-practitioners/where-should-i-run-my-stuff-choosing-google-cloud-compute-option" target="_blank">Where should I run my stuff? Choosing a Google Cloud compute option</a></p>
+<p><a href="https://developer.okta.com/blog/2021/07/14/socket-io-react-tutorial" target="_blank">Create a Secure Chat Application with Socket.IO and React</a></p>
+<h2 id="courses">Courses</h2>
+<p><a href="https://www.elastic.co/training/free#fundamentals" target="_blank">Free training fundamentals courses from Elastic Enterprise Search</a></p>
+<p><a href="https://pages.awscloud.com/GLB-WBNR-AWS-OTT-2021_LP_0003-DAT_AmazonElastiCache.html" target="_blank">Amazon ElastiCache: In-memory datastore fundamentals, use cases and examples</a></p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://www.hashicorp.com/blog/how-hashicorp-does-developer-advocacy" target="_blank">How HashiCorp Does Developer Advocacy</a></p>
+<p><a href="https://shopifyengineering.myshopify.com/blogs/engineering/running-engineering-program-guide" target="_blank">A Guide to Running an Engineering Program</a></p>
+<p><a href="https://developers.soundcloud.com/blog/how-we-share-knowledge-as-a-web-collective" target="_blank">How We Share Knowledge as a Web Collective</a></p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#how-whatsapp-enables-multi-device-capabilityhttpsengineeringfbcom20210714securitywhatsapp-multi-device"><a href="https://engineering.fb.com/2021/07/14/security/whatsapp-multi-device/">How WhatsApp enables multi-device capability</a></a></li>
+            <li><a href="#how-wunderkind-scales-up-to-200k-requests-per-second-using-google-cloudhttpscloudgooglecomblogproductsdatabasesbigtable-helps-wunderkind-scale-retail-and-media-customers"><a href="https://cloud.google.com/blog/products/databases/bigtable-helps-wunderkind-scale-retail-and-media-customers">How Wunderkind scales up to 200K requests per second using Google Cloud</a></a></li>
+            <li><a href="#google-cloud-what-you-need-to-know-about-confidential-computinghttpscloudgooglecomblogproductsidentity-securityconfidential-computing-data-encryption-during-processing"><a href="https://cloud.google.com/blog/products/identity-security/confidential-computing-data-encryption-during-processing">Google Cloud: What you need to know about Confidential Computing</a></a></li>
+            <li><a href="#tyrannical-data-and-its-antidotes-in-the-microservices-worldhttpswwwconfluentioblogbreak-up-single-database-systems-with-microservices-kafka"><a href="https://www.confluent.io/blog/break-up-single-database-systems-with-microservices-kafka/">Tyrannical Data and Its Antidotes in the Microservices World</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#blogs-and-articles">Blogs and Articles</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#culture">Culture</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

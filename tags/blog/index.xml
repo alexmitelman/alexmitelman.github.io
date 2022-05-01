@@ -6,9 +6,30 @@
     <description>Recent content in blog on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Amazon API Gateway with Lambda is a next generation of web frameworks</title>
+      <title>Follow up on Serverless Frameworks</title>
+      <link>https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/blog/follow-up-on-serverless-frameworks/</guid>
+      <description>I&amp;rsquo;ve received incredible feedback on my last week&amp;rsquo;s blog post Amazon API Gateway with Lambda is the Next Generation of Web Frameworks.
+As Adrian Mace suggested, there is a new Infrastructure as Code (IaC) tool from Amazon, called AWS CDK (Cloud Development Kit). I missed this awesome tool. To quote Adrian:
+ &amp;ldquo;CDK allows you to define your infrastructure using imperative languages like TypeScript, Python, or Golang with the full powers that those languages can provide, and then ‘compiles down’ into Cloudformation templates upon deploy/synth.</description>
+    </item>
+    
+    <item>
+      <title>How I Migrated this Site to Cloudflare</title>
+      <link>https://mitelman.engineering/blog/how-i-migrated-this-site-to-cloudflare/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/blog/how-i-migrated-this-site-to-cloudflare/</guid>
+      <description>I&amp;rsquo;ve migrated my website from GitHub Pages to Cloudflare Pages. I&amp;rsquo;ve also moved my domain from Namecheap to Cloudflare. I have already used Cloudflare Web Analytics instead of Google Analytics. The reasoning behind this is following:
+Cloudflare Web Analytics. I didn&amp;rsquo;t like the idea of Google tracking my website visitors. Google Analytics sets a cookie. This probably means that such sites need to put that annoying cookie disclaimer that the EU came up with (out of good intentions, of course).</description>
+    </item>
+    
+    <item>
+      <title>Amazon API Gateway with Lambda is the Next Generation of Web Frameworks</title>
       <link>https://mitelman.engineering/blog/amazon-api-gateway-with-lambda-is-a-next-generation-of-web-frameworks/</link>
       <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
       

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="HandheldFriendly" content="True" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="generator" content="Hugo 0.98.0" />
+
+
+<link rel="icon" href="/favico.svg" />
+
+
+
+
+<title>System Design Weekly 016: July 2021 - Alex Mitelman</title>
+
+
+<meta name="author" content="Alex Mitelman" />
+
+
+
+<meta name="keywords" content="system design, kafka, elasticsearch, flink, change data capture, rails, mysql" />
+
+
+<meta property="og:title" content="System Design Weekly 016: July 2021" />
+<meta name="twitter:title" content="System Design Weekly 016: July 2021" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://mitelman.engineering/system-design-weekly/016/" /><meta property="og:description" content="Highlights DoorDash: Building Faster Indexing with Apache Kafka and Elasticsearch The DoorDash team faced an issue of a very long time for updating the search index. They&rsquo;ve built a search system relying on open source technologies. It uses Kafka as a message queue and for data storage, Flink for data transformation, and sending data to Elasticsearch. A reliable indexing system would ensure that changes in stores and items are reflected in the search index in real-time." />
+<meta name="twitter:description" content="Highlights DoorDash: Building Faster Indexing with Apache Kafka and Elasticsearch The DoorDash team faced an issue of a very long time for updating the search index. They&rsquo;ve built a search system relying on open source technologies. It uses Kafka as a message queue and for data storage, Flink for data transformation, and sending data to Elasticsearch. A reliable indexing system would ensure that changes in stores and items are reflected in the search index in real-time." /><meta name="twitter:card" content="summary" /><meta property="article:published_time" content="2021-07-19T00:00:00+00:00" /><meta property="article:modified_time" content="2021-07-19T00:00:00+00:00" />
+
+
+<style>
+    @media (prefers-color-scheme: dark) {
+        body[data-theme='auto'] img {
+            filter: brightness(80%);
+        }
+    }
+
+    body[data-theme='dark'] img {
+        filter: brightness(80%);
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://mitelman.engineering/assets/css/fuji.min.css" />
+
+
+
+
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dbc1312f7a634eb8ab62f7033e3f3405"}'></script>
+</head>
+
+<body data-theme="auto">
+    <script data-cfasync="false">
+  
+  var fujiThemeData = localStorage.getItem('fuji_data-theme');
+  
+  if (!fujiThemeData) {
+    localStorage.setItem('fuji_data-theme', 'auto');
+  } else {
+    
+    if (fujiThemeData !== 'auto') {
+      document.body.setAttribute('data-theme', fujiThemeData === 'dark' ? 'dark' : 'light');
+    }
+  }
+</script>
+    <header>
+    <div class="container-lg clearfix">
+        <div class="col-12 header">
+            <a class="title-main" href="https://mitelman.engineering/">Alex Mitelman</a>
+            
+            <span class="title-sub">Personal website</span>
+            
+        </div>
+    </div>
+</header>
+
+    <main>
+        <div class="container-lg clearfix">
+            
+            <div class="col-12 col-md-9 float-left content">
+                
+<article>
+    
+    <h2 class="post-item post-title">
+        <a href="https://mitelman.engineering/system-design-weekly/016/">System Design Weekly 016: July 2021</a>
+    </h2>
+    <div class="post-item post-meta">
+        <span><i class="iconfont icon-today-sharp"></i>&nbsp;2021, Jul 19</span>
+
+<span><i class="iconfont icon-file-tray-sharp"></i>&nbsp;1459 words</span><span><i class="iconfont icon-time-sharp"></i>&nbsp;7 minutes</span><br><span><i class="iconfont icon-pricetags-sharp"></i>&nbsp;<a href="/tags/system-design">system design</a>&nbsp;<a href="/tags/kafka">kafka</a>&nbsp;<a href="/tags/elasticsearch">elasticsearch</a>&nbsp;<a href="/tags/flink">flink</a>&nbsp;<a href="/tags/change-data-capture">change data capture</a>&nbsp;<a href="/tags/rails">rails</a>&nbsp;<a href="/tags/mysql">mysql</a>&nbsp;</span>
+
+    </div>
+    
+    <div class="post-content markdown-body">
+        <h2 id="highlights">Highlights</h2>
+<h3 id="doordash-building-faster-indexing-with-apache-kafka-and-elasticsearchhttpsdoordashengineering20210714open-source-search-indexing"><a href="https://doordash.engineering/2021/07/14/open-source-search-indexing/" target="_blank">DoorDash: Building Faster Indexing with Apache Kafka and Elasticsearch</a></h3>
+<p>The DoorDash team faced an issue of a very long time for updating the search index. They&rsquo;ve built a search system relying on open source technologies. It uses Kafka as a message queue and for data storage, Flink for data transformation, and sending data to Elasticsearch. A reliable indexing system would ensure that changes in stores and items are reflected in the search index in real-time.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/016/Untitled.png" alt="/images/system-design-weekly/016/Untitled.png" />
+</p>
+<p>The system can be divided into four big components.</p>
+<p>Data sources are Postgres database or Snowflake data warehouse. They are the source of truth for data.</p>
+<p>Data destination represents Elasticsearch, a datastore that is optimized for search.</p>
+<p>Flink applications are Assemblers for transforming data and Sinks for sending data to the destination storage. Assemblers are responsible for assembling all the data required in an Elasticsearch document. Sinks are responsible for shaping the documents as per the schema and writing the data to the targeted Elasticsearch cluster.</p>
+<p>The message queue is Kafka with log compacted and preserved indefinitely topics.</p>
+<p>The resulting system represents an end-to-end data pipeline.</p>
+<p>Merchant data gets updated constantly, for example, the restaurant menu is updated. The DoorDash team explored change data capture (CDC) technology for Aurora/Postgres using Debezium connector, a Red Hat-developed open source project for capturing row-level changes. Performance tests showed that this strategy had too much overhead and was not performant.</p>
+<p>It was decided to use Application Level CDC. As the application receives an update request, it propagates change events through Kafka in addition to saving the change to the underlying datastore.</p>
+<p>In some cases, multiple instances of the application can make changes to the same item at the same time. To ensure consistency, only changed entity IDs are sent into the Kafka events. Assembler app calls REST APIs on the application to gather other information about entities that are present in Kafka events. It then creates an event and pushes it to Kafka for the Sink app to consume.</p>
+<p>Assembler prevents calling REST APIs for the same entity multiple times within a specified amount of time. It also aggregates events to call REST endpoints in bulk.</p>
+<p>For the ETL case, there is a variant of the Application Level CDC for the ETL sources. A custom Flink source function periodically streams all the rows from an ETL table to Kafka in batches, where the batch size is chosen to ensure that the downstream systems do not get overwhelmed.</p>
+<p>The Sink consumer reads the hydrated messages, transforms the messages according to the specific index schema, and sends them to their appropriate index. The Sink process utilizes Flink Elasticsearch Connector to write JSON documents to Elasticsearch. Out of the box, it has rate limiting and throttling capabilities, essential for protecting Elasticsearch clusters.</p>
+<p>Sometimes there is a need to backfill the index to a add new property. In this case, all the document IDs which needed to be indexed in Elasticsearch should be added to Kafka. For bootstrapping, the source function described in the ETL section streams all the rows from these bootstrap tables to Kafka.</p>
+<p>Some documents in Elasticsearch might have stale data. In this case, there is a need to force a reindex of any documents in question. To do this, send a message with the ID of the entity to be indexed into the topic from which the online assembler consumes data.</p>
+<p>Each message has a unique tag that provides a detailed trace of the document as it passes through the various stages of the indexing flow. It provides debugging information.</p>
+<p>As a result, the search index is always up to date. A backfilling time was reduced from one week to 6,5 hours.</p>
+<h3 id="github-adding-support-for-cross-cluster-associations-to-rails-7httpsgithubblog2021-07-12-adding-support-cross-cluster-associations-rails-7"><a href="https://github.blog/2021-07-12-adding-support-cross-cluster-associations-rails-7/" target="_blank">GitHub: Adding support for cross-cluster associations to Rails 7</a></h3>
+<p>GitHub runs on their fork of Rails. This monolith application works with 15 primary and 15 replica MySQL databases. The partitioning is functional. Unlike horizontal sharding, functional partitioning means that each database has its schema and store a different kind of data.</p>
+<p>Such partitioning has some tricky joining as one database cluster can&rsquo;t join data with another. This means that such joins should be done by the application by performing two different SQL queries and then joining the results. Such work for &ldquo;manual&rdquo; joins and writing SQL queries is error-prone.</p>
+<p>GitHub team wanted to contribute back to the Rails community, so they decided to solve this problem and merge the solution to the upstream Rails. The implementation itself is fairly simple. Each ORM association gets a new option <code>disable_joins</code>. If set to <code>true</code>, ORM generates two SQL queries instead of a join query.</p>
+<p>The functionality was implemented around two years ago. The GitHub team wanted to make it stable and successfully run it in production before merging it to Rails.</p>
+<p>This feature should be used with caution. Tables should have proper indexes. As join is now made in-memory by an application, performing it on large tables with hundreds of thousands of records should be avoided.</p>
+<h3 id="the-forrester-wave-cognitive-search-q3-2021httpswwwelasticcoenterprise-searchforrester-wave-cognitive-searchrogueforrester-wave-cs-gicelektrablog"><a href="https://www.elastic.co/enterprise-search/forrester-wave-cognitive-search?rogue=forrester-wave-cs-gic&amp;elektra=blog" target="_blank">The Forrester Wave™: Cognitive Search, Q3 2021</a></h3>
+<p><img class="img-zoomable" src="/images/system-design-weekly/016/Untitled1.png" alt="/images/system-design-weekly/016/Untitled1.png" />
+</p>
+<p>Forrester has published their Cognitive Search report. Key takeaways:</p>
+<ul>
+<li>Elastic is better than ever with enterprises features. Elastic is the company behind the Elastic Stack — which includes Elasticsearch, Kibana, Beats, and Logstash. Customers can use Enterprise Search for workplace search, site search, and embedded application search.</li>
+<li>Coveo covers all the bases with 360-degree search experiences. Notable for digital commerce is Coveo&rsquo;s use of AI, specifically to understand the nuances of shoppers&rsquo; intent, leading to a better experience and more conversions. The company has integrations with other platforms, including Salesforce, Sitecore, and ServiceNow.</li>
+<li>Sinequa supports the most human languages among all evaluated vendors, so it is also particularly well suited for global enterprises and organizations.</li>
+</ul>
+<p><a href="https://www.elastic.co/enterprise-search/forrester-wave-cognitive-search?rogue=forrester-wave-cs-gic&amp;elektra=blog" target="_blank">The complimentary copy of the report</a> can be downloaded from the Elastic website.</p>
+<h3 id="uber-customer-support-automation-platformhttpsengubercomcustomer-automation-platform"><a href="https://eng.uber.com/customer-automation-platform/" target="_blank">Uber: Customer Support Automation Platform</a></h3>
+<p>As Uber scale globally with various products (Rides, Eats, Freight, etc.), they faced challenges and inefficiencies around customer service interactions. Their previous solution, Policy Engine, did not scale, since it required an engineer to write custom logic for each non-happy path scenario, which had regional variance and edge cases.</p>
+<p>Uber team considered Drools, an open-source business rules management system that could be used to execute a chain of rules. However, Drools is Java-based, which would require the server-side execution framework’s implementation to be written in Java instead of Golang, which is preferred at Uber. It was decided to build an in-house solution.</p>
+<p>The back-end service is written in Glue (Uber’s internal MVCS framework). Persistence is done on Percona DB (MySQL) clusters. Redis is used as a cache. The front-end leverages Uber’s React framework, Fusion.JS. Configuration-based data aggregation (think “GraphQL” for Go) was created for the “data aggregation” framework. Uber team developed drag-and-drop features to author workflow versions by adopting Uber’s flowchart library react-digraph.</p>
+<p>Since the data model for flows was expected to be highly relational, requiring multiple indexes, cell mutability, and &lt;100k rows, it was decided to use MySQL. GORM is used to read and write  MySQL tables.</p>
+<p>GraphQL was considered for data retrieval, however, due to complex schema definition semantics and performance concerns, it was rejected. Currently, self-serve hydrations support typed RPCs (e.g. Apache Thrift, Protobuf) as well as generic REST APIs.</p>
+<p>In evaluating which DSL to use for expression evaluation, the Uber team went back and forth between an existing DSL/JSONPath hybrid and a plain JavaScript. It was decided to use JS to avoid having to define/maintain custom DSL. The V8 engine is leveraged to run the JS snippets in the back-end.</p>
+<p><img class="img-zoomable" src="/images/system-design-weekly/016/Untitled2.png" alt="/images/system-design-weekly/016/Untitled2.png" />
+</p>
+<h2 id="culture">Culture</h2>
+<p><a href="https://medium.com/walmartglobaltech/the-secret-of-growing-teams-bd5ddb8b378f" target="_blank">The Secret of Growing Teams</a> - spoiler alert: &ldquo;Clarity is being free from ambiguity&rdquo;.</p>
+<p><a href="https://medium.com/zendesk-engineering/saying-the-quiet-part-out-loud-authoring-the-zendesk-engineering-job-architecture-68286d852f2c" target="_blank">Saying The Quiet Part Out Loud — Authoring the Zendesk Engineering Job Architecture</a></p>
+<p><a href="https://dropbox.github.io/dbx-career-framework/overview.html" target="_blank">Dropbox Engineering Career Framework</a> - Dropbox has opened its career framework to the world. It describes different levels for various positions, like Software Engineer, Engineering Manager, Quality Assurance Engineer, Reliability Engineer, and more.</p>
+<p><a href="https://tech.okcupid.com/internationalizing-and-localizing-your-app-part-1-understanding-different-cultures-cd25422378f0" target="_blank">Internationalizing and Localizing Your App, Part 1: Understanding Different Cultures</a> - What color would you paint an error message? In western culture, it&rsquo;s probably red. However, in Chinese culture, red is associated with positives like happiness and prosperity. Western financial markets use green to signify increase and red to denote decrease, whereas Eastern financial markets will do the exact opposite: 📈. Stylistically, we can’t even assume that our colors and themes make sense.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p><a href="https://blog.crunchydata.com/blog/generating-json-directly-from-postgres" target="_blank">Generating JSON Directly from Postgres</a></p>
+<h2 id="product-news">Product News</h2>
+<p><a href="https://www.nginx.com/blog/our-roadmap-quic-http-3-support-nginx/" target="_blank">Our Roadmap for QUIC and HTTP/3 Support in NGINX</a> - &ldquo;The changes to the NGINX core are relatively small (~3000 lines of code). The larger task is merging the transport protocol code (~27,000 lines of code). Based on our experience merging our HTTP/2 implementation into NGINX, we expect this work to take several months.&rdquo;</p>
+<h2 id="articles-and-blogs">Articles and Blogs</h2>
+<p><a href="https://www.mongodb.com/blog/post/documentdb-mongodb-real-world-effects-compatibility" target="_blank">DocumentDB, MongoDB and the Real-World Effects of Compatibility</a></p>
+
+    </div>
+</article>
+
+
+
+
+            </div>
+            <aside class="col-12 col-md-3 float-left sidebar">
+    
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-toc">
+        <h3>Table of contents</h3><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#highlights">Highlights</a>
+          <ul>
+            <li><a href="#doordash-building-faster-indexing-with-apache-kafka-and-elasticsearchhttpsdoordashengineering20210714open-source-search-indexing"><a href="https://doordash.engineering/2021/07/14/open-source-search-indexing/">DoorDash: Building Faster Indexing with Apache Kafka and Elasticsearch</a></a></li>
+            <li><a href="#github-adding-support-for-cross-cluster-associations-to-rails-7httpsgithubblog2021-07-12-adding-support-cross-cluster-associations-rails-7"><a href="https://github.blog/2021-07-12-adding-support-cross-cluster-associations-rails-7/">GitHub: Adding support for cross-cluster associations to Rails 7</a></a></li>
+            <li><a href="#the-forrester-wave-cognitive-search-q3-2021httpswwwelasticcoenterprise-searchforrester-wave-cognitive-searchrogueforrester-wave-cs-gicelektrablog"><a href="https://www.elastic.co/enterprise-search/forrester-wave-cognitive-search?rogue=forrester-wave-cs-gic&amp;elektra=blog">The Forrester Wave™: Cognitive Search, Q3 2021</a></a></li>
+            <li><a href="#uber-customer-support-automation-platformhttpsengubercomcustomer-automation-platform"><a href="https://eng.uber.com/customer-automation-platform/">Uber: Customer Support Automation Platform</a></a></li>
+          </ul>
+        </li>
+        <li><a href="#culture">Culture</a></li>
+        <li><a href="#tutorials">Tutorials</a></li>
+        <li><a href="#product-news">Product News</a></li>
+        <li><a href="#articles-and-blogs">Articles and Blogs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+</aside>
+        </div>
+        <div class="btn">
+    <div class="btn-menu" id="btn-menu">
+        <i class="iconfont icon-grid-sharp"></i>
+    </div>
+    <div class="btn-toggle-mode">
+        <i class="iconfont icon-contrast-sharp"></i>
+    </div>
+    <div class="btn-scroll-top">
+        <i class="iconfont icon-chevron-up-circle-sharp"></i>
+    </div>
+</div>
+<aside class="sidebar-mobile" style="display: none;">
+  <div class="sidebar-wrapper">
+    
+    <div class="sidebar-item sidebar-pages">
+        <h3>Pages</h3>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/system-design-weekly/">System Design Weekly</a>
+            </li>
+            
+            <li>
+                <a href="/blog/">Blog</a>
+            </li>
+            
+            <li>
+                <a href="/index.xml">RSS</a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-links">
+        <h3>Links</h3>
+        <ul>
+            
+            <li>
+                <a href="mailto:alex@mitelman.engineering" target="_blank"><span>Email</span></a>
+            </li>
+            
+            <li>
+                <a href="https://www.linkedin.com/in/alex-mitelman/" target="_blank"><span>LinkedIn</span></a>
+            </li>
+            
+            <li>
+                <a href="https://twitter.com/alex_mitelman" target="_blank"><span>Twitter</span></a>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <div class="sidebar-item sidebar-tags">
+        <h3>Tags</h3>
+        <div>
+            
+            <span>
+                <a href="/tags/apache-druid/">apache druid</a>
+            </span>
+            
+            <span>
+                <a href="/tags/apache-karaf/">apache karaf</a>
+            </span>
+            
+            <span>
+                <a href="/tags/api-gateway/">api gateway</a>
+            </span>
+            
+            <span>
+                <a href="/tags/aws/">aws</a>
+            </span>
+            
+            <span>
+                <a href="/tags/bigtable/">bigtable</a>
+            </span>
+            
+            <span>
+                <a href="/tags/black/">black</a>
+            </span>
+            
+            <span>
+                <a href="/tags/blog/">blog</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cassandra/">cassandra</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cdk/">cdk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/chalice/">chalice</a>
+            </span>
+            
+            <span>
+                <a href="/tags/change-data-capture/">change data capture</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cloudflare/">cloudflare</a>
+            </span>
+            
+            <span>
+                <a href="/tags/cockroachdb/">cockroachdb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/couchbase/">couchbase</a>
+            </span>
+            
+            <span>
+                <a href="/tags/dynamodb/">dynamodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticache/">elasticache</a>
+            </span>
+            
+            <span>
+                <a href="/tags/elasticsearch/">elasticsearch</a>
+            </span>
+            
+            <span>
+                <a href="/tags/envoy/">envoy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/event-sourcing/">event sourcing</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flake8/">flake8</a>
+            </span>
+            
+            <span>
+                <a href="/tags/flink/">flink</a>
+            </span>
+            
+            <span>
+                <a href="/tags/hugo/">hugo</a>
+            </span>
+            
+            <span>
+                <a href="/tags/iac/">iac</a>
+            </span>
+            
+            <span>
+                <a href="/tags/isort/">isort</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kafka/">kafka</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kerberos/">kerberos</a>
+            </span>
+            
+            <span>
+                <a href="/tags/kotlin/">kotlin</a>
+            </span>
+            
+            <span>
+                <a href="/tags/lambda/">lambda</a>
+            </span>
+            
+            <span>
+                <a href="/tags/linkerd/">linkerd</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mongodb/">mongodb</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mypy/">mypy</a>
+            </span>
+            
+            <span>
+                <a href="/tags/mysql/">mysql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/neptune/">neptune</a>
+            </span>
+            
+            <span>
+                <a href="/tags/network/">network</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opentelemetry/">opentelemetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/opinion/">opinion</a>
+            </span>
+            
+            <span>
+                <a href="/tags/poetry/">poetry</a>
+            </span>
+            
+            <span>
+                <a href="/tags/postgresql/">postgresql</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pre-commit/">pre-commit</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pyenv/">pyenv</a>
+            </span>
+            
+            <span>
+                <a href="/tags/pytest/">pytest</a>
+            </span>
+            
+            <span>
+                <a href="/tags/python/">python</a>
+            </span>
+            
+            <span>
+                <a href="/tags/rails/">rails</a>
+            </span>
+            
+            <span>
+                <a href="/tags/redis/">redis</a>
+            </span>
+            
+            <span>
+                <a href="/tags/s3/">s3</a>
+            </span>
+            
+            <span>
+                <a href="/tags/scylla/">scylla</a>
+            </span>
+            
+            <span>
+                <a href="/tags/solr/">solr</a>
+            </span>
+            
+            <span>
+                <a href="/tags/splunk/">splunk</a>
+            </span>
+            
+            <span>
+                <a href="/tags/step-functions/">step functions</a>
+            </span>
+            
+            <span>
+                <a href="/tags/system-design/">system design</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unbound/">unbound</a>
+            </span>
+            
+            <span>
+                <a href="/tags/unicorn/">unicorn</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vault/">vault</a>
+            </span>
+            
+            <span>
+                <a href="/tags/vs-code/">vs code</a>
+            </span>
+            
+        </div>
+    </div>
+    <div class="sidebar-item sidebar-subscribe">
+        
+<div id="mc_embed_signup">
+    <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <style type="text/css">
+            .button {
+                display: block;
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: .75em;
+                letter-spacing: 1px;
+                height: 38px;
+                width: 100%;
+                line-height: 38px;
+                overflow: hidden;
+                background: #4dbecf;
+                border-radius: 3px;
+                box-shadow: 0 15px 30px rgba(black,.1);
+                border: 0;
+                cursor: pointer;
+                transition: all .3s ease;
+                margin: 0.5rem;
+            };
+        </style>
+        <div id="mc_embed_signup_scroll">
+        <h3>System Design Weekly</h3>
+    <div class="mc-field-group">
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+        style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+    </div>
+        <div id="mce-responses" class="clear">
+            <div class="response" id="mce-error-response" style="display:none"></div>
+            <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>    
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+        </div>
+    </form>
+    </div>
+    
+    
+    </div>
+    
+    
+    
+    
+  </div>
+</aside>
+    </main>
+
+    <footer>
+    <div id="mc_embed_signup" class="col-12 footer" style="max-width: 450px; margin:0 auto; text-align: center;">
+        <form action="https://engineering.us1.list-manage.com/subscribe/post?u=5f848806173a70afaa8c36596&amp;id=2d7909b76f" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <style type="text/css">
+                .button {
+                    display: block;
+                    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: .75em;
+                    letter-spacing: 1px;
+                    height: 38px;
+                    width: 100%;
+                    line-height: 38px;
+                    overflow: hidden;
+                    background: #4dbecf;
+                    border-radius: 3px;
+                    box-shadow: 0 15px 30px rgba(black,.1);
+                    border: 0;
+                    cursor: pointer;
+                    transition: all .3s ease;
+                    margin: 0.5rem;
+                };
+            </style>
+            <div id="mc_embed_signup_scroll">
+            <h3>System Design Weekly</h3>
+        <div class="mc-field-group">
+            <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address"
+            style="width:100%; margin: 0.5rem; border-radius: 3px; border:0; height:36px; padding:.75rem 1rem; background:hsl(0,0%,93%)">
+        </div>
+            <div id="mce-responses" class="clear">
+                <div class="response" id="mce-error-response" style="display:none"></div>
+                <div class="response" id="mce-success-response" style="display:none"></div>
+            </div>    
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_5f848806173a70afaa8c36596_2d7909b76f" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+        </form>
+        </div>
+    <div class="container-lg clearfix">
+        <div class="col-12 footer">
+            
+            <span>&copy; 2022
+                <a href="https://mitelman.engineering/">Alex Mitelman</a>
+                
+                | Powered by <a href="https://github.com/dsrkafuu/hugo-theme-fuji/"
+                   target="_blank">Fuji-v2</a> &amp; <a href="https://gohugo.io/"
+                                                    target="_blank">Hugo</a> 
+            </span>
+        </div>
+    </div>
+</footer>
+
+    
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.0/lazysizes.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/components/prism-core.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+<script defer src="/assets/js/fuji.min.js"></script>
+
+
+</body>
+
+</html>

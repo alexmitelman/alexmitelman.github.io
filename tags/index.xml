@@ -6,11 +6,155 @@
     <description>Recent content in Tags on Alex Mitelman</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://mitelman.engineering/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>lambda</title>
+      <link>https://mitelman.engineering/tags/lambda/</link>
+      <pubDate>Mon, 30 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/lambda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>system design</title>
+      <link>https://mitelman.engineering/tags/system-design/</link>
+      <pubDate>Mon, 30 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/system-design/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>splunk</title>
+      <link>https://mitelman.engineering/tags/splunk/</link>
+      <pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/splunk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>step functions</title>
+      <link>https://mitelman.engineering/tags/step-functions/</link>
+      <pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/step-functions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bigtable</title>
+      <link>https://mitelman.engineering/tags/bigtable/</link>
+      <pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/bigtable/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kafka</title>
+      <link>https://mitelman.engineering/tags/kafka/</link>
+      <pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/kafka/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>change data capture</title>
+      <link>https://mitelman.engineering/tags/change-data-capture/</link>
+      <pubDate>Mon, 19 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/change-data-capture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elasticsearch</title>
+      <link>https://mitelman.engineering/tags/elasticsearch/</link>
+      <pubDate>Mon, 19 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/elasticsearch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>flink</title>
+      <link>https://mitelman.engineering/tags/flink/</link>
+      <pubDate>Mon, 19 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/flink/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mysql</title>
+      <link>https://mitelman.engineering/tags/mysql/</link>
+      <pubDate>Mon, 19 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rails</title>
+      <link>https://mitelman.engineering/tags/rails/</link>
+      <pubDate>Mon, 19 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/rails/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgresql</title>
+      <link>https://mitelman.engineering/tags/postgresql/</link>
+      <pubDate>Mon, 05 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/postgresql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elasticache</title>
+      <link>https://mitelman.engineering/tags/elasticache/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/elasticache/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linkerd</title>
+      <link>https://mitelman.engineering/tags/linkerd/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/linkerd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>neptune</title>
+      <link>https://mitelman.engineering/tags/neptune/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/neptune/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>redis</title>
+      <link>https://mitelman.engineering/tags/redis/</link>
+      <pubDate>Mon, 28 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/redis/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>api gateway</title>
       <link>https://mitelman.engineering/tags/api-gateway/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/api-gateway/</guid>
       <description></description>
@@ -19,7 +163,7 @@
     <item>
       <title>aws</title>
       <link>https://mitelman.engineering/tags/aws/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/aws/</guid>
       <description></description>
@@ -28,25 +172,61 @@
     <item>
       <title>blog</title>
       <link>https://mitelman.engineering/tags/blog/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/blog/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>lambda</title>
-      <link>https://mitelman.engineering/tags/lambda/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <title>cdk</title>
+      <link>https://mitelman.engineering/tags/cdk/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>https://mitelman.engineering/tags/lambda/</guid>
+      <guid>https://mitelman.engineering/tags/cdk/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>chalice</title>
+      <link>https://mitelman.engineering/tags/chalice/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/chalice/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cloudflare</title>
+      <link>https://mitelman.engineering/tags/cloudflare/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/cloudflare/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://mitelman.engineering/tags/hugo/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iac</title>
+      <link>https://mitelman.engineering/tags/iac/</link>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://mitelman.engineering/tags/iac/</guid>
       <description></description>
     </item>
     
     <item>
       <title>opinion</title>
       <link>https://mitelman.engineering/tags/opinion/</link>
-      <pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 14 Jun 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/opinion/</guid>
       <description></description>
@@ -62,15 +242,6 @@
     </item>
     
     <item>
-      <title>kafka</title>
-      <link>https://mitelman.engineering/tags/kafka/</link>
-      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/kafka/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>network</title>
       <link>https://mitelman.engineering/tags/network/</link>
       <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
@@ -80,29 +251,11 @@
     </item>
     
     <item>
-      <title>system design</title>
-      <link>https://mitelman.engineering/tags/system-design/</link>
-      <pubDate>Mon, 24 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/system-design/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>s3</title>
       <link>https://mitelman.engineering/tags/s3/</link>
       <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/s3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>step functions</title>
-      <link>https://mitelman.engineering/tags/step-functions/</link>
-      <pubDate>Mon, 17 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/step-functions/</guid>
       <description></description>
     </item>
     
@@ -134,15 +287,6 @@
     </item>
     
     <item>
-      <title>change data capture</title>
-      <link>https://mitelman.engineering/tags/change-data-capture/</link>
-      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/change-data-capture/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>cockroachdb</title>
       <link>https://mitelman.engineering/tags/cockroachdb/</link>
       <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
@@ -166,15 +310,6 @@
       <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/mongodb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mysql</title>
-      <link>https://mitelman.engineering/tags/mysql/</link>
-      <pubDate>Mon, 03 May 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/mysql/</guid>
       <description></description>
     </item>
     
@@ -206,38 +341,11 @@
     </item>
     
     <item>
-      <title>postgresql</title>
-      <link>https://mitelman.engineering/tags/postgresql/</link>
-      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/postgresql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>redis</title>
-      <link>https://mitelman.engineering/tags/redis/</link>
-      <pubDate>Tue, 13 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/redis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>event sourcing</title>
       <link>https://mitelman.engineering/tags/event-sourcing/</link>
       <pubDate>Mon, 05 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>https://mitelman.engineering/tags/event-sourcing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>elasticsearch</title>
-      <link>https://mitelman.engineering/tags/elasticsearch/</link>
-      <pubDate>Mon, 29 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://mitelman.engineering/tags/elasticsearch/</guid>
       <description></description>
     </item>
     
